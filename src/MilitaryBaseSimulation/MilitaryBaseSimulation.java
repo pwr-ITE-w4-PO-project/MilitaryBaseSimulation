@@ -20,39 +20,96 @@ public class MilitaryBaseSimulation {
 	static Commander commander;
 	static Headquarters headquarters;
 	
-	//private fields for simulation control
-	private int enemyFreq;
-	private int disguiedEnemyFreq;
-	private int iterations;
+	//base hit points
+	static int baseHP;
 	
-	//map of used - may be delegated to class later
+	//private fields for simulation control
+	private static int enemyFreq;
+	private static int disguisedEnemyFreq;
+	private static int iterations;
+	
+	//map of units - may be delegated to different class later on
 	private Unit[][] unitMap;
 	
+	/**
+	 * Builds simulation parameters and its actors via interacting with user.
+	 */
 	public static void buildSimulation() {
-		Scanner scanner = new Scanner(System.in); //zewnetrzny scanner jest uzywany, by ominac bug
+		Scanner scanner = new Scanner(System.in); //zewnêtrzny scanner jest uzywany, by ominac bug
 		
 		commander = new Commander(
 				setScouts(scanner), 
 				setGunners(scanner)
 				);
 		
+		System.out.println();
+		
+		enemyFreq = setEnemyFreq(scanner);
+		disguisedEnemyFreq = setDisguisedEnemyFreq(scanner);
+		iterations = setIterations(scanner);
+		baseHP = setBaseHP(scanner);
+		
 		scanner.close();
 	}
 	
+	/**
+	 * Starts simulation based on input parameters.
+	 */
 	public static void run() {
 		
 	}
 	
+	/**
+	 * Sets number of base hit points.
+	 * @param scanner Scanner object for gettin input.
+	 * @return Integer number representing base' hit points.
+	 */
+	private static int setBaseHP(Scanner scanner) {
+		return getNumberFromUser(100, 1000000, "Podaj pocz¹tkow¹ iloœæ punktów trafieñ bazy (od 100 do 1000000): ", scanner);
+	}
+	
+	/**
+	 * Sets number of iterations representing duartion of simulation.
+	 * @param scanner Scanner object for gettin input.
+	 * @return Integer number representing duration of simulation.
+	 */
+	private static int setIterations(Scanner scanner) {
+		return getNumberFromUser(1, 1000000, "Podaj iloœæ cykli trwania symulacji (od 1 do 1000000): ", scanner);
+	}
+	
+	/**
+	 * Sets period of iterations of generating DisguisedEnemyUnit object. It has priority over generating EnemyUnit object if periods overlap.
+	 * @param scanner Scanner object for getting input.
+	 * @return Integer number representing period of iterations.
+	 */
+	private static int setDisguisedEnemyFreq(Scanner scanner) {
+		return getNumberFromUser(1, 10, "Podaj co ile cykli generowaæ zamaskowan¹ wrog¹ jednostkê (od 1 do 10): ", scanner);
+	}
+	
+	/**
+	 * Sets period of iterations of generating EnemyUnit object. Generating DisguisedEnemyUnit object has priority over this if periods overlap.
+	 * @param scanner Scanner object for getting input.
+	 * @return Integer number representing period of iterations.
+	 */
+	private static int setEnemyFreq(Scanner scanner) {
+		return getNumberFromUser(1, 10, "Podaj co ile cykli generowaæ wrog¹ jednostkê (od 1 do 10): ", scanner);
+	}
+	
+	/**
+	 * Sets ArrayList of Gunner for Commander.
+	 * @param scanner Scanner object for getting input.
+	 * @return ArrayList<Gunner> representing Gunners under Commander's duty.
+	 */
 	private static ArrayList<IGunner> setGunners(Scanner scanner){
 		int accuracy;
 		
-		int gunnersCount = getNumberFromUser(1, 5, "\nPodaj iloœæ Gunnerów (od "+ 1 + " do " + 5 + "): ", scanner);
+		int gunnersCount = getNumberFromUser(1, 5, "\nPodaj iloœæ Gunnerów (od 1 do 5): ", scanner);
 		ArrayList<IGunner> gunners = new ArrayList<IGunner>();
 		
 		for(int i = 0; i < gunnersCount; i++) {
 			System.out.println();
 			
-			accuracy = getNumberFromUser(0, 100, "Podaj celnoœæ Gunnera #"+ (i+1) +" w procentach (od "+ 0 + " do " + 100 + "): ", scanner);
+			accuracy = getNumberFromUser(0, 100, "Podaj celnoœæ Gunnera #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			
 			gunners.add(new Gunner(accuracy));
 		}
@@ -63,7 +120,8 @@ public class MilitaryBaseSimulation {
 	
 	/**
 	 * Sets ArrayList of Scout for Commander.
-	 * @return ArrayList<Scout>
+	 * @param scanner Scanner object for getting input.
+	 * @return ArrayList<Scout> representing Scouts under Commander's duty.
 	 */
 	private static ArrayList<IScout> setScouts(Scanner scanner){
 		int movementRange;
@@ -72,16 +130,16 @@ public class MilitaryBaseSimulation {
 		int position[];
 		int trustLevel;
 		
-		int scoutsCount = getNumberFromUser(1, 5, "Podaj iloœæ Scoutów (od "+ 1 + " do " + 5 + "): ", scanner);
+		int scoutsCount = getNumberFromUser(1, 5, "Podaj iloœæ Scoutów (od 1 do 5): ", scanner);
 		ArrayList<IScout> scouts = new ArrayList<IScout>(scoutsCount);
 		
 		for(int i = 0; i < scoutsCount; i++) {
 			System.out.println();
 			
-			movementRange = getNumberFromUser(1, 3, "Podaj prêdkoœæ Scouta #" + (i+1) +"(od "+ 1 + " do " + 3 + "): ", scanner);
-			visionRange = getNumberFromUser(5, 20, "Podaj zasiêg widzenia Scouta #"+ (i+1) +"(od "+ 5 + " do " + 20 + "): ", scanner);
-			effectiveness = getNumberFromUser(0, 100, "Podaj efektywnoœæ Scouta #"+ (i+1) +" w procentach (od "+ 0 + " do " + 100 + "): ", scanner);
-			trustLevel = getNumberFromUser(0, 100, "Podaj zaufanie do Scouta #"+ (i+1) +" w procentach (od "+ 0 + " do " + 100 + "): ", scanner);
+			movementRange = getNumberFromUser(1, 3, "Podaj prêdkoœæ Scouta #" + (i+1) +"(od 1 do 3): ", scanner);
+			visionRange = getNumberFromUser(5, 20, "Podaj zasiêg widzenia Scouta #"+ (i+1) +"(od 5 do 20): ", scanner);
+			effectiveness = getNumberFromUser(0, 100, "Podaj efektywnoœæ Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
+			trustLevel = getNumberFromUser(0, 100, "Podaj zaufanie do Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			position = new int[2];
 			position[0] = position[1] = 0; //zmienic pozniej na pozycje na mapie
 			
@@ -93,7 +151,11 @@ public class MilitaryBaseSimulation {
 	
 	/**
 	 * Gets number in range [min, max] from the user.
-	 * @return Number in range [min, max].
+	 * @param scanner Scanner object for getting input.
+	 * @param min Minimum number allowed.
+	 * @param max Maximum number allowed.
+	 * @param message String output with each ask.
+	 * @return Integer number in range [min, max].
 	 */
 	private static int getNumberFromUser(int min, int max, String message, Scanner scanner){
 		System.out.print(message);
