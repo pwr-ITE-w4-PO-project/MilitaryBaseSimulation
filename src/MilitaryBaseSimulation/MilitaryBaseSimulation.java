@@ -33,7 +33,7 @@ public class MilitaryBaseSimulation {
 	private final static int xMax = 100;
 	
 	//map of units - may be delegated to different class later on
-	private static Unit[][] unitMap;
+	private static IUnit[][] unitMap;
 	
 	/**
 	 * Builds simulation parameters and its actors via interacting with user.
@@ -61,6 +61,26 @@ public class MilitaryBaseSimulation {
 	 */
 	public static void run() {
 		
+	}
+	
+	/**
+	 * Removes unit from map.
+	 * @param unit Unit which is removed.
+	 */
+	public static void removeUnitFromMap(IUnit unit) {
+		int[] pos = unit.getPosition();
+		
+		unitMap[pos[0]][pos[1]] = null;
+	}
+	
+	/**
+	 * Moves unit on map.
+	 * @param from Position from which unit is moved.
+	 * @param to Position to which unit is moved.
+	 */
+	public static void moveUnitOnMap(int[] from, int[] to) {
+		unitMap[to[0]][to[1]] = unitMap[from[0]][from[1]];
+		unitMap[from[0]][from[1]] = null;	
 	}
 	
 	/**

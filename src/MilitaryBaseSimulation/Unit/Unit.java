@@ -22,14 +22,12 @@ public abstract class Unit implements IUnit{
 	public void move(){
 		int[] newPosition = moveGenerator.nextPosition(position, movementRange);
 		
-		if(MilitaryBaseSimulation.MilitaryBaseSimulation.isPositionWithinMap(newPosition)) {
-			position = newPosition;
-			
-			//dodac przesuniecie na mapa w militarybasesimulation	
+		if(!MilitaryBaseSimulation.MilitaryBaseSimulation.isPositionWithinMap(newPosition)) {
+			newPosition = handlePositionBeyondMap(newPosition);
 		}
-		else {
-			positionBeyondMapHandler(newPosition);
-		}
+		
+		MilitaryBaseSimulation.MilitaryBaseSimulation.moveUnitOnMap(position, newPosition);
+		position = newPosition;
 	}
 	
 	/**
@@ -43,12 +41,18 @@ public abstract class Unit implements IUnit{
 	 * Removes unit from the map.
 	 */
 	protected void disappearFromMap() {
-		//dodac usuniecie z mapy w militaryabsesimulation
+		MilitaryBaseSimulation.MilitaryBaseSimulation.removeUnitFromMap(this);
 	}
 	
 	/**
 	 * Invoked when new position is beyond the map.
 	 * @param newPosition Position that is beyond the map.
 	 */
-	protected abstract void positionBeyondMapHandler(int[] newPosition);
+	protected abstract int[] handlePositionBeyondMap(int[] newPosition);
+	
+	/**
+	 * Prints unit on the map.
+	 * @return Char representing unit.
+	 */
+	protected abstract char printUnit();
 }
