@@ -28,8 +28,12 @@ public class MilitaryBaseSimulation {
 	private static int disguisedEnemyFreq;
 	private static int iterations;
 	
+	//map upper boundaries
+	private final static int yMax = 100;
+	private final static int xMax = 100;
+	
 	//map of units - may be delegated to different class later on
-	private Unit[][] unitMap;
+	private static Unit[][] unitMap;
 	
 	/**
 	 * Builds simulation parameters and its actors via interacting with user.
@@ -60,8 +64,39 @@ public class MilitaryBaseSimulation {
 	}
 	
 	/**
+	 * Checks accessibility of positions on the map. If any of position's coordinates is smaller than 0,
+	 * it is ignored and added to returned list for further handle.
+	 * The same happens when any of these coordinates is greater than map boundary.
+	 * @param positions List of positions to check.
+	 * @return List<int[]> representing accessible positions on the map.
+	 */
+	public static List<int[]> positionsChecker(List<int[]> positions) {
+		List<int[]> accessibles = new ArrayList<int[]>();
+		
+		for(int[] pos:positions) {
+			if(!isPositionWithinMap(pos)) {
+				accessibles.add(pos);
+			}
+			else if(unitMap[pos[0]][pos[1]] == null) {
+				accessibles.add(pos);
+			}
+		}
+		
+		return accessibles;
+	}
+	
+	/**
+	 * Checks if posision isn't beyond the map.
+	 * @param position Position to check.
+	 * @return True if position is within the map; false if beyond. 
+	 */
+	public static boolean isPositionWithinMap(int[] position) {
+		return position[0] < 0 || position[1] < 0 || position[0] >= xMax || position[1] >= yMax;
+	}
+	
+	/**
 	 * Sets number of base hit points.
-	 * @param scanner Scanner object for gettin input.
+	 * @param scanner Scanner object for getting input.
 	 * @return Integer number representing base' hit points.
 	 */
 	private static int setBaseHP(Scanner scanner) {
