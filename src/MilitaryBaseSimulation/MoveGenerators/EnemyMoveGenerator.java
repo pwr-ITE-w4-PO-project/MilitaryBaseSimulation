@@ -27,7 +27,7 @@ public class EnemyMoveGenerator implements IMoveGenerator{
 			}
 			
 			//checks for accessibility; ignores negative and grater than max coordinates
-			positions = MilitaryBaseSimulation.MilitaryBaseSimulation.positionsChecker(positions);
+			positions = MilitaryBaseSimulation.Map.Map.positionsChecker(positions);
 			
 			if(positions.size() > 0) {
 				break;

@@ -26,8 +26,8 @@ public class AlliesMoveGenerator implements IMoveGenerator{
 			}
 		}
 		
-		//checks for accessibility; ignores negativeand greater than max coordinates
-		positions = MilitaryBaseSimulation.MilitaryBaseSimulation.positionsChecker(positions);
+		//checks for accessibility; ignores negative and greater than max coordinates
+		positions = MilitaryBaseSimulation.Map.Map.positionsChecker(positions);
 		
 		//returns random position
 		return positions.get(random.nextInt(positions.size()+1));

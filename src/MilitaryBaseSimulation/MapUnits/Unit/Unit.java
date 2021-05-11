@@ -23,11 +23,11 @@ public abstract class Unit implements IUnit{
 	public void move(){
 		int[] newPosition = moveGenerator.nextPosition(position, movementRange);
 		
-		if(!MilitaryBaseSimulation.MilitaryBaseSimulation.isPositionWithinMap(newPosition)) {
+		if(!MilitaryBaseSimulation.Map.Map.isPositionWithinMap(newPosition)) {
 			newPosition = handlePositionBeyondMap(newPosition);
 		}
 		
-		MilitaryBaseSimulation.MilitaryBaseSimulation.moveUnitOnMap(position, newPosition);
+		MilitaryBaseSimulation.Map.Map.moveUnitOnMap(position, newPosition);
 		position = newPosition;
 	}
 	
@@ -42,7 +42,7 @@ public abstract class Unit implements IUnit{
 	 * Removes unit from the map.
 	 */
 	protected void disappearFromMap() {
-		MilitaryBaseSimulation.MilitaryBaseSimulation.removeUnitFromMap(this);
+		MilitaryBaseSimulation.Map.Map.removeUnitFromMap(this);
 	}
 	
 	/**

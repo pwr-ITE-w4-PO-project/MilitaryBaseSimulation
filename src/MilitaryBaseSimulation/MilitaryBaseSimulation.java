@@ -1,5 +1,6 @@
 package MilitaryBaseSimulation;
 
+import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
@@ -28,12 +29,6 @@ public class MilitaryBaseSimulation {
 	private static int disguisedEnemyFreq;
 	private static int iterations;
 	
-	//map upper boundaries
-	private final static int yMax = 100;
-	private final static int xMax = 100;
-	
-	//map of units - may be delegated to different class later on
-	private static IUnit[][] unitMap;
 	
 	/**
 	 * Builds simulation parameters and its actors via interacting with user.
@@ -57,61 +52,26 @@ public class MilitaryBaseSimulation {
 	}
 	
 	/**
-	 * Starts simulation based on input parameters.
+	 * Starts simulation based on input parameters. Ends after reaching input iterations limit,
+	 * or when base hp drops to 0.
 	 */
 	public static void run() {
+		IUnit[][] map = Map.getMap();
 		
-	}
-	
-	/**
-	 * Removes unit from map.
-	 * @param unit Unit which is removed.
-	 */
-	public static void removeUnitFromMap(IUnit unit) {
-		int[] pos = unit.getPosition();
-		
-		unitMap[pos[0]][pos[1]] = null;
-	}
-	
-	/**
-	 * Moves unit on map.
-	 * @param from Position from which unit is moved.
-	 * @param to Position to which unit is moved.
-	 */
-	public static void moveUnitOnMap(int[] from, int[] to) {
-		unitMap[to[0]][to[1]] = unitMap[from[0]][from[1]];
-		unitMap[from[0]][from[1]] = null;	
-	}
-	
-	/**
-	 * Checks accessibility of positions on the map. If any of position's coordinates is smaller than 0,
-	 * it is ignored and added to returned list for further handle.
-	 * The same happens when any of these coordinates is greater than map boundary.
-	 * @param positions List of positions to check.
-	 * @return List<int[]> representing accessible positions on the map.
-	 */
-	public static List<int[]> positionsChecker(List<int[]> positions) {
-		List<int[]> accessibles = new ArrayList<int[]>();
-		
-		for(int[] pos:positions) {
-			if(!isPositionWithinMap(pos)) {
-				accessibles.add(pos);
+		for(IUnit[] unitRow: map) {
+			for(IUnit unit: unitRow) {
+				if(unit != null) {
+					unit.move();
+				}
+				
+				if(baseHP <= 0) {
+					break;
+				}
 			}
-			else if(unitMap[pos[0]][pos[1]] == null) {
-				accessibles.add(pos);
+			if(baseHP <= 0) {
+				break;
 			}
 		}
-		
-		return accessibles;
-	}
-	
-	/**
-	 * Checks if posision isn't beyond the map.
-	 * @param position Position to check.
-	 * @return True if position is within the map; false if beyond. 
-	 */
-	public static boolean isPositionWithinMap(int[] position) {
-		return position[0] < 0 || position[1] < 0 || position[0] >= xMax || position[1] >= yMax;
 	}
 	
 	/**
