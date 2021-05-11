@@ -1,10 +1,10 @@
 package MilitaryBaseSimulation;
 
-import MilitaryBaseSimulation.Commander.Commander;
-import MilitaryBaseSimulation.Headquarters.Headquarters;
-import MilitaryBaseSimulation.Unit.*;
-import MilitaryBaseSimulation.Scout.*;
-import MilitaryBaseSimulation.Gunner.*;
+import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
+import MilitaryBaseSimulation.Militaries.Commander.Commander;
+import MilitaryBaseSimulation.Militaries.Gunner.*;
+import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
 import java.util.*;
 
