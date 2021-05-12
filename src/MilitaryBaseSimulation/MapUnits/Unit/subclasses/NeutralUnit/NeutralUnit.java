@@ -13,7 +13,7 @@ public class NeutralUnit extends TargetUnit{
 		return null;
 	}
 	@Override
-	protected char printUnit() {
+	public char getUnitChar() {
 		return '0';
 	}
 	public int getCount() {return 0;} //ma zwracac statyczna ilosc obiektow

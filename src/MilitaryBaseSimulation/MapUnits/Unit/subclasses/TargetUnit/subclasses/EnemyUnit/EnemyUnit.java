@@ -3,7 +3,7 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.En
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
 
 public class EnemyUnit extends TargetUnit {
-	public EnemyUnit(int movementRange, int[] position) {
+	public EnemyUnit(int movementRange, int[] position, int damage) {
 		super(movementRange, position);
 	}
 	
@@ -15,7 +15,7 @@ public class EnemyUnit extends TargetUnit {
 	}
 	
 	@Override
-	protected char printUnit() {
+	public char getUnitChar() {
 		return '0';
 	}
 	public int getCount() {return 0;} //zwraca statyczna ilosc obiektow

@@ -2,7 +2,10 @@ package MilitaryBaseSimulation;
 
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.EnemyUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
 import MilitaryBaseSimulation.Militaries.Gunner.*;
 import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
@@ -29,6 +32,35 @@ public class MilitaryBaseSimulation {
 	private static int disguisedEnemyFreq;
 	private static int iterations;
 	
+	/**
+	 * Starts simulation based on input parameters. Ends after reaching input iterations limit,
+	 * or when base hp drops to 0.
+	 */
+	public static void run() {
+		IUnit[][] map = Map.getMap();
+		
+		for(int i = 0; i<iterations;i++) {
+			for(IUnit[] unitRow: map) {
+				for(IUnit unit: unitRow) {
+					if(unit != null) {
+						unit.move();
+						System.out.print(unit.getUnitChar());
+					}
+					else {
+						System.out.print(" ");
+					}
+					
+					if(baseHP <= 0) {
+						break;
+					}
+				}
+				System.out.print("#\n");
+				if(baseHP <= 0) {
+					break;
+				}
+			}	
+		}
+	}
 	
 	/**
 	 * Builds simulation parameters and its actors via interacting with user.
@@ -49,28 +81,23 @@ public class MilitaryBaseSimulation {
 		baseHP = setBaseHP(scanner);
 		
 		scanner.close();
-	}
-	
-	/**
-	 * Starts simulation based on input parameters. Ends after reaching input iterations limit,
-	 * or when base hp drops to 0.
-	 */
-	public static void run() {
-		IUnit[][] map = Map.getMap();
 		
-		for(IUnit[] unitRow: map) {
-			for(IUnit unit: unitRow) {
-				if(unit != null) {
-					unit.move();
-				}
-				
-				if(baseHP <= 0) {
-					break;
-				}
+		Map.initializeMap();
+		
+		//filling 10% of 2d map with random units
+		Random random = new Random();
+		for(int i = 0; i < 100; i++) {
+			IUnit newUnit;
+			if( i%disguisedEnemyFreq == 0) {
+				newUnit = new DisguisedEnemyUnit(random.nextInt(3)+1, Map.getRandomPosition(), random.nextInt(5)+1); 
 			}
-			if(baseHP <= 0) {
-				break;
+			else if( i%enemyFreq == 0) {
+				newUnit = new EnemyUnit(random.nextInt(3)+1, Map.getRandomPosition(), random.nextInt(5)+1);
 			}
+			else {
+				newUnit = new NeutralUnit(random.nextInt(3)+1, Map.getRandomPosition());
+			}
+			Map.placeUnitOnMap(newUnit);
 		}
 	}
 	
@@ -142,11 +169,12 @@ public class MilitaryBaseSimulation {
 		int movementRange;
 		int visionRange;
 		int effectiveness;
-		int position[];
 		int trustLevel;
 		
 		int scoutsCount = getNumberFromUser(1, 5, "Podaj iloœæ Scoutów (od 1 do 5): ", scanner);
 		ArrayList<IScout> scouts = new ArrayList<IScout>(scoutsCount);
+		
+		Scout newScout;
 		
 		for(int i = 0; i < scoutsCount; i++) {
 			System.out.println();
@@ -155,10 +183,10 @@ public class MilitaryBaseSimulation {
 			visionRange = getNumberFromUser(5, 20, "Podaj zasiêg widzenia Scouta #"+ (i+1) +"(od 5 do 20): ", scanner);
 			effectiveness = getNumberFromUser(0, 100, "Podaj efektywnoœæ Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			trustLevel = getNumberFromUser(0, 100, "Podaj zaufanie do Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
-			position = new int[2];
-			position[0] = position[1] = 0; //zmienic pozniej na pozycje na mapie
 			
-			scouts.add(new Scout(movementRange, position, effectiveness, trustLevel, visionRange));
+			newScout = new Scout(movementRange, Map.getRandomPosition(), effectiveness, trustLevel, visionRange);
+			scouts.add(newScout);
+			Map.placeUnitOnMap(newScout);
 		}
 		
 		return scouts;

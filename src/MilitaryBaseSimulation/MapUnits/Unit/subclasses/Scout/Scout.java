@@ -17,7 +17,7 @@ public class Scout extends Unit implements ISender, IScout{
 	}
 	
 	@Override
-	protected char printUnit() {
+	public char getUnitChar() {
 		return '0';
 	}
 	

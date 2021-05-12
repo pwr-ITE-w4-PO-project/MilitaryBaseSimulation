@@ -3,11 +3,11 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.En
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.EnemyUnit;
 
 public class DisguisedEnemyUnit extends EnemyUnit{
-	public DisguisedEnemyUnit(int movementRange, int[] position) {
-		super(movementRange, position);
+	public DisguisedEnemyUnit(int movementRange, int[] position, int damage) {
+		super(movementRange, position, damage);
 	}
 	@Override
-	protected char printUnit() {
+	public char getUnitChar() {
 		return '0';
 	}
 }

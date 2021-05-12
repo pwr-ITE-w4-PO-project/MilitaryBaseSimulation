@@ -1,15 +1,60 @@
 package MilitaryBaseSimulation.Map;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 
 public class Map {
-	public static IUnit[][] unitMap;
 	//map upper boundaries
 	private final static int yMax = 100;
 	private final static int xMax = 100;
+	
+	private static IUnit[][] unitMap = new IUnit[xMax][yMax];
+	private static List<int[]> availablePositions = new ArrayList<int[]>();
+	
+	public static int[] getRandomPosition() {
+		Random random = new Random();
+		
+		return availablePositions.get(random.nextInt(availablePositions.size()));
+	}
+	
+	/**
+	 * Initializes new map.
+	 */
+	public static void initializeMap() {
+		int[] pos;
+		for(int i = 0; i<xMax; i++) {
+			for(int j =0; j<yMax; j++) {
+				unitMap[i][j] = null;
+				pos = new int[2];
+				pos[0] = i;
+				pos[1] = j;
+				availablePositions.add(pos);
+			}
+		}
+	}
+	
+	/**
+	 * Gets upper map boundaries, whereas xMax is at index 0,
+	 * and yMax is at index 1.
+	 * @return Array of integers collecting map upper boundries.
+	 */
+	public static int[] getUpperBoundaries() {
+		int[] boundaries = {yMax, xMax};
+		return boundaries;
+	}
+	
+	/**
+	 * Places unit on 2D map.
+	 * @param unit Unit to place.
+	 */
+	public static void placeUnitOnMap(IUnit unit) {
+		int[] pos = unit.getPosition();
+		unitMap[pos[0]][pos[1]] = unit;
+		
+		//remove available position
+		availablePositions.removeIf(avPos -> (avPos[0] == pos[0] && avPos[1] == pos[1]));
+	}
 	
 	/**
 	 * Returns map of units.
@@ -62,7 +107,7 @@ public class Map {
 	}
 	
 	/**
-	 * Checks if posision isn't beyond the map.
+	 * Checks if position isn't beyond the map.
 	 * @param position Position to check.
 	 * @return True if position is within the map; false if beyond. 
 	 */

@@ -12,9 +12,10 @@ public abstract class Unit implements IUnit{
 	 */
 	public Unit(int movementRange, int[] position) {
 		this.position = new int[2];
+		this.movementRange = movementRange;
 		this.position[0] = position[0];
 		this.position[1] = position[1];
-		this.movementRange = movementRange;
+		//MilitaryBaseSimulation.Map.Map.placeUnitOnMap(this);
 	}
 	
 	/**
@@ -55,5 +56,5 @@ public abstract class Unit implements IUnit{
 	 * Prints unit on the map.
 	 * @return Char representing unit.
 	 */
-	protected abstract char printUnit();
+	public abstract char getUnitChar();
 }
