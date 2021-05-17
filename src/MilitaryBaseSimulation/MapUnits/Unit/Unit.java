@@ -1,5 +1,6 @@
 package MilitaryBaseSimulation.MapUnits.Unit;
 import MilitaryBaseSimulation.MoveGenerators.IMoveGenerator;
+import MilitaryBaseSimulation.Map.*;
 
 public abstract class Unit implements IUnit{
 	private int position[];
@@ -24,11 +25,11 @@ public abstract class Unit implements IUnit{
 	public void move(){
 		int[] newPosition = moveGenerator.nextPosition(position, movementRange);
 		
-		if(!MilitaryBaseSimulation.Map.Map.isPositionWithinMap(newPosition)) {
+		if(!Map.GetInstance().isPositionWithinMap(newPosition)) {
 			newPosition = handlePositionBeyondMap(newPosition);
 		}
 		
-		MilitaryBaseSimulation.Map.Map.moveUnitOnMap(position, newPosition);
+		Map.GetInstance().moveUnitOnMap(position, newPosition);
 		position = newPosition;
 	}
 	
@@ -43,7 +44,7 @@ public abstract class Unit implements IUnit{
 	 * Removes unit from the map.
 	 */
 	protected void disappearFromMap() {
-		MilitaryBaseSimulation.Map.Map.removeUnitFromMap(this);
+		Map.GetInstance().removeUnitFromMap(this);
 	}
 	
 	/**

@@ -16,7 +16,7 @@ public class MilitaryBaseSimulation {
 
 	public static void main(String[] args) {
 		buildSimulation();
-		run();
+		//run();
 	}
 	
 	//static objects for easy access
@@ -37,7 +37,7 @@ public class MilitaryBaseSimulation {
 	 * or when base hp drops to 0.
 	 */
 	public static void run() {
-		IUnit[][] map = Map.getMap();
+		IUnit[][] map = Map.GetInstance().getMap();
 		
 		for(int i = 0; i<iterations;i++) {
 			for(IUnit[] unitRow: map) {
@@ -66,6 +66,8 @@ public class MilitaryBaseSimulation {
 	 * Builds simulation parameters and its actors via interacting with user.
 	 */
 	public static void buildSimulation() {
+		Map.GetInstance().initializeMap();;
+		
 		Scanner scanner = new Scanner(System.in); //zewnêtrzny scanner jest uzywany, by ominac bug
 		
 		commander = new Commander(
@@ -82,22 +84,20 @@ public class MilitaryBaseSimulation {
 		
 		scanner.close();
 		
-		Map.initializeMap();
-		
 		//filling 10% of 2d map with random units
 		Random random = new Random();
 		for(int i = 0; i < 100; i++) {
 			IUnit newUnit;
 			if( i%disguisedEnemyFreq == 0) {
-				newUnit = new DisguisedEnemyUnit(random.nextInt(3)+1, Map.getRandomPosition(), random.nextInt(5)+1); 
+				newUnit = new DisguisedEnemyUnit(random.nextInt(3)+1, Map.GetInstance().getRandomPosition(), random.nextInt(5)+1); 
 			}
 			else if( i%enemyFreq == 0) {
-				newUnit = new EnemyUnit(random.nextInt(3)+1, Map.getRandomPosition(), random.nextInt(5)+1);
+				newUnit = new EnemyUnit(random.nextInt(3)+1, Map.GetInstance().getRandomPosition(), random.nextInt(5)+1);
 			}
 			else {
-				newUnit = new NeutralUnit(random.nextInt(3)+1, Map.getRandomPosition());
+				newUnit = new NeutralUnit(random.nextInt(3)+1, Map.GetInstance().getRandomPosition());
 			}
-			Map.placeUnitOnMap(newUnit);
+			Map.GetInstance().placeUnitOnMap(newUnit);
 		}
 	}
 	
@@ -111,8 +111,8 @@ public class MilitaryBaseSimulation {
 	}
 	
 	/**
-	 * Sets number of iterations representing duartion of simulation.
-	 * @param scanner Scanner object for gettin input.
+	 * Sets number of iterations representing duration of simulation.
+	 * @param scanner Scanner object for getting input.
 	 * @return Integer number representing duration of simulation.
 	 */
 	private static int setIterations(Scanner scanner) {
@@ -184,9 +184,9 @@ public class MilitaryBaseSimulation {
 			effectiveness = getNumberFromUser(0, 100, "Podaj efektywnoœæ Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			trustLevel = getNumberFromUser(0, 100, "Podaj zaufanie do Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			
-			newScout = new Scout(movementRange, Map.getRandomPosition(), effectiveness, trustLevel, visionRange);
+			newScout = new Scout(movementRange, Map.GetInstance().getRandomPosition(), effectiveness, trustLevel, visionRange);
 			scouts.add(newScout);
-			Map.placeUnitOnMap(newScout);
+			Map.GetInstance().placeUnitOnMap(newScout);
 		}
 		
 		return scouts;

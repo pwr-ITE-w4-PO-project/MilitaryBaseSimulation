@@ -5,14 +5,24 @@ import java.util.*;
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 
 public class Map {
+	//applied singleton pattern
+	private static Map instance;
+	private Map() {}
+	public static Map GetInstance() {
+		if(instance == null) {
+			instance = new Map();
+		}
+		return instance;
+	}
+	
 	//map upper boundaries
-	private final static int yMax = 100;
-	private final static int xMax = 100;
+	private final int yMax = 100;
+	private final int xMax = 100;
 	
-	private static IUnit[][] unitMap = new IUnit[xMax][yMax];
-	private static List<int[]> availablePositions = new ArrayList<int[]>();
+	private IUnit[][] unitMap = new IUnit[xMax][yMax];
+	private List<int[]> availablePositions = new ArrayList<int[]>();
 	
-	public static int[] getRandomPosition() {
+	public int[] getRandomPosition() {
 		Random random = new Random();
 		
 		return availablePositions.get(random.nextInt(availablePositions.size()));
@@ -21,15 +31,15 @@ public class Map {
 	/**
 	 * Initializes new map.
 	 */
-	public static void initializeMap() {
+	public void initializeMap() {
 		int[] pos;
-		for(int i = 0; i<xMax; i++) {
-			for(int j =0; j<yMax; j++) {
-				unitMap[i][j] = null;
+		for(int i = 0; i<this.xMax; i++) {
+			for(int j =0; j<this.yMax; j++) {
+				this.unitMap[i][j] = null;
 				pos = new int[2];
 				pos[0] = i;
 				pos[1] = j;
-				availablePositions.add(pos);
+				this.availablePositions.add(pos);
 			}
 		}
 	}
@@ -37,10 +47,10 @@ public class Map {
 	/**
 	 * Gets upper map boundaries, whereas xMax is at index 0,
 	 * and yMax is at index 1.
-	 * @return Array of integers collecting map upper boundries.
+	 * @return Array of integers collecting map upper boundaries.
 	 */
-	public static int[] getUpperBoundaries() {
-		int[] boundaries = {yMax, xMax};
+	public int[] getUpperBoundaries() {
+		int[] boundaries = {this.yMax, this.xMax};
 		return boundaries;
 	}
 	
@@ -48,30 +58,34 @@ public class Map {
 	 * Places unit on 2D map.
 	 * @param unit Unit to place.
 	 */
-	public static void placeUnitOnMap(IUnit unit) {
+	public void placeUnitOnMap(IUnit unit) {
 		int[] pos = unit.getPosition();
-		unitMap[pos[0]][pos[1]] = unit;
+		this.unitMap[pos[0]][pos[1]] = unit;
 		
 		//remove available position
-		availablePositions.removeIf(avPos -> (avPos[0] == pos[0] && avPos[1] == pos[1]));
+		this.availablePositions.removeIf(avPos -> (avPos[0] == pos[0] && avPos[1] == pos[1]));
 	}
 	
 	/**
 	 * Returns map of units.
 	 * @return 2D array of IUnit representing map with units.
 	 */
-	public static IUnit[][] getMap(){
-		return unitMap;
+	public IUnit[][] getMap(){
+		return this.unitMap;
 	}
 	
 	/**
 	 * Removes unit from map.
 	 * @param unit Unit which is removed.
 	 */
-	public static void removeUnitFromMap(IUnit unit) {
+	public void removeUnitFromMap(IUnit unit) {
 		int[] pos = unit.getPosition();
 		
-		unitMap[pos[0]][pos[1]] = null;
+		this.unitMap[pos[0]][pos[1]] = null;
+		int[] freedPos = new int[2];
+		freedPos[0] = pos[0];
+		freedPos[1] = pos[1];
+		this.availablePositions.add(freedPos);
 	}
 	
 	/**
@@ -79,9 +93,11 @@ public class Map {
 	 * @param from Position from which unit is moved.
 	 * @param to Position to which unit is moved.
 	 */
-	public static void moveUnitOnMap(int[] from, int[] to) {
-		unitMap[to[0]][to[1]] = unitMap[from[0]][from[1]];
-		unitMap[from[0]][from[1]] = null;	
+	public void moveUnitOnMap(int[] from, int[] to) {
+		this.unitMap[to[0]][to[1]] = unitMap[from[0]][from[1]];
+		this.availablePositions.removeIf(avPos -> (avPos[0] == to[0] && avPos[1] == to[1]));
+		this.unitMap[from[0]][from[1]] = null;
+		this.availablePositions.add(from);
 	}
 	
 	/**
@@ -91,7 +107,7 @@ public class Map {
 	 * @param positions List of positions to check.
 	 * @return List<int[]> representing accessible positions on the map.
 	 */
-	public static List<int[]> positionsChecker(List<int[]> positions) {
+	public List<int[]> checkPositionsAccessbility(List<int[]> positions) {
 		List<int[]> accessibles = new ArrayList<int[]>();
 		
 		for(int[] pos:positions) {
@@ -111,7 +127,7 @@ public class Map {
 	 * @param position Position to check.
 	 * @return True if position is within the map; false if beyond. 
 	 */
-	public static boolean isPositionWithinMap(int[] position) {
-		return position[0] < 0 || position[1] < 0 || position[0] >= xMax || position[1] >= yMax;
+	public boolean isPositionWithinMap(int[] position) {
+		return position[0] >= 0 && position[1] >= 0 && position[0] < xMax && position[1] < yMax;
 	}
 }

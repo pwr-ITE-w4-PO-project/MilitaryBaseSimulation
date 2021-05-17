@@ -1,6 +1,10 @@
 package MilitaryBaseSimulation.MoveGenerators;
 
-import java.util.*;
+import MilitaryBaseSimulation.Map.*;
+
+import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 public class AlliesMoveGenerator implements IMoveGenerator{
 	/**
@@ -27,7 +31,7 @@ public class AlliesMoveGenerator implements IMoveGenerator{
 		}
 		
 		//checks for accessibility; ignores negative and greater than max coordinates
-		positions = MilitaryBaseSimulation.Map.Map.positionsChecker(positions);
+		positions = Map.GetInstance().checkPositionsAccessbility(positions);
 		
 		//returns random position
 		return positions.get(random.nextInt(positions.size()+1));
