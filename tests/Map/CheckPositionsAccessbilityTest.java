@@ -26,7 +26,7 @@ class CheckPositionsAccessbilityTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		Map.GetInstance().initializeMap();
+		Map.getInstance().initializeMap();
 		for(int i = -1; i<4; i++) {
 			for(int j = 96; j<101; j++) {
 				int[] pos = new int[2];
@@ -39,7 +39,7 @@ class CheckPositionsAccessbilityTest {
 
 	@Test
 	void sayAllAreAccessible() {
-		List<int[]> accessibles = Map.GetInstance().checkPositionsAccessbility(positions);
+		List<int[]> accessibles = Map.getInstance().checkPositionsAccessbility(positions);
 		
 		boolean foundPos = false;
 		
@@ -55,16 +55,15 @@ class CheckPositionsAccessbilityTest {
 			}
 		}
 		
-		assertTrue(foundPos, "All positions are accessible.");
-		assertFalse(!foundPos, "All positions should be accessible.");
+		assertTrue(foundPos, "Some positions are inaccessible.");
 	}
 	
 	@Test
 	void saySomeAreAccessible() {
 		int[] takenPos = {0,98};
-		Map.GetInstance().placeUnitOnMap(new NeutralUnit(0, takenPos));
+		Map.getInstance().placeUnitOnMap(new NeutralUnit(0, takenPos));
 		
-		List<int[]> accessibles = Map.GetInstance().checkPositionsAccessbility(positions);
+		List<int[]> accessibles = Map.getInstance().checkPositionsAccessbility(positions);
 		
 		positions.removeIf(s -> s[0] == takenPos[0] && s[1] == takenPos[1]);
 		
@@ -84,8 +83,7 @@ class CheckPositionsAccessbilityTest {
 		
 		if(accessibles.size() > positions.size()) foundPos = false;
 		
-		assertTrue(foundPos, "wtf " + accessibles.size() + "   " + positions.size());
-		assertFalse(!foundPos, "Only some positions should be accessible.");
+		assertTrue(foundPos, "Some returned positions did not match expected ones.");
 	}
 
 }

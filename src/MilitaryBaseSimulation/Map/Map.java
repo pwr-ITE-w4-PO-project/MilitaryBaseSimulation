@@ -8,7 +8,7 @@ public class Map {
 	//applied singleton pattern
 	private static Map instance;
 	private Map() {}
-	public static Map GetInstance() {
+	public static Map getInstance() {
 		if(instance == null) {
 			instance = new Map();
 		}
@@ -16,8 +16,8 @@ public class Map {
 	}
 	
 	//map upper boundaries
-	private final int yMax = 100;
-	private final int xMax = 100;
+	private int yMax = 100;
+	private int xMax = 100;
 	
 	private IUnit[][] unitMap = new IUnit[xMax][yMax];
 	private List<int[]> availablePositions = new ArrayList<int[]>();

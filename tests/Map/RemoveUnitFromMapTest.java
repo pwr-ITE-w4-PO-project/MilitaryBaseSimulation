@@ -25,34 +25,33 @@ class RemoveUnitFromMapTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		Map.GetInstance().initializeMap();
+		Map.getInstance().initializeMap();
 	}
 
 	@Test
 	void sayUnitIsRemoved(){
 		int[] pos = {0,0}; 
 		NeutralUnit unit = new NeutralUnit(0, pos);
-		Map.GetInstance().placeUnitOnMap(unit);
+		Map.getInstance().placeUnitOnMap(unit);
 		
-		Map.GetInstance().removeUnitFromMap(unit);
+		Map.getInstance().removeUnitFromMap(unit);
 		
-		assertTrue(Map.GetInstance().getMap()[pos[0]][pos[1]] == null, "Unit is removed from the map.");
-		assertFalse(Map.GetInstance().getMap()[pos[0]][pos[1]] == unit, "Unit should be removed from the map.");
+		assertTrue(Map.getInstance().getMap()[pos[0]][pos[1]] == null, "Unit wasn't removed from the map.");
 	}
 	
 	@Test
 	void sayPositionIsAccessible() {
 		int[] pos = {0,0}; 
 		NeutralUnit unit = new NeutralUnit(0, pos);
-		Map.GetInstance().placeUnitOnMap(unit);
+		Map.getInstance().placeUnitOnMap(unit);
 		
-		Map.GetInstance().removeUnitFromMap(unit);
+		Map.getInstance().removeUnitFromMap(unit);
 		
 		try{
-			Field field = Map.GetInstance().getClass().getDeclaredField("availablePositions");
+			Field field = Map.getInstance().getClass().getDeclaredField("availablePositions");
 			field.setAccessible(true);
 			
-			List<int[]> posList = (List<int[]>) field.get(Map.GetInstance());
+			List<int[]> posList = (List<int[]>) field.get(Map.getInstance());
 			
 			boolean positionFoundInAccessibles = false;
 			
@@ -63,12 +62,11 @@ class RemoveUnitFromMapTest {
 				}
 			}
 			
-			assertTrue(positionFoundInAccessibles, "Freed position is accessible.");
-			assertFalse(!positionFoundInAccessibles, "Freed position should be naccessible.");
+			assertTrue(positionFoundInAccessibles, "Freed position is inaccessible, though it should be accessible.");
 			
 		}
 		catch(Exception e) {
-			fail("Field avaialblePositions is not found - cannot test functionality.");
+			fail("Test found an error: " + e.getMessage());
 		}
 	}
 

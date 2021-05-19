@@ -29,7 +29,7 @@ public class EnemyMoveGenerator implements IMoveGenerator{
 			}
 			
 			//checks for accessibility; ignores negative and grater than max coordinates
-			positions = Map.GetInstance().checkPositionsAccessbility(positions);
+			positions = Map.getInstance().checkPositionsAccessbility(positions);
 			
 			if(positions.size() > 0) {
 				break;

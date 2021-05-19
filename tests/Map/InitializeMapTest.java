@@ -18,9 +18,9 @@ class InitializeMapTest {
 	void test() {
 		
 		
-		Map.GetInstance().initializeMap();
+		Map.getInstance().initializeMap();
 		
-		//??
+		//?? no idea what to test here
 		fail("Not yet implemented");
 	}
 

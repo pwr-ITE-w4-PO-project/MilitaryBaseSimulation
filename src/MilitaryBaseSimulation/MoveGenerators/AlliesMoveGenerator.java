@@ -31,7 +31,7 @@ public class AlliesMoveGenerator implements IMoveGenerator{
 		}
 		
 		//checks for accessibility; ignores negative and greater than max coordinates
-		positions = Map.GetInstance().checkPositionsAccessbility(positions);
+		positions = Map.getInstance().checkPositionsAccessbility(positions);
 		
 		//returns random position
 		return positions.get(random.nextInt(positions.size()+1));

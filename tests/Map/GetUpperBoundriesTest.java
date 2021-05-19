@@ -18,7 +18,7 @@ class GetUpperBoundriesTest {
 	
 	@Test
 	void sayCorrectBoundries() {
-		int[] pos = Map.GetInstance().getUpperBoundaries();
+		int[] pos = Map.getInstance().getUpperBoundaries();
 		
 		Field ymax;
 		Field xmax;
@@ -26,22 +26,21 @@ class GetUpperBoundriesTest {
 		int xmaxValue = -1;
 		
 		try{
-			ymax = Map.GetInstance().getClass().getDeclaredField("yMax"); //z jakiegos powodu nie znajduje pola
+			ymax = Map.getInstance().getClass().getDeclaredField("yMax");
 			ymax.setAccessible(true);
-			ymaxValue = ymax.getInt(ymax);
+			ymaxValue = ymax.getInt(Map.getInstance());
 		}catch(Exception e) {
-			fail("yMax field not found.");
+			fail("Test found an error: " + e.getMessage());
 		}
 		try {
-			xmax = Map.GetInstance().getClass().getDeclaredField("xMax"); //z jakiegos powodu nie znajduje pola
+			xmax = Map.getInstance().getClass().getDeclaredField("xMax");
 			xmax.setAccessible(true);
-			xmaxValue = xmax.getInt(xmax);
+			xmaxValue = xmax.getInt(Map.getInstance());
 		}catch(Exception e) {
-			fail("xMax field not found.");
+			fail("Test found an error: " + e.getMessage());
 		}
 		
-		assertTrue((xmaxValue == pos[0] && ymaxValue == pos[1]), "Returned correct boundires.");
-		assertFalse(!(xmaxValue == pos[0] && ymaxValue == pos[1]), "Should return correct boundires.");
+		assertTrue((xmaxValue == pos[0] && ymaxValue == pos[1]), "Returned incorrect boundires.");
 	}
 
 }

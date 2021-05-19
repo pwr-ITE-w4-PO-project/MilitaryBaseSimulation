@@ -37,7 +37,7 @@ public class MilitaryBaseSimulation {
 	 * or when base hp drops to 0.
 	 */
 	public static void run() {
-		IUnit[][] map = Map.GetInstance().getMap();
+		IUnit[][] map = Map.getInstance().getMap();
 		
 		for(int i = 0; i<iterations;i++) {
 			for(IUnit[] unitRow: map) {
@@ -66,7 +66,7 @@ public class MilitaryBaseSimulation {
 	 * Builds simulation parameters and its actors via interacting with user.
 	 */
 	public static void buildSimulation() {
-		Map.GetInstance().initializeMap();;
+		Map.getInstance().initializeMap();;
 		
 		Scanner scanner = new Scanner(System.in); //zewnêtrzny scanner jest uzywany, by ominac bug
 		
@@ -89,15 +89,15 @@ public class MilitaryBaseSimulation {
 		for(int i = 0; i < 100; i++) {
 			IUnit newUnit;
 			if( i%disguisedEnemyFreq == 0) {
-				newUnit = new DisguisedEnemyUnit(random.nextInt(3)+1, Map.GetInstance().getRandomPosition(), random.nextInt(5)+1); 
+				newUnit = new DisguisedEnemyUnit(random.nextInt(3)+1, Map.getInstance().getRandomPosition(), random.nextInt(5)+1); 
 			}
 			else if( i%enemyFreq == 0) {
-				newUnit = new EnemyUnit(random.nextInt(3)+1, Map.GetInstance().getRandomPosition(), random.nextInt(5)+1);
+				newUnit = new EnemyUnit(random.nextInt(3)+1, Map.getInstance().getRandomPosition(), random.nextInt(5)+1);
 			}
 			else {
-				newUnit = new NeutralUnit(random.nextInt(3)+1, Map.GetInstance().getRandomPosition());
+				newUnit = new NeutralUnit(random.nextInt(3)+1, Map.getInstance().getRandomPosition());
 			}
-			Map.GetInstance().placeUnitOnMap(newUnit);
+			Map.getInstance().placeUnitOnMap(newUnit);
 		}
 	}
 	
@@ -184,9 +184,9 @@ public class MilitaryBaseSimulation {
 			effectiveness = getNumberFromUser(0, 100, "Podaj efektywnoœæ Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			trustLevel = getNumberFromUser(0, 100, "Podaj zaufanie do Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			
-			newScout = new Scout(movementRange, Map.GetInstance().getRandomPosition(), effectiveness, trustLevel, visionRange);
+			newScout = new Scout(movementRange, Map.getInstance().getRandomPosition(), effectiveness, trustLevel, visionRange);
 			scouts.add(newScout);
-			Map.GetInstance().placeUnitOnMap(newScout);
+			Map.getInstance().placeUnitOnMap(newScout);
 		}
 		
 		return scouts;

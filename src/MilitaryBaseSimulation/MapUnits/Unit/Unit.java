@@ -25,11 +25,11 @@ public abstract class Unit implements IUnit{
 	public void move(){
 		int[] newPosition = moveGenerator.nextPosition(position, movementRange);
 		
-		if(!Map.GetInstance().isPositionWithinMap(newPosition)) {
+		if(!Map.getInstance().isPositionWithinMap(newPosition)) {
 			newPosition = handlePositionBeyondMap(newPosition);
 		}
 		
-		Map.GetInstance().moveUnitOnMap(position, newPosition);
+		Map.getInstance().moveUnitOnMap(position, newPosition);
 		position = newPosition;
 	}
 	
@@ -44,7 +44,7 @@ public abstract class Unit implements IUnit{
 	 * Removes unit from the map.
 	 */
 	protected void disappearFromMap() {
-		Map.GetInstance().removeUnitFromMap(this);
+		Map.getInstance().removeUnitFromMap(this);
 	}
 	
 	/**

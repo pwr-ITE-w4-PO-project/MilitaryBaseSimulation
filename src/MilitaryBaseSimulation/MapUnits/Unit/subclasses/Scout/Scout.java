@@ -6,11 +6,6 @@ import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
 import MilitaryBaseSimulation.Militaries.interfaces.ISender;
 
 public class Scout extends Unit implements ISender, IScout{
-	
-	int trustLevel;
-	int effectiveness;
-	int visionRange;
-	
 	public Scout(int movementRange, int[] position, int effectiveness, int trustLevel, int visionRange) {
 		super(movementRange, position);
 	}

@@ -29,27 +29,25 @@ class MoveUnitOnMapTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		Map.GetInstance().initializeMap();
+		Map.getInstance().initializeMap();
 		unit = new NeutralUnit(0, oldPos);
-		Map.GetInstance().placeUnitOnMap(unit);
+		Map.getInstance().placeUnitOnMap(unit);
 		
-		Map.GetInstance().moveUnitOnMap(oldPos, newPos);
+		Map.getInstance().moveUnitOnMap(oldPos, newPos);
 	}
 
 	@Test
 	void sayUnitIsMoved() {
-		assertTrue(Map.GetInstance().getMap()[oldPos[0]][oldPos[1]] == null,"Unit is moved from old position.");
-		assertTrue(Map.GetInstance().getMap()[newPos[0]][newPos[1]] == unit, "Unit is placed on new position.");
-		assertFalse(!(Map.GetInstance().getMap()[oldPos[0]][oldPos[1]] == null), "Unit should me moved from old position.");
-		assertFalse(!(Map.GetInstance().getMap()[newPos[0]][newPos[1]] == unit), "Unit should be placed on new position.");
+		assertTrue(Map.getInstance().getMap()[oldPos[0]][oldPos[1]] == null,"Unit didn't move from old position.");
+		assertTrue(Map.getInstance().getMap()[newPos[0]][newPos[1]] == unit, "Unit isn't placed on new position.");
 	}
 	@Test
 	void sayOldPositionIsAccessible() {
 		try{
-			Field field = Map.GetInstance().getClass().getDeclaredField("availablePositions");
+			Field field = Map.getInstance().getClass().getDeclaredField("availablePositions");
 			field.setAccessible(true);
 			
-			List<int[]> posList = (List<int[]>) field.get(Map.GetInstance());
+			List<int[]> posList = (List<int[]>) field.get(Map.getInstance());
 			
 			boolean positionFoundInAccessibles = false;
 			
@@ -60,22 +58,21 @@ class MoveUnitOnMapTest {
 				}
 			}
 			
-			assertTrue(positionFoundInAccessibles, "Freed position is accessible.");
-			assertFalse(!positionFoundInAccessibles, "Freed position should be naccessible.");
+			assertTrue(positionFoundInAccessibles, "Freed position is inaccessible.");
 			
 		}
 		catch(Exception e) {
-			fail("Field avaialblePositions is not found - cannot test functionality.");
+			fail("Test found an error: " + e.getMessage());
 		}
 	}
 	
 	@Test
 	void sayNewPositionIsInaccessible() {
 		try{
-			Field field = Map.GetInstance().getClass().getDeclaredField("availablePositions");
+			Field field = Map.getInstance().getClass().getDeclaredField("availablePositions");
 			field.setAccessible(true);
 			
-			List<int[]> posList = (List<int[]>) field.get(Map.GetInstance());
+			List<int[]> posList = (List<int[]>) field.get(Map.getInstance());
 			
 			boolean positionNotFoundInAccessibles = true;
 			
@@ -86,12 +83,11 @@ class MoveUnitOnMapTest {
 				}
 			}
 			
-			assertTrue(positionNotFoundInAccessibles, "Unit's new position is inaccessible.");
-			assertFalse(!positionNotFoundInAccessibles, "Unit's new position should be inaccessible.");
+			assertTrue(positionNotFoundInAccessibles, "Unit's new position is accessible, though it should not be.");
 			
 		}
 		catch(Exception e) {
-			fail("Field avaialblePositions is not found - cannot test functionality.");
+			fail("Test found an error: " + e.getMessage());
 		}
 	}
 

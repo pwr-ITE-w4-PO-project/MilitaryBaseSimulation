@@ -18,21 +18,19 @@ class IsPositionWithinMapTest {
 
 	@Before
 	void setUp() {
-		Map.GetInstance().initializeMap();
+		Map.getInstance().initializeMap();
 	}
 	
 	@Test
 	void sayIsWithinMap() {
 		int[] pos = {10,50};
-		assertTrue(Map.GetInstance().isPositionWithinMap(pos), "Position is within map.");
-		assertFalse(!Map.GetInstance().isPositionWithinMap(pos), "Position should be within map.");
+		assertTrue(Map.getInstance().isPositionWithinMap(pos), "Position isn't within map, though it should be.");
 	}
 	
 	@Test
 	void sayIsNotWithinMap() {
 		int[] pos = {101,50};
-		assertTrue(!Map.GetInstance().isPositionWithinMap(pos), "Position is not within map.");
-		assertFalse(Map.GetInstance().isPositionWithinMap(pos), "Position should not be within map.");
+		assertTrue(!Map.getInstance().isPositionWithinMap(pos), "Position is within map, though it should not be.");
 	}
 
 }
