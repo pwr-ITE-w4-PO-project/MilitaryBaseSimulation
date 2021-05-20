@@ -42,7 +42,10 @@ public class Scout extends Unit implements ISender, IScout{
 
 	public void send(String report, ITargetUnit unit, IReceiver receiver) {} //ma wysylac raporty commanderowi
 
-
+	public int getTrustLevel() {
+		return trustLevel;
+	}
+	
 	public void search() {
 		IUnit[][] map = Map.getInstance().getMap();
 		for(int x = position[0] - visionRange; x <= position[0] + visionRange; x++) {
