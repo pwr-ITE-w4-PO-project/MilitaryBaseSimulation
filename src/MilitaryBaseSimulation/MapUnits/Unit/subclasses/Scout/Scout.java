@@ -10,10 +10,18 @@ public class Scout extends Unit implements ISender, IScout{
 		super(movementRange, position);
 	}
 	
+	int trustLevel;
+	int effectiveness;
+	int visionRange;
+	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
-		//ma poruszyc sie w przeciwna strone (this.position[0] = this.position[0] - newPosition[0] itd)
-		 return null;
+		int vectorX = this.position[0] - newPosition[0];
+		int vectorY = this.position[1]-newPosition[1];
+		this.position[0]+=vectorX;
+		this.position[1]+=vectorY;
+		
+		 return this.position;
 	}
 	
 	@Override
@@ -22,4 +30,10 @@ public class Scout extends Unit implements ISender, IScout{
 	}
 	
 	public void send(String report, ITargetUnit unit, IReceiver receiver) {} //ma wysylac raporty commanderowi
+
+
+	public void search() {
+		
+	}
+	
 }

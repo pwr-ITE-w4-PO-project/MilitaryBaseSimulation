@@ -68,7 +68,7 @@ public class MilitaryBaseSimulation {
 	public static void buildSimulation() {
 		Map.getInstance().initializeMap();;
 		
-		Scanner scanner = new Scanner(System.in); //zewnêtrzny scanner jest uzywany, by ominac bug
+		Scanner scanner = new Scanner(System.in); //zewnï¿½trzny scanner jest uzywany, by ominac bug
 		
 		commander = new Commander(
 				setScouts(scanner), 
@@ -107,7 +107,7 @@ public class MilitaryBaseSimulation {
 	 * @return Integer number representing base' hit points.
 	 */
 	private static int setBaseHP(Scanner scanner) {
-		return getNumberFromUser(100, 1000000, "Podaj pocz¹tkow¹ iloœæ punktów trafieñ bazy (od 100 do 1000000): ", scanner);
+		return getNumberFromUser(100, 1000000, "Podaj poczï¿½tkowï¿½ iloï¿½ï¿½ punktï¿½w trafieï¿½ bazy (od 100 do 1000000): ", scanner);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class MilitaryBaseSimulation {
 	 * @return Integer number representing duration of simulation.
 	 */
 	private static int setIterations(Scanner scanner) {
-		return getNumberFromUser(1, 1000000, "Podaj iloœæ cykli trwania symulacji (od 1 do 1000000): ", scanner);
+		return getNumberFromUser(1, 1000000, "Podaj iloï¿½ï¿½ cykli trwania symulacji (od 1 do 1000000): ", scanner);
 	}
 	
 	/**
@@ -125,7 +125,7 @@ public class MilitaryBaseSimulation {
 	 * @return Integer number representing period of iterations.
 	 */
 	private static int setDisguisedEnemyFreq(Scanner scanner) {
-		return getNumberFromUser(1, 10, "Podaj co ile cykli generowaæ zamaskowan¹ wrog¹ jednostkê (od 1 do 10): ", scanner);
+		return getNumberFromUser(1, 10, "Podaj co ile cykli generowaï¿½ zamaskowanï¿½ wrogï¿½ jednostkï¿½ (od 1 do 10): ", scanner);
 	}
 	
 	/**
@@ -134,7 +134,7 @@ public class MilitaryBaseSimulation {
 	 * @return Integer number representing period of iterations.
 	 */
 	private static int setEnemyFreq(Scanner scanner) {
-		return getNumberFromUser(1, 10, "Podaj co ile cykli generowaæ wrog¹ jednostkê (od 1 do 10): ", scanner);
+		return getNumberFromUser(1, 10, "Podaj co ile cykli generowaï¿½ wrogï¿½ jednostkï¿½ (od 1 do 10): ", scanner);
 	}
 	
 	/**
@@ -145,13 +145,13 @@ public class MilitaryBaseSimulation {
 	private static ArrayList<IGunner> setGunners(Scanner scanner){
 		int accuracy;
 		
-		int gunnersCount = getNumberFromUser(1, 5, "\nPodaj iloœæ Gunnerów (od 1 do 5): ", scanner);
+		int gunnersCount = getNumberFromUser(1, 5, "\nPodaj iloï¿½ï¿½ Gunnerï¿½w (od 1 do 5): ", scanner);
 		ArrayList<IGunner> gunners = new ArrayList<IGunner>();
 		
 		for(int i = 0; i < gunnersCount; i++) {
 			System.out.println();
 			
-			accuracy = getNumberFromUser(0, 100, "Podaj celnoœæ Gunnera #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
+			accuracy = getNumberFromUser(0, 100, "Podaj celnoï¿½ï¿½ Gunnera #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			
 			gunners.add(new Gunner(accuracy));
 		}
@@ -171,7 +171,7 @@ public class MilitaryBaseSimulation {
 		int effectiveness;
 		int trustLevel;
 		
-		int scoutsCount = getNumberFromUser(1, 5, "Podaj iloœæ Scoutów (od 1 do 5): ", scanner);
+		int scoutsCount = getNumberFromUser(1, 5, "Podaj iloï¿½ï¿½ Scoutï¿½w (od 1 do 5): ", scanner);
 		ArrayList<IScout> scouts = new ArrayList<IScout>(scoutsCount);
 		
 		Scout newScout;
@@ -179,9 +179,9 @@ public class MilitaryBaseSimulation {
 		for(int i = 0; i < scoutsCount; i++) {
 			System.out.println();
 			
-			movementRange = getNumberFromUser(1, 3, "Podaj prêdkoœæ Scouta #" + (i+1) +"(od 1 do 3): ", scanner);
-			visionRange = getNumberFromUser(5, 20, "Podaj zasiêg widzenia Scouta #"+ (i+1) +"(od 5 do 20): ", scanner);
-			effectiveness = getNumberFromUser(0, 100, "Podaj efektywnoœæ Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
+			movementRange = getNumberFromUser(1, 3, "Podaj prï¿½dkoï¿½ï¿½ Scouta #" + (i+1) +"(od 1 do 3): ", scanner);
+			visionRange = getNumberFromUser(5, 20, "Podaj zasiï¿½g widzenia Scouta #"+ (i+1) +"(od 5 do 20): ", scanner);
+			effectiveness = getNumberFromUser(0, 100, "Podaj efektywnoï¿½ï¿½ Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			trustLevel = getNumberFromUser(0, 100, "Podaj zaufanie do Scouta #"+ (i+1) +" w procentach (od 0 do 100): ", scanner);
 			
 			newScout = new Scout(movementRange, Map.getInstance().getRandomPosition(), effectiveness, trustLevel, visionRange);
@@ -208,13 +208,13 @@ public class MilitaryBaseSimulation {
 			input = scanner.nextInt();
 			scanner.nextLine();
 			while(input < min || input > max) {
-				System.out.println("Podano nieprawid³owy zakres.");
+				System.out.println("Podano nieprawidï¿½owy zakres.");
 				System.out.print(message);
 				input = scanner.nextInt();
 				scanner.nextLine();
 			}
 		}catch(Exception e) {
-			System.out.println("Niepoprawne dane wejœciowe. Wprowadz liczbê ca³kowit¹!");
+			System.out.println("Niepoprawne dane wejï¿½ciowe. Wprowadz liczbï¿½ caï¿½kowitï¿½!");
 			scanner.nextLine();
 			input = getNumberFromUser(min, max, message, scanner);
 		}

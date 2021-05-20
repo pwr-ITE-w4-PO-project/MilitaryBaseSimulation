@@ -3,7 +3,7 @@ import MilitaryBaseSimulation.MoveGenerators.IMoveGenerator;
 import MilitaryBaseSimulation.Map.*;
 
 public abstract class Unit implements IUnit{
-	private int position[];
+	protected int position[];
 	private int movementRange;
 	private IMoveGenerator moveGenerator;
 	
