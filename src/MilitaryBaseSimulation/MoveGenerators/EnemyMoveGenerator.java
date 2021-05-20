@@ -36,8 +36,8 @@ public class EnemyMoveGenerator implements IMoveGenerator{
 			}
 		}
 		
-		//returns random position
-		return positions.get(random.nextInt(positions.size()+1));
+		if(positions.size() > 0) return positions.get(random.nextInt(positions.size()+1));
+		else return currentPosition;
 	}
 	
 }
