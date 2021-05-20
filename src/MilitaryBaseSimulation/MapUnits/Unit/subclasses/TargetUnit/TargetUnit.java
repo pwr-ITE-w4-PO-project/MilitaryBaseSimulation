@@ -6,4 +6,13 @@ public abstract class TargetUnit extends Unit implements ITargetUnit{
 		super(movementRange, position);
 	}
 	boolean isCorrectlyIdentified;
+	static int count;
+	
+	public int getCount(){
+		return 0;
+	}
+	
+	public void getDestroyed() {
+		this.disappearFromMap();
+	}
 }

@@ -7,10 +7,13 @@ public class EnemyUnit extends TargetUnit {
 		super(movementRange, position);
 	}
 	
+	int damage;
+	static int count;
+	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
 		//jest dotrze do bazy - zadanie obrazen
-		//jesli przekroczy granice góra/dó³ - ma ruszyc w przeciwna strone
+		//jesli przekroczy granice gï¿½ra/dï¿½ - ma ruszyc w przeciwna strone
 		return null;
 	}
 	
@@ -19,5 +22,7 @@ public class EnemyUnit extends TargetUnit {
 		return '0';
 	}
 	public int getCount() {return 0;} //zwraca statyczna ilosc obiektow
-	public void getDestroyed() {}//usuwanie z mapy + wywolanie oceniania commandera
+	public void getDestroyed() {
+		
+	}//usuwanie z mapy + wywolanie oceniania commandera
 }
