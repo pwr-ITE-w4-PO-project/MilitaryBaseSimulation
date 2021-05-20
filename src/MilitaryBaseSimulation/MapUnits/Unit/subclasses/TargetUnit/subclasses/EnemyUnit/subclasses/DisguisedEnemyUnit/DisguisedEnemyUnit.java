@@ -6,6 +6,9 @@ public class DisguisedEnemyUnit extends EnemyUnit{
 	public DisguisedEnemyUnit(int movementRange, int[] position, int damage) {
 		super(movementRange, position, damage);
 	}
+	
+	int count;
+	
 	@Override
 	public char getUnitChar() {
 		return '0';

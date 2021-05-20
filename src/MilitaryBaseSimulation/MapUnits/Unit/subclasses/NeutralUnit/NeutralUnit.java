@@ -5,7 +5,7 @@ public class NeutralUnit extends TargetUnit{
 	public NeutralUnit(int movementRange, int[] position) {
 		super(movementRange, position);
 	}
-	
+	static int count;
 	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
@@ -17,5 +17,7 @@ public class NeutralUnit extends TargetUnit{
 		return '0';
 	}
 	public int getCount() {return 0;} //ma zwracac statyczna ilosc obiektow
-	public void getDestroyed() {} //usuniecie z mapy + wywolanie oceniania commandera
+	public void getDestroyed() {
+		
+	} //usuniecie z mapy + wywolanie oceniania commandera
 }
