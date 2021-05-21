@@ -18,14 +18,17 @@ public class Headquarters {//implements ISender{
 	/**
 	 * Changes rating of Commander
 	 * @param rate Value which will be added to commander.rating
-	 * @param commander Commander, which rating will be changed
+	 * @param destroyedUnit Unit which was destroyed by Gunner
 	 */
 	private void rateCommander(int rate, ITargetUnit destroyedUnit)
 	{
 		MilitaryBaseSimulation.commander.recevieRating(rate, destroyedUnit);
 	}
 	
-	// dodatkowy parametr - enum dla typu jednostki?
+	/**
+	 * Manages info after destroying unit
+	 * @param destroyedUnit Unit which was destroyed by Gunner
+	 */
 	public void deathInfo(ITargetUnit destroyedUnit)
 	{
 		Random rand = new Random();

@@ -7,6 +7,10 @@ import java.util.Random;
 public class Gunner implements IReceiver, IGunner{
 	private int accuracy;
 	
+	/**
+	 * Constructor
+	 * @param accuracy Value which will decide Gunner's accuracy
+	 */
 	public Gunner(int accuracy) {
 		this.accuracy = accuracy;
 	}

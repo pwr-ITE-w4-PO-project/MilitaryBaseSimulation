@@ -43,11 +43,19 @@ public class Commander implements ISender, IReceiver{
 	
 	/**
 	 * Sends report to Gunner
+	 * @param report String which contains info about unit
+	 * @param unit unit detected by Scout
+	 * @param receiver Gunner which will get report
 	 */
 	public void send(String report, ITargetUnit unit, IReceiver receiver) {
 		receiver.receive(report,unit);
 	}
 	
+	/**
+	 * Manages receiving rating from Headquarters
+	 * @param rate Value which will be added to commanders rating
+	 * @param destroyedUnit Unit which was destroyed by Gunner
+	 */
 	public void recevieRating(int rate, ITargetUnit destroyedUnit)
 	{
 		Random random = new Random();
