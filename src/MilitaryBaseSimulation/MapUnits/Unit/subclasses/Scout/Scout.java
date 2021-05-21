@@ -39,6 +39,10 @@ public class Scout extends Unit implements ISender, IScout{
 	public char getUnitChar() {
 		return '0';
 	}
+	
+	public int getTrustLevel() {
+		return trustLevel;
+	}
 
 	public void send(String report, ITargetUnit unit, IReceiver receiver) {} //ma wysylac raporty commanderowi
 
