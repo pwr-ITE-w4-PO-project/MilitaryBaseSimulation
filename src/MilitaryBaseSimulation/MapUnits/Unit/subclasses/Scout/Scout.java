@@ -20,7 +20,7 @@ public class Scout extends Unit implements ISender, IScout{
 		super(movementRange, position);
 	}
 	
-	int trustLevel;
+	public int trustLevel;
 	int effectiveness;
 	int visionRange;
 	Random random = new Random();
