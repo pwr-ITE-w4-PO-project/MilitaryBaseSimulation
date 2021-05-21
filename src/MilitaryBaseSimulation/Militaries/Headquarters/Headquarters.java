@@ -2,7 +2,13 @@ package MilitaryBaseSimulation.Militaries.Headquarters;
 
 //import MilitaryBaseSimulation.TargetUnit.ITargetUnit;
 import MilitaryBaseSimulation.Militaries.Commander.*;
+
+import java.util.Random;
+
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
+import java.util.Random;
 
 public class Headquarters {//implements ISender{
 	//public void send(String report, ITargetUnit unit, IReceiver receiver) {};
@@ -14,9 +20,22 @@ public class Headquarters {//implements ISender{
 	 * @param rate Value which will be added to commander.rating
 	 * @param commander Commander, which rating will be changed
 	 */
-	public void rateCommander(int rate, Commander commander)
+	private void rateCommander(int rate, ITargetUnit destroyedUnit)
 	{
-		commander.rating+=rate;
+		MilitaryBaseSimulation.commander.recevieRating(rate, destroyedUnit);
+	}
+	
+	// dodatkowy parametr - enum dla typu jednostki?
+	public void deathInfo(ITargetUnit destroyedUnit)
+	{
+		Random rand = new Random();
+		if(destroyedUnit instanceof NeutralUnit)
+		{
+			rateCommander(-2*(rand.nextInt(5)+1), destroyedUnit);
+		}else{
+			rateCommander(2*(rand.nextInt(5)+1), destroyedUnit);
+		}
+		
 	}
 	
 }

@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class Commander implements ISender, IReceiver{
-	public int rating;
+	private int rating;
 	private ArrayList<IGunner> gunners;
 	private ArrayList<IScout> scouts;
 	/**
@@ -46,7 +46,17 @@ public class Commander implements ISender, IReceiver{
 	 */
 	public void send(String report, ITargetUnit unit, IReceiver receiver) {
 		receiver.receive(report,unit);
-		
+	}
+	
+	public void recevieRating(int rate, ITargetUnit destroyedUnit)
+	{
+		Random random = new Random();
+		this.rating+=rate;
+			if(destroyedUnit.getIsCorrectlyIdentified()){
+				changeTrustLevel(destroyedUnit.getIdentifiedBy(),3*(random.nextInt(5)+1));
+			}else {
+				changeTrustLevel(destroyedUnit.getIdentifiedBy(),-3*(random.nextInt(5)+1));
+			}
 	}
 	
 	/**
@@ -56,38 +66,18 @@ public class Commander implements ISender, IReceiver{
 	 */
 	public void receive(String report, ITargetUnit unit) {
 		Random random = new Random();
-		if(unit.getIdentifiedBy().getTrustLevel()<=random.nextInt(100))
+		if(unit.getIdentifiedBy().getTrustLevel()<random.nextInt(100))
 		{
 			if(report=="Wykryto wrog¹ jednostkê!")
 			{
 				commandAttack(unit);
-				if(unit instanceof EnemyUnit) {
-					changeTrustLevel(unit.getIdentifiedBy(),3*random.nextInt(5));
-				}else {
-					changeTrustLevel(unit.getIdentifiedBy(),-3*random.nextInt(5));
-				}
 			}else if(report == "Wykryto neutraln¹ jednostkê!") {
-				if(unit instanceof EnemyUnit) {
-					changeTrustLevel(unit.getIdentifiedBy(),-3*random.nextInt(5));
-				}else {
-					changeTrustLevel(unit.getIdentifiedBy(), 3*random.nextInt(5));
-				}
 			}
 		}else{
 			if(report=="Wykryto wrog¹ jednostkê!") {
-					if(unit instanceof EnemyUnit) {
-						changeTrustLevel(unit.getIdentifiedBy(),3*random.nextInt(5));
-					}else {
-						changeTrustLevel(unit.getIdentifiedBy(),-3*random.nextInt(5));
-					}
 			}
 			else if(report == "Wykryto neutraln¹ jednostkê!") {
 				commandAttack(unit);
-				if(unit instanceof EnemyUnit) {
-					changeTrustLevel(unit.getIdentifiedBy(),-3*random.nextInt(5));
-				}else {
-					changeTrustLevel(unit.getIdentifiedBy(), 3*random.nextInt(5));
-				}
 			}
 		}
 	}

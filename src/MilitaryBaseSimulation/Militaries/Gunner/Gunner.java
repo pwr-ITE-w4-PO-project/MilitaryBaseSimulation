@@ -5,7 +5,7 @@ import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
 import java.util.Random;
 
 public class Gunner implements IReceiver, IGunner{
-	public int accuracy;
+	private int accuracy;
 	
 	public Gunner(int accuracy) {
 		this.accuracy = accuracy;
@@ -35,6 +35,7 @@ public class Gunner implements IReceiver, IGunner{
 	
 	/**
 	 * Gets the accuracy field
+	 * For test purposes
 	 */
 	public int getAccuracy()
 	{

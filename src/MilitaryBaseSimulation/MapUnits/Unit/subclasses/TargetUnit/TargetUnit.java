@@ -9,7 +9,7 @@ public abstract class TargetUnit extends Unit implements ITargetUnit{
 	}
 	boolean isCorrectlyIdentified;
 	static int count;
-	public Scout identifiedBy;
+	private Scout identifiedBy;
 	
 	public int getCount(){
 		return count;
@@ -21,5 +21,8 @@ public abstract class TargetUnit extends Unit implements ITargetUnit{
 	
 	public Scout getIdentifiedBy() {
 		return identifiedBy;
+	}
+	public boolean getIsCorrectlyIdentified(){
+		return isCorrectlyIdentified;
 	}
 }
