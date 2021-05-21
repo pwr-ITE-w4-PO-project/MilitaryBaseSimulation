@@ -14,22 +14,46 @@ public class Commander implements ISender, IReceiver{
 	public int rating;
 	private ArrayList<IGunner> gunners;
 	private ArrayList<IScout> scouts;
+	/**
+	 * Constructor
+	 * @param scouts List of Scouts in simulation
+	 * @param gunners List of Gunners in simulation
+	 */
 	public Commander(ArrayList<IScout> scouts, ArrayList<IGunner> gunners) {
 		this.gunners = gunners;
 		this.scouts = scouts;
 	}
+	/**
+	 * Changes trust level of scout which sent report
+	 * @param scout Scout which sent report
+	 * @param level Value which will be added to scouts trustLevel
+	 */
 	public void changeTrustLevel(Scout scout, int level) {
 		scout.setTrustLevel(level);
 	}
 	
+	/**
+	 * Commands random Gunner to attack a unit
+	 * @param unit Unit which was chosen to be attacked
+	 */
 	public void commandAttack(ITargetUnit unit) {
 		Random random = new Random();
 		send("yes",unit,(IReceiver) gunners.get(random.nextInt(gunners.size())));
 	}
+	
+	/**
+	 * Sends report to Gunner
+	 */
 	public void send(String report, ITargetUnit unit, IReceiver receiver) {
 		receiver.receive(report,unit);
 		
 	}
+	
+	/**
+	 * Manages receiving report from scout
+	 * @param report String which contains info about unit
+	 * @param unit Unit detected by Scout
+	 */
 	public void receive(String report, ITargetUnit unit) {
 		Random random = new Random();
 		if(unit.getIdentifiedBy().getTrustLevel()<=random.nextInt(100))

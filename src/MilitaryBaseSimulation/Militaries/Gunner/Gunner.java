@@ -11,6 +11,11 @@ public class Gunner implements IReceiver, IGunner{
 		this.accuracy = accuracy;
 	}
 	
+	/**
+	 * 
+	 * @param unit Unit which will be attacked by Gunner
+	 * @param accuracy Propability of succeding the attack
+	 */
 	public void attack(ITargetUnit unit, int accuracy) {
 		Random rand = new Random();
 		int n = rand.nextInt(100);
@@ -18,12 +23,19 @@ public class Gunner implements IReceiver, IGunner{
 			unit.getDestroyed();
 	}
 	
+	/**
+	 * Manages receiving report from Commander
+	 * @param report String which contains info about attack
+	 * @param unit Unit which will be attacked
+	 */
 	public void receive(String report, ITargetUnit unit) {
 		if(report == "yes")
 			this.attack(unit,accuracy);
 	}
 	
-
+	/**
+	 * Gets the accuracy field
+	 */
 	public int getAccuracy()
 	{
 		return accuracy;
