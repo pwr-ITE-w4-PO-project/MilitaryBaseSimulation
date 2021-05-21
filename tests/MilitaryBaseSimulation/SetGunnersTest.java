@@ -27,7 +27,7 @@ class SetGunnersTest {
 
 
 	@Test
-	void sayAllGunnersOk() {
+	void sayGunnerIsOk() {
 		
 		String testInput = "1\n1\n";
 		
@@ -40,13 +40,32 @@ class SetGunnersTest {
 			testedMethod.setAccessible(true);
 			ArrayList<Gunner> gunners = (ArrayList<Gunner>) testedMethod.invoke(null, sc);	
 			
-			fail("Gunner class is not yet implemented");
+			assertTrue(gunners.size() == 1 && gunners.get(0).getAccuracy() == 1, "The gunner is incorrectly built.");
 		
 	    }catch(Exception e) {
-			fail("Test found an arrer :" + e.getMessage());	
+			fail("Test found an error :" + e.getMessage());	
 		}
-	    
-		fail("Not yet implemented");
+	}
+	
+	@Test
+	void sayAllGunnersAreOk() {
+		
+		String testInput = "2\n3\n4\n";
+		
+		ByteArrayInputStream testInputBytes= new ByteArrayInputStream(testInput.getBytes());
+		System.setIn(testInputBytes);
+	    sc = new Scanner(System.in);
+		
+	    try {
+			Method testedMethod = MilitaryBaseSimulation.class.getDeclaredMethod("setGunners", Scanner.class);
+			testedMethod.setAccessible(true);
+			ArrayList<Gunner> gunners = (ArrayList<Gunner>) testedMethod.invoke(null, sc);	
+			
+			assertTrue(gunners.size() == 2 && gunners.get(0).getAccuracy() == 3 &&gunners.get(1).getAccuracy() == 4, "Some gunnes are incorrectly built.");
+		
+	    }catch(Exception e) {
+			fail("Test found an error :" + e.getMessage());	
+		}
 	}
 	
 	 @After

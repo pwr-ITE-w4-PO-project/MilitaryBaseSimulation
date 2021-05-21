@@ -22,7 +22,7 @@ public class Headquarters {//implements ISender{
 	 */
 	private void rateCommander(int rate, ITargetUnit destroyedUnit)
 	{
-		MilitaryBaseSimulation.commander.recevieRating(rate, destroyedUnit);
+		MilitaryBaseSimulation.getCommander().recevieRating(rate, destroyedUnit);
 	}
 	
 	/**

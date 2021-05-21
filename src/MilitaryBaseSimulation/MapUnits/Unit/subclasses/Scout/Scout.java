@@ -59,24 +59,24 @@ public class Scout extends Unit implements ISender, IScout{
 				if(map[x][y]!=null) {
 					if(map[x][y] instanceof ITargetUnit) {
 						if(map[x][y] instanceof EnemyUnit) {
-							send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
+							send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.getCommander() );
 						}
 						else if(map[x][y] instanceof DisguisedEnemyUnit){
 							int probability = random.nextInt(100);
 							if(probability<effectiveness) {
-								send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
+								send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.getCommander() );
 							}
 							else {
-								send(neutral, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
+								send(neutral, (ITargetUnit) map[x][y], MilitaryBaseSimulation.getCommander() );
 							}
 						}
 						else if(map[x][y] instanceof NeutralUnit){
 							int probability = random.nextInt(100);
 							if(probability<effectiveness) {
-								send(neutral, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
+								send(neutral, (ITargetUnit) map[x][y], MilitaryBaseSimulation.getCommander() );
 							}
 							else {
-								send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
+								send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.getCommander() );
 							}							
 						}
 					}
