@@ -14,24 +14,39 @@ import java.util.Random;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Map.Map;
 
+
+
 public class Scout extends Unit implements ISender, IScout{
+	/**
+	 * Constructor.
+	 * @param movementRange Range of motion.
+	 * @param position Initial placement on the map.
+	 * @param effectiveness Correct detecting probability.
+	 * @param trustLevel Commander's trust.
+	 * @param visionRange Detecting range.
+	 */
 	public Scout(int movementRange, int[] position, int effectiveness, int trustLevel, int visionRange) {
 		super(movementRange, position);
+		this.trustLevel = trustLevel;
+		this.effectiveness = effectiveness;
+
 	}
 	
-	public int trustLevel;
-	int effectiveness;
-	int visionRange;
-	Random random = new Random();
-	String enemy = "Wykryto wrogą jednostkę!";
-	String neutral = "Wykryto neutralną jednostkę!";
+	private int trustLevel;
+	private int effectiveness;
+	private int visionRange;
+	private Random random = new Random();
+	private final String enemy = "Enemy unit detected!";
+	private final String neutral = "Neutral unit detected!";
+	
+	
 	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
 		int vectorX = this.position[0] - newPosition[0];
 		int vectorY = this.position[1]-newPosition[1];
-		this.position[0]+=vectorX;
-		this.position[1]+=vectorY;
+		newPosition[0]=this.position[0]+vectorX;
+		newPosition[1]=this.position[1]+vectorY;
 		
 		 return this.position;
 	}
@@ -40,18 +55,33 @@ public class Scout extends Unit implements ISender, IScout{
 	public char getUnitChar() {
 		return '0';
 	}
-	
+	/**
+	 * Gets trustLevel.
+	 * @return trustLevel
+	 */
 	public int getTrustLevel() {
 		return trustLevel;
 	}
-	
+	/**
+	 * Modifies trustLevel.
+	 */	
 	public void setTrustLevel(int level) {
 		this.trustLevel += level;
 	}
+	/**
+	 * Sends reports.
+	 * @param report Report sent.
+	 * @param unit Targeted unit.
+	 * @param receiver Receiver to send to.
+	 */
+	public void send(String report, ITargetUnit unit, IReceiver receiver) {
+		receiver.receive(report, unit);
+	}
 
-	public void send(String report, ITargetUnit unit, IReceiver receiver) {} //ma wysylac raporty commanderowi
-
-
+	/**
+	 * Checks nearest area based on vision range. Detects other units, 
+	 * identifies them and sends reports to commander.
+	 */
 	public void search() {
 		IUnit[][] map = Map.getInstance().getMap();
 		for(int x = position[0] - visionRange; x <= position[0] + visionRange; x++) {

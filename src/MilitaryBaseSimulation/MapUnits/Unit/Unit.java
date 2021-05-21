@@ -27,6 +27,10 @@ public abstract class Unit implements IUnit{
 		
 		if(!Map.getInstance().isPositionWithinMap(newPosition)) {
 			newPosition = handlePositionBeyondMap(newPosition);
+			if(newPosition==null) {
+				this.disappearFromMap();
+				return;
+			}
 		}
 		
 		Map.getInstance().moveUnitOnMap(position, newPosition);

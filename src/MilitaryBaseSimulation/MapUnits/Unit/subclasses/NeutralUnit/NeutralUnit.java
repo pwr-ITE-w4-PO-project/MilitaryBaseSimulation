@@ -2,6 +2,11 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit;
 
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
 public class NeutralUnit extends TargetUnit{
+	/**
+	 * Constructor.
+	 * @param movementRange Range of motion.
+	 * @param position Initial placement on the map.
+	 */
 	public NeutralUnit(int movementRange, int[] position) {
 		super(movementRange, position);
 		count++;
@@ -10,18 +15,23 @@ public class NeutralUnit extends TargetUnit{
 	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
-		//ma zniknac z mapy
+
 		return null;
 	}
 	@Override
 	public char getUnitChar() {
 		return '0';
 	}
-	//zwraca statyczna ilosc obiektow
-	public int getCount() {
+	/**
+	 * Gets count.
+	 * @return Number of instances.
+	 */
+	public static int getCount() {
 		return count;
 	} 
+	@Override
 	public void getDestroyed() {
-		
-	} //usuniecie z mapy + wywolanie oceniania commandera	
+		count--;
+		super.getDestroyed();
+	}
 }

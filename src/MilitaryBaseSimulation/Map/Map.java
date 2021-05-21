@@ -123,7 +123,7 @@ public class Map {
 	}
 	
 	/**
-	 * Checks if position isn't beyond the map.
+	 * Checks if position is within the map.
 	 * @param position Position to check.
 	 * @return True if position is within the map; false if beyond. 
 	 */
