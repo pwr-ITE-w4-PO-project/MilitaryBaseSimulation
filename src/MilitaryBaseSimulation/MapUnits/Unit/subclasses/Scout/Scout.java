@@ -46,7 +46,7 @@ public class Scout extends Unit implements ISender, IScout{
 	}
 	
 	public void setTrustLevel(int level) {
-		this.trustLevel = level;
+		this.trustLevel += level;
 	}
 
 	public void send(String report, ITargetUnit unit, IReceiver receiver) {} //ma wysylac raporty commanderowi

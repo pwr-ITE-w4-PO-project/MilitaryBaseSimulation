@@ -14,8 +14,7 @@ public class Gunner implements IReceiver, IGunner{
 	public void attack(ITargetUnit unit, int accuracy) {
 		Random rand = new Random();
 		int n = rand.nextInt(100);
-		n++;
-		if(n>accuracy)
+		if(n<accuracy)
 			unit.getDestroyed();
 	}
 	

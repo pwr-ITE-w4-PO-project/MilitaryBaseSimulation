@@ -10,7 +10,7 @@ public class Headquarters {//implements ISender{
 	Headquarters() {}
 	public void rateCommander(int rate, Commander commander)
 	{
-		commander.rating=rate;
+		commander.rating+=rate;
 	}
 	
 }
