@@ -5,10 +5,12 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
 public class EnemyUnit extends TargetUnit {
 	public EnemyUnit(int movementRange, int[] position, int damage) {
 		super(movementRange, position);
+		count++;
 	}
 	
 	int damage;
 	static int count;
+	
 	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
@@ -21,7 +23,12 @@ public class EnemyUnit extends TargetUnit {
 	public char getUnitChar() {
 		return '0';
 	}
-	public int getCount() {return 0;} //zwraca statyczna ilosc obiektow
+	
+	//zwraca statyczna ilosc obiektow
+	public int getCount() {
+		return count;
+		} 
+	
 	public void getDestroyed() {
 		
 	}//usuwanie z mapy + wywolanie oceniania commandera

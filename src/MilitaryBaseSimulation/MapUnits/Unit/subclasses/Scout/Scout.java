@@ -4,15 +4,14 @@ import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.ITargetUnit;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.EnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
-import MilitaryBaseSimulation.Militaries.Commander.Commander;
 import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
 import MilitaryBaseSimulation.Militaries.interfaces.ISender;
 
 import java.util.Random;
 
+import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Map.Map;
 
 public class Scout extends Unit implements ISender, IScout{
@@ -24,6 +23,8 @@ public class Scout extends Unit implements ISender, IScout{
 	int effectiveness;
 	int visionRange;
 	Random random = new Random();
+	String enemy = "Wykryto wrogą jednostkę!";
+	String neutral = "Wykryto neutralną jednostkę!";
 	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
@@ -43,6 +44,10 @@ public class Scout extends Unit implements ISender, IScout{
 	public int getTrustLevel() {
 		return trustLevel;
 	}
+	
+	public void setTrustLevel(int level) {
+		this.trustLevel = level;
+	}
 
 	public void send(String report, ITargetUnit unit, IReceiver receiver) {} //ma wysylac raporty commanderowi
 
@@ -54,24 +59,24 @@ public class Scout extends Unit implements ISender, IScout{
 				if(map[x][y]!=null) {
 					if(map[x][y] instanceof ITargetUnit) {
 						if(map[x][y] instanceof EnemyUnit) {
-							// wstawić senda send("Wykryto wroga!", unit, commander);
+							send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
 						}
 						else if(map[x][y] instanceof DisguisedEnemyUnit){
 							int probability = random.nextInt(100);
 							if(probability<effectiveness) {
-								//wyslij poprawne
+								send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
 							}
 							else {
-								//wyslij na odwrot
+								send(neutral, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
 							}
 						}
 						else if(map[x][y] instanceof NeutralUnit){
 							int probability = random.nextInt(100);
 							if(probability<effectiveness) {
-								//wyslij poprawne
+								send(neutral, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
 							}
 							else {
-								//wyslij na odwrot
+								send(enemy, (ITargetUnit) map[x][y], MilitaryBaseSimulation.commander );
 							}							
 						}
 					}

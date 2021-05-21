@@ -21,7 +21,7 @@ public class MilitaryBaseSimulation {
 	
 	//static objects for easy access
 	static int militaryBaseHP;
-	static Commander commander;
+	public static Commander commander;
 	static Headquarters headquarters;
 	
 	//base hit points

@@ -5,6 +5,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Ene
 public class DisguisedEnemyUnit extends EnemyUnit{
 	public DisguisedEnemyUnit(int movementRange, int[] position, int damage) {
 		super(movementRange, position, damage);
+		count++;
 	}
 	
 	int count;
@@ -13,4 +14,9 @@ public class DisguisedEnemyUnit extends EnemyUnit{
 	public char getUnitChar() {
 		return '0';
 	}
+	
+	//zwraca statyczna ilosc obiektow
+	public int getCount() {
+		return count;
+	} 	
 }

@@ -4,6 +4,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
 public class NeutralUnit extends TargetUnit{
 	public NeutralUnit(int movementRange, int[] position) {
 		super(movementRange, position);
+		count++;
 	}
 	static int count;
 	
@@ -16,8 +17,11 @@ public class NeutralUnit extends TargetUnit{
 	public char getUnitChar() {
 		return '0';
 	}
-	public int getCount() {return 0;} //ma zwracac statyczna ilosc obiektow
+	//zwraca statyczna ilosc obiektow
+	public int getCount() {
+		return count;
+	} 
 	public void getDestroyed() {
 		
-	} //usuniecie z mapy + wywolanie oceniania commandera
+	} //usuniecie z mapy + wywolanie oceniania commandera	
 }
