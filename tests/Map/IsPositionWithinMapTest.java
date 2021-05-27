@@ -23,7 +23,7 @@ class IsPositionWithinMapTest {
 	
 	@Test
 	void sayIsWithinMap() {
-		int[] pos = {10,50};
+		int[] pos = {10,40};
 		assertTrue(Map.getInstance().isPositionWithinMap(pos), "Position isn't within map, though it should be.");
 	}
 	

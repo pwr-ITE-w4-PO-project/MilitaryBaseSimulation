@@ -34,7 +34,7 @@ public class AlliesMoveGenerator implements IMoveGenerator{
 		positions = Map.getInstance().checkPositionsAccessbility(positions);
 		
 		//returns random position or current if accessible position doesnt exist
-		if(positions.size() > 0) return positions.get(random.nextInt(positions.size()+1));
+		if(positions.size() > 0) return positions.get(random.nextInt(positions.size()));
 		else return currentPosition;
 		
 	}

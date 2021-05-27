@@ -3,7 +3,7 @@
  */
 package Map;
 import MilitaryBaseSimulation.Map.*;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.NeutralUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +28,7 @@ class CheckPositionsAccessbilityTest {
 	void setUp() throws Exception {
 		Map.getInstance().initializeMap();
 		for(int i = -1; i<4; i++) {
-			for(int j = 96; j<101; j++) {
+			for(int j = 46; j<51; j++) {
 				int[] pos = new int[2];
 				pos[0] = i;
 				pos[1] = j;
@@ -60,7 +60,7 @@ class CheckPositionsAccessbilityTest {
 	
 	@Test
 	void saySomeAreAccessible() {
-		int[] takenPos = {0,98};
+		int[] takenPos = {0,48};
 		Map.getInstance().placeUnitOnMap(new NeutralUnit(0, takenPos));
 		
 		List<int[]> accessibles = Map.getInstance().checkPositionsAccessbility(positions);

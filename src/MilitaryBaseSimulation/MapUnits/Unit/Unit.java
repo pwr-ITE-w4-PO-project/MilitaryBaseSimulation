@@ -4,8 +4,10 @@ import MilitaryBaseSimulation.Map.*;
 
 public abstract class Unit implements IUnit{
 	protected int position[];
+	protected char unitChar;
+	protected IMoveGenerator moveGenerator;
 	private int movementRange;
-	private IMoveGenerator moveGenerator;
+	private static int count = 0;
 	
 	/**
 	 * @param movementRange Maximum range of movement in single iteration.
@@ -16,7 +18,7 @@ public abstract class Unit implements IUnit{
 		this.movementRange = movementRange;
 		this.position[0] = position[0];
 		this.position[1] = position[1];
-		//MilitaryBaseSimulation.Map.Map.placeUnitOnMap(this);
+		Unit.count++;
 	}
 	
 	/**
@@ -27,7 +29,7 @@ public abstract class Unit implements IUnit{
 		
 		if(!Map.getInstance().isPositionWithinMap(newPosition)) {
 			newPosition = handlePositionBeyondMap(newPosition);
-			if(newPosition==null) {
+			if(newPosition == null) {
 				this.disappearFromMap();
 				return;
 			}
@@ -49,6 +51,7 @@ public abstract class Unit implements IUnit{
 	 */
 	protected void disappearFromMap() {
 		Map.getInstance().removeUnitFromMap(this);
+		Unit.count--;
 	}
 	
 	/**
@@ -61,5 +64,15 @@ public abstract class Unit implements IUnit{
 	 * Prints unit on the map.
 	 * @return Char representing unit.
 	 */
-	public abstract char getUnitChar();
+	public char getUnitChar() {
+		return unitChar;
+	}
+	
+	/**
+	 * Gets number of instances of Unit class.
+	 * @return Integer number representing count of Unit instances.
+	 */
+	public static int getCount() {
+		return Unit.count;
+	}
 }

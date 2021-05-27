@@ -1,6 +1,6 @@
 package Map;
 
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ class PlaceUnitOnMapTest {
 	
 	@Test
 	void sayUnitIsPlaced() {
-		int[] pos = {0,98}; 
+		int[] pos = {0,48}; 
 		NeutralUnit unit = new NeutralUnit(0, pos);
 		Map.getInstance().placeUnitOnMap(unit);
 		
@@ -36,7 +36,7 @@ class PlaceUnitOnMapTest {
 	
 	@Test
 	void sayPositionIsInaccessible() {
-		int[] pos = {0,98}; 
+		int[] pos = {0,48}; 
 		NeutralUnit unit = new NeutralUnit(0, pos);
 		Map.getInstance().placeUnitOnMap(unit);
 		

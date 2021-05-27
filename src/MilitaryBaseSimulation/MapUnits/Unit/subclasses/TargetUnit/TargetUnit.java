@@ -2,9 +2,14 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.IScout;
 
 public abstract class TargetUnit extends Unit implements ITargetUnit{
+	private boolean isCorrectlyIdentified;
+	private boolean isIdentified;
+	private static int count;
+	private IScout identifiedBy;
+	
 	/**
 	 * Constructor.
 	 * @param movement Range Range of motion.
@@ -12,37 +17,61 @@ public abstract class TargetUnit extends Unit implements ITargetUnit{
 	 */
 	public TargetUnit(int movementRange, int[] position) {
 		super(movementRange, position);
-		count++;
+		TargetUnit.count++;
+		this.isIdentified = false;
 	}
-	boolean isCorrectlyIdentified;
-	static int count;
-	private Scout identifiedBy;
 	/**
 	 * Gets count.
 	 * @return Number of instances.
 	 */
 	public static int getCount(){
-		return count;
+		return TargetUnit.count;
 	}
 	/**
 	 * Occurs when unit is shot by gunner.
 	 */
 	public void getDestroyed() {
 		MilitaryBaseSimulation.getHeadquarters().deathInfo(this);
-		Map.getInstance().removeUnitFromMap(this);
+		super.disappearFromMap();
 	}
 	/**
 	 *  Gets identifiedBy.
-	 *  @return Scout who identificated the unit.
+	 *  @return Scout who identified the unit.
 	 */
-	public Scout getIdentifiedBy() {
+	public IScout getIdentifiedBy() {
 		return identifiedBy;
+	}
+	
+	public void setIdentifiedBy(IScout scout) {
+		this.identifiedBy = scout;
 	}
 	/**
 	 *  Gets isCorrectlyIdentified.
-	 *  @return Identification result.
+	 *  @return Boolean value representing if the unit was correctly identified.
 	 */	
 	public boolean getIsCorrectlyIdentified(){
 		return isCorrectlyIdentified;
+	}
+	/**
+	 * Sets isCorrectlyIdentified.
+	 * @param value Identification result.
+	 */
+	public void setIsCorrectlyIdentified(boolean value) {
+		this.isCorrectlyIdentified = value;
+	}
+	
+	/**
+	 * Sets isIdentified.
+	 * @param value Representing if unit was identified.
+	 */
+	public void setIsIdentified(boolean value) {
+		this.isIdentified = value;
+	}
+	/**
+	 *  Gets isIdetified.
+	 *  @return Boolean value representing if the unit was already identified.
+	 */	
+	public boolean getIsIdentified(){
+		return isIdentified;
 	}
 }

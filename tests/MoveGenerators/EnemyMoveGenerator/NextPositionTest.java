@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import MilitaryBaseSimulation.Map.Map;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.NeutralUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.MoveGenerators.EnemyMoveGenerator;
 
 /**

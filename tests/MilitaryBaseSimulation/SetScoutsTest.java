@@ -49,15 +49,15 @@ class SetScoutsTest {
 			
 			Scout scout = scouts.get(0);
 			
-			Field movRange = Scout.class.getDeclaredField("movementRange");
+			Field movRange = Scout.class.getSuperclass().getDeclaredField("movementRange");
 			movRange.setAccessible(true);
 			int movRangeV = (int)movRange.getInt(scout);
 			if(movRangeV != 2) buildResult = false;
 
 			Field visRange = Scout.class.getDeclaredField("visionRange");
-			movRange.setAccessible(true);
+			visRange.setAccessible(true);
 			int visRangeV = (int)visRange.getInt(scout);
-			if(movRangeV != 5) buildResult = false;
+			if(visRangeV != 5) buildResult = false;
 			
 			Field eff = Scout.class.getDeclaredField("effectiveness");
 			eff.setAccessible(true);
@@ -65,8 +65,8 @@ class SetScoutsTest {
 			if(effV != 2) buildResult = false;
 			
 			Field trust = Scout.class.getDeclaredField("trustLevel");
-			eff.setAccessible(true);
-			int trustV = (int)trust.getInt(scout);
+			trust.setAccessible(true);
+			int trustV = trust.getInt(scout);
 			if(trustV != 2) buildResult = false;
 			
 			if(!Map.getInstance().isPositionWithinMap(scout.getPosition())) buildResult = false;

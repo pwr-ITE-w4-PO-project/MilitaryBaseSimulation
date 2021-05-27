@@ -2,10 +2,10 @@ package MilitaryBaseSimulation;
 
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.EnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
 import MilitaryBaseSimulation.Militaries.Gunner.*;
 import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
@@ -20,7 +20,7 @@ public class MilitaryBaseSimulation {
 	}
 	
 	//objects to access
-	private static Commander commander;
+	private static Commander commande;
 	private static Headquarters headquarters;
 	
 	//base hit points
@@ -80,6 +80,8 @@ public class MilitaryBaseSimulation {
 		disguisedEnemyFreq = setDisguisedEnemyFreq(scanner);
 		iterations = setIterations(scanner);
 		baseHP = setBaseHP(scanner);
+		
+		headquarters = new Headquarters();
 		
 		scanner.close();
 		
@@ -207,7 +209,7 @@ public class MilitaryBaseSimulation {
 			effectiveness = getNumberFromUser(1, 100, "Set effectiveness of Scout no."+ (i+1) +" in percentages (from 1 to 100): ", scanner);
 			trustLevel = getNumberFromUser(1, 100, "Set initial trust level of Scout no."+ (i+1) +" in percentages (from 1 to 100): ", scanner);
 			
-			newScout = new Scout(movementRange, Map.getInstance().getRandomPosition(), effectiveness, trustLevel, visionRange);
+			newScout = new Scout(movementRange, Map.getInstance().getRandomPosition(), effectiveness, trustLevel, visionRange, commander);
 			scouts.add(newScout);
 			Map.getInstance().placeUnitOnMap(newScout);
 		}

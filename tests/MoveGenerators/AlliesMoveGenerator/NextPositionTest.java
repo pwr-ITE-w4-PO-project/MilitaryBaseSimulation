@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import MilitaryBaseSimulation.Map.*;
 import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 /**
  * @author Przemys³aw Ma³ecki
  *

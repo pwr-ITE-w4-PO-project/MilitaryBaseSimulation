@@ -4,7 +4,7 @@
 package Map;
 
 import MilitaryBaseSimulation.Map.*;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 
 import java.lang.reflect.Field;
 import java.util.List;

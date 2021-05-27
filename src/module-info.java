@@ -1,5 +1,5 @@
 module MilitaryBaseSimulation {
-	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit;
+	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit;
 	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit;
 	exports MilitaryBaseSimulation;
 	exports MilitaryBaseSimulation.Militaries.Headquarters;

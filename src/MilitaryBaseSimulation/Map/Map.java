@@ -16,12 +16,17 @@ public class Map {
 	}
 	
 	//map upper boundaries
-	private int yMax = 100;
-	private int xMax = 100;
+	private int yMax = 50;
+	private int xMax = 50;
 	
 	private IUnit[][] unitMap = new IUnit[xMax][yMax];
 	private List<int[]> availablePositions = new ArrayList<int[]>();
 	
+	
+	/**
+	 * Gets randomly chosen accessible position from unit map.
+	 * @return Integer array representing random accessible position.
+	 */
 	public int[] getRandomPosition() {
 		Random random = new Random();
 		
@@ -129,5 +134,15 @@ public class Map {
 	 */
 	public boolean isPositionWithinMap(int[] position) {
 		return position[0] >= 0 && position[1] >= 0 && position[0] < xMax && position[1] < yMax;
+	}
+	
+	/**
+	 * Checks if position is within the map.
+	 * @param x X coordinate of checked position.
+	 * @param y Y coordinate of checked position.
+	 * @return True if position is within the map; false if beyond. 
+	 */
+	public boolean isPositionWithinMap(int x, int y) {
+		return x >= 0 && y >= 0 && x < xMax && y < yMax;
 	}
 }

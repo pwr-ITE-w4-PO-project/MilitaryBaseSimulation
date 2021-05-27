@@ -36,12 +36,12 @@ class InitializeMapTest {
 			List<int[]> avPosList = (List<int[]>) avPos.get(Map.getInstance());
 			
 			if(avPosList == null) initResult = false;
-			if(avPosList.size() != 100*100) initResult = false;
+			if(avPosList.size() != 50*50) initResult = false;
 			
 			int[] pos = new int[2];
 			
-			for(int x = 0; x<100; x++) {
-				for(int y = 0; y<100; y++) {
+			for(int x = 0; x<50; x++) {
+				for(int y = 0; y<50; y++) {
 					pos[0] = x;
 					pos[1] = y;
 					if(!checkPosContainment(pos, avPosList)) initResult = false;

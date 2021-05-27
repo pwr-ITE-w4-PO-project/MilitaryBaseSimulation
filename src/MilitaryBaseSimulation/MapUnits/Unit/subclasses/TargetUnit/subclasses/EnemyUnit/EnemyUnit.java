@@ -1,11 +1,13 @@
 package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit;
 
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
-import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
-import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
+import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
 
 public class EnemyUnit extends TargetUnit {
+	private int damage;
+	private static int count;
+	
 	/**
 	 * Constructor.
 	 * @param movement Range Range of motion.
@@ -14,17 +16,15 @@ public class EnemyUnit extends TargetUnit {
 	 */
 	public EnemyUnit(int movementRange, int[] position, int damage) {
 		super(movementRange, position);
-		count++;
-		this.damage=damage;
+		EnemyUnit.count++;
+		this.damage = damage;
+		this.unitChar = 'E';
+		this.moveGenerator = new AlliesMoveGenerator();
 	}
-	
-	private int damage;
-	static int count;
-	
 	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
-		if(newPosition[0]>100) {
+		if(newPosition[0]>50) {
 			MilitaryBaseSimulation.damageBase(damage);;
 			//wywo³anie headquarters gdy baza zostanie zaatakowana
 			return null;
@@ -38,21 +38,17 @@ public class EnemyUnit extends TargetUnit {
 		}
 	}
 	
-	@Override
-	public char getUnitChar() {
-		return '0';
-	}
-	
 	/**
 	 * Gets count.
 	 * @return Number of instances.
 	 */
 	public static int getCount() {
-		return count;
-		} 
+		return EnemyUnit.count;	
+	} 
+	
 	@Override
 	public void getDestroyed() {
-		count--;
+		EnemyUnit.count--;
 		super.getDestroyed();
 	}
 }
