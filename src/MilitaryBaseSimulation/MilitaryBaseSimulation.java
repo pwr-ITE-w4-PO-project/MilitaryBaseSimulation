@@ -10,12 +10,32 @@ import MilitaryBaseSimulation.Militaries.Commander.Commander;
 import MilitaryBaseSimulation.Militaries.Gunner.*;
 import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
+import java.io.ByteArrayInputStream;
+
 import java.util.*;
+
+//import org.eclipse.swt.widgets.*;
+import java.awt.*;
 
 public class MilitaryBaseSimulation {
 
 	public static void main(String[] args) {
-		buildSimulation();
+		
+		Frame x = new Frame();
+		x.setSize(1000, 500);
+		x.setVisible(true);
+		
+		if(args.length > 0) {
+			String userInput = "";
+			for(String value: args) {
+				userInput += value + '\n';
+			}
+			ByteArrayInputStream input = new ByteArrayInputStream(userInput.getBytes());
+			System.setIn(input);
+		}
+		
+		
+		//buildSimulation();
 		//run();
 	}
 	
