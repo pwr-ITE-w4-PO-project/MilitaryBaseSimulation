@@ -4,7 +4,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
 import MilitaryBaseSimulation.Militaries.Gunner.IGunner;
 import MilitaryBaseSimulation.Militaries.interfaces.*;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
+//import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.*;
 
 import java.util.Random;
@@ -28,8 +28,8 @@ public class Commander implements ISender, IReceiver{
 	 * @param scout Scout which sent report
 	 * @param level Value which will be added to scouts trustLevel
 	 */
-	public void changeTrustLevel(Scout scout, int level) {
-		scout.setTrustLevel(level);
+	public void changeTrustLevel(IScout scout, int level) {
+		//scout.setTrustLevel(level);
 	}
 	
 	/**

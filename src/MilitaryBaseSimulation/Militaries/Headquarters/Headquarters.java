@@ -7,13 +7,14 @@ import java.util.Random;
 
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
+//import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
 import java.util.Random;
 
 public class Headquarters {//implements ISender{
 	//public void send(String report, ITargetUnit unit, IReceiver receiver) {};
 	//private Commander commander = MilitaryBaseSimulation.commander;
-	Headquarters() {}
+	public Headquarters() {}
 	
 	/**
 	 * Changes rating of Commander

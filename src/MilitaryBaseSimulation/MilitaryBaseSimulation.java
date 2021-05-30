@@ -20,8 +20,8 @@ public class MilitaryBaseSimulation {
 	}
 	
 	//objects to access
-	private static Commander commande;
-	private static Headquarters headquarters;
+	private static Commander commander = new Commander(null, null);
+	private static Headquarters headquarters = new Headquarters();
 	
 	//base hit points
 	private static int baseHP;
