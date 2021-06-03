@@ -1,14 +1,18 @@
 package Map;
 
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
+import MilitaryBaseSimulation.Militaries.Commander.Commander;
+import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
 import java.util.List;
 
+import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Map.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +23,7 @@ import org.junit.jupiter.api.Test;
  */
 
 class PlaceUnitOnMapTest {
-
+	
 	@BeforeEach
 	void setUp() {
 		Map.getInstance().initializeMap();
@@ -31,7 +35,9 @@ class PlaceUnitOnMapTest {
 		NeutralUnit unit = new NeutralUnit(0, pos);
 		Map.getInstance().placeUnitOnMap(unit);
 		
-		assertTrue(Map.getInstance().getMap()[pos[0]][pos[1]] == unit, "Unit wasn't placed on the map.");
+		boolean result = Map.getInstance().getMap()[pos[0]][pos[1]] == unit;
+
+		assertTrue(result, "Unit wasn't placed on the map.");
 	}
 	
 	@Test
@@ -43,7 +49,7 @@ class PlaceUnitOnMapTest {
 		try{
 			Field field = Map.getInstance().getClass().getDeclaredField("availablePositions");
 			field.setAccessible(true);
-			
+			@SuppressWarnings("unchecked")
 			List<int[]> posList = (List<int[]>) field.get(Map.getInstance());
 			
 			boolean positionNotFoundInAccessibles = true;
@@ -54,9 +60,7 @@ class PlaceUnitOnMapTest {
 					break;
 				}
 			}
-			
 			assertTrue(positionNotFoundInAccessibles, "Unit's position is accessible, though it should be inaccessible.");
-			
 		}
 		catch(Exception e) {
 			fail("Test found an error: " + e.getMessage());

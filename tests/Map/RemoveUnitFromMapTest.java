@@ -50,7 +50,7 @@ class RemoveUnitFromMapTest {
 		try{
 			Field field = Map.getInstance().getClass().getDeclaredField("availablePositions");
 			field.setAccessible(true);
-			
+			@SuppressWarnings("unchecked")
 			List<int[]> posList = (List<int[]>) field.get(Map.getInstance());
 			
 			boolean positionFoundInAccessibles = false;

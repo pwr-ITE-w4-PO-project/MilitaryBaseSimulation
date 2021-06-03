@@ -21,9 +21,9 @@ public class MilitaryBaseSimulation {
 
 	public static void main(String[] args) {
 		
-		Frame x = new Frame();
-		x.setSize(1000, 500);
-		x.setVisible(true);
+		//Frame x = new Frame();
+		//x.setSize(1000, 500);
+		//x.setVisible(true);
 		
 		if(args.length > 0) {
 			String userInput = "";
@@ -35,13 +35,15 @@ public class MilitaryBaseSimulation {
 		}
 		
 		
-		//buildSimulation();
+		buildSimulation();
 		//run();
 	}
+	//randomness handler
+	private static Random random;
 	
 	//objects to access
-	private static Commander commander = new Commander(null, null);
-	private static Headquarters headquarters = new Headquarters();
+	private static Commander commander;
+	private static Headquarters headquarters;
 	
 	//base hit points
 	private static int baseHP;
@@ -264,5 +266,14 @@ public class MilitaryBaseSimulation {
 			input = getNumberFromUser(min, max, message, scanner);
 		}
 		return input;
+	}
+	/**
+	 * Generates boolean value representing occurence of
+	 * random event happening with probabilty.
+	 * @param probabilty The probability of the event.
+	 * @return Boolean value representing whether event happened or not.
+	 */
+	public static boolean generateRandomEventHappening(int probabilty) {
+		return random.nextInt(100) < probabilty;
 	}
 }

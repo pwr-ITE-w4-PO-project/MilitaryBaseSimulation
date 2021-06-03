@@ -1,6 +1,5 @@
 package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
-import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.IScout;
 

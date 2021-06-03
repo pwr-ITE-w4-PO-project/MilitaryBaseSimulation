@@ -5,28 +5,55 @@ package Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnem
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
+import MilitaryBaseSimulation.Militaries.Commander.Commander;
+import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
 /**
  * @author Przemys³aw Ma³ecki
  *
  */
 class GetDestroyedTest {
-
+	static List<DisguisedEnemyUnit> list = new ArrayList<DisguisedEnemyUnit>();
+	
+	@BeforeAll
+	static void setup() {
+		Map.getInstance().initializeMap();
+		try {
+			Field hq = MilitaryBaseSimulation.class.getDeclaredField("headquarters");
+			hq.setAccessible(true);
+			hq.set(null, new Headquarters());
+			
+			Field commander = MilitaryBaseSimulation.class.getDeclaredField("commander");
+			commander.setAccessible(true);
+			commander.set(null, new Commander(null, null));
+			
+		}catch(Exception e) {
+			fail("Test found an error: " + e.getMessage());
+		}
+	}
+	
 	@Test
 	void sayCountDecreased() {
 		int n = 17;
-		DisguisedEnemyUnit[] units = new DisguisedEnemyUnit[n];
 		for(int i =0; i<n;i++) {
 			int[] pos = {i,i};
-			units[i] = new DisguisedEnemyUnit(0, pos, 0);
+			list.add( new DisguisedEnemyUnit(0, pos, 0) );
 		}
 		
-		units[0].getDestroyed();
+		list.get(0).getDestroyed();
+		list.remove(0);
 		
 		assertTrue(DisguisedEnemyUnit.getCount() == n-1, "Disguised enemy units count did not decrease.");
 	}
@@ -52,5 +79,11 @@ class GetDestroyedTest {
 		}
 		assertTrue(result, "Disguised enemy unit was not removed from the map.");
 	}
-
+	
+	@AfterAll
+	static void clear() {
+		for(DisguisedEnemyUnit u : list) {
+			u.getDestroyed();
+		}
+	}
 }

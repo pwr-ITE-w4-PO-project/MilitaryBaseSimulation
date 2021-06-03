@@ -41,6 +41,7 @@ class SetScoutsTest {
 	    try {
 			Method testedMethod = MilitaryBaseSimulation.class.getDeclaredMethod("setScouts", Scanner.class);
 			testedMethod.setAccessible(true);
+			@SuppressWarnings("unchecked")
 			ArrayList<Scout> scouts = (ArrayList<Scout>) testedMethod.invoke(null, sc);	
 			
 			boolean buildResult = true;

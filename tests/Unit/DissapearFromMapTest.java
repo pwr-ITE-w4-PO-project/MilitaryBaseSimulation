@@ -28,10 +28,10 @@ class DissapearFromMapTest {
 		Unit unit = new NeutralUnit(0, pos);
 		Map.getInstance().initializeMap();
 		try {
-			Method tested = Unit.class.getDeclaredMethod("disappearFromMap", null);
+			Method tested = Unit.class.getDeclaredMethod("disappearFromMap");
 			tested.setAccessible(true);
 			
-			tested.invoke(unit, null);
+			tested.invoke(unit);
 			
 			IUnit[][] map = Map.getInstance().getMap();
 			boolean result = true;

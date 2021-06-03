@@ -37,6 +37,7 @@ class SetGunnersTest {
 	    try {
 			Method testedMethod = MilitaryBaseSimulation.class.getDeclaredMethod("setGunners", Scanner.class);
 			testedMethod.setAccessible(true);
+			@SuppressWarnings("unchecked")
 			ArrayList<Gunner> gunners = (ArrayList<Gunner>) testedMethod.invoke(null, sc);	
 			
 			assertTrue(gunners.size() == 1 && gunners.get(0).getAccuracy() == 1, "The gunner is incorrectly built.");
@@ -58,6 +59,7 @@ class SetGunnersTest {
 	    try {
 			Method testedMethod = MilitaryBaseSimulation.class.getDeclaredMethod("setGunners", Scanner.class);
 			testedMethod.setAccessible(true);
+			@SuppressWarnings("unchecked")
 			ArrayList<Gunner> gunners = (ArrayList<Gunner>) testedMethod.invoke(null, sc);	
 			
 			assertTrue(gunners.size() == 2 && gunners.get(0).getAccuracy() == 3 &&gunners.get(1).getAccuracy() == 4, "Some gunnes are incorrectly built.");

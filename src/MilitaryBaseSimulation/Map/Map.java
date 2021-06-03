@@ -20,7 +20,7 @@ public class Map {
 	private int xMax = 50;
 	
 	private IUnit[][] unitMap = new IUnit[xMax][yMax];
-	private List<int[]> availablePositions = new ArrayList<int[]>();
+	private List<int[]> availablePositions;
 	
 	
 	/**
@@ -38,6 +38,8 @@ public class Map {
 	 */
 	public void initializeMap() {
 		int[] pos;
+		
+		this.availablePositions = new ArrayList<int[]>();
 		for(int i = 0; i<this.xMax; i++) {
 			for(int j =0; j<this.yMax; j++) {
 				this.unitMap[i][j] = null;

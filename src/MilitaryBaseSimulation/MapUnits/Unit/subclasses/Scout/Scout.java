@@ -8,10 +8,10 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Neu
 import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
 import MilitaryBaseSimulation.Militaries.interfaces.ISender;
 import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
+import MilitaryBaseSimulation.MilitaryBaseSimulation;
 
 import java.util.Random;
 
-import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Map.Map;
 
 
@@ -20,7 +20,6 @@ public class Scout extends Unit implements ISender, IScout{
 	private int trustLevel;
 	private int effectiveness;
 	private int visionRange;
-	private Random random = new Random();
 	private IReceiver commander;
 ;
 	/**
@@ -101,7 +100,7 @@ public class Scout extends Unit implements ISender, IScout{
 						if(unit.getIsIdentified() == false) {
 							if(unit instanceof NeutralUnit || unit instanceof DisguisedEnemyUnit) {
 								
-								boolean identifiactionResult = random.nextInt(100) < this.effectiveness;
+								boolean identifiactionResult = MilitaryBaseSimulation.generateRandomEventHappening(this.effectiveness);
 								unit.setIsCorrectlyIdentified(identifiactionResult);
 							}
 							else{//unit is type of EnemyUnit

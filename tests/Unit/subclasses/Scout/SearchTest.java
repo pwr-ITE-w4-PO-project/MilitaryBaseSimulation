@@ -3,9 +3,13 @@
  */
 package Unit.subclasses.Scout;
 
+import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Map.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.Field;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.Scout;
@@ -13,6 +17,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Ene
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
+import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
 /**
  * @author Przemys³aw Ma³ecki
@@ -20,6 +25,18 @@ import MilitaryBaseSimulation.Militaries.Commander.Commander;
  */
 class SearchTest {
 
+	@BeforeAll
+	static void setup() {
+		try {
+			Field random = MilitaryBaseSimulation.class.getDeclaredField("random");
+			random.setAccessible(true);
+			random.set(null, new java.util.Random());
+			
+		}catch(Exception e) {
+			fail("Test found an error: " + e.getMessage());
+		}
+	}	
+	
 	@Test
 	void sayNeutralWasIdentifiedCorrectly() {
 		int[] npos = {0,0};

@@ -33,6 +33,7 @@ class InitializeMapTest {
 			
 			Field avPos = Map.class.getDeclaredField("availablePositions");
 			avPos.setAccessible(true);
+			@SuppressWarnings("unchecked")
 			List<int[]> avPosList = (List<int[]>) avPos.get(Map.getInstance());
 			
 			if(avPosList == null) initResult = false;

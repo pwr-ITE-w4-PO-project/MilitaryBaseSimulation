@@ -22,7 +22,7 @@ class GetCountTest {
 			int[] pos = {0,0};
 			new DisguisedEnemyUnit(0, pos, 0);
 		}
-		assertTrue(DisguisedEnemyUnit.getCount() == n, "DisguisedEnemyUnit instances were badly counted.");
+		assertTrue(DisguisedEnemyUnit.getCount() == n, "DisguisedEnemyUnit instances were badly counted." + DisguisedEnemyUnit.getCount());
 	}
 
 }
