@@ -18,6 +18,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.Unit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
 import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
+import MilitaryBaseSimulation.Map.Map;
 
 /**
  * @author Przemys³aw Ma³ecki
@@ -29,6 +30,7 @@ class GetCountTest {
 	
 	@BeforeAll
 	static void setup() {
+		Map.getInstance().initializeMap();
 		try {
 			Field hq = MilitaryBaseSimulation.class.getDeclaredField("headquarters");
 			hq.setAccessible(true);
@@ -45,7 +47,13 @@ class GetCountTest {
 	
 	@Test
 	void sayCorrectCount() {
-		
+		try{//below is used to clear counted instances from other tests
+			Field count = Unit.class.getDeclaredField("count");
+			count.setAccessible(true);
+			count.set(null, 0);
+		}catch(Exception e) {
+			fail("Test found an error: " + e.getMessage());
+		}
 		
 		int n = 17;
 		for(int i = 0; i<n; i++) {

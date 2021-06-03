@@ -7,6 +7,8 @@ import MilitaryBaseSimulation.Map.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,8 @@ import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
  *
  */
 class GetDestroyedTest {
+	private static List<NeutralUnit> list = new ArrayList<NeutralUnit>();
+	
 	@BeforeAll
 	static void setup() {
 		Map.getInstance().initializeMap();
@@ -33,6 +37,10 @@ class GetDestroyedTest {
 			commander.setAccessible(true);
 			commander.set(null, new Commander(null, null));
 			
+			//below is used to clear counted instances from other tests
+			Field count = NeutralUnit.class.getDeclaredField("count");
+			count.setAccessible(true);
+			count.set(null, 0);
 		}catch(Exception e) {
 			fail("Test found an error: " + e.getMessage());
 		}
@@ -41,13 +49,13 @@ class GetDestroyedTest {
 	@Test
 	void sayCountDecreased() {
 		int n = 17;
-		NeutralUnit[] units = new NeutralUnit[n];
 		for(int i =0; i<n;i++) {
 			int[] pos = {i,i};
-			units[i] = new NeutralUnit(0, pos);
+			list.add(new NeutralUnit(0, pos));
 		}
 		
-		units[0].getDestroyed();
+		list.get(0).getDestroyed();
+		list.remove(0);
 		
 		assertTrue(NeutralUnit.getCount() == n-1, "Neutral units count did not decrease.");
 	}
@@ -73,5 +81,4 @@ class GetDestroyedTest {
 		}
 		assertTrue(result, "NeutralUnit was not removed from the map.");
 	}
-
 }

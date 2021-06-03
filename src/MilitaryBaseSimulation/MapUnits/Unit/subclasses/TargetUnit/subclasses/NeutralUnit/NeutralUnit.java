@@ -1,5 +1,8 @@
 package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit;
 
+import MilitaryBaseSimulation.MapUnits.Unit.*;
+import java.lang.reflect.Field;
+
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
 import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
 public class NeutralUnit extends TargetUnit{
@@ -30,7 +33,8 @@ public class NeutralUnit extends TargetUnit{
 	} 
 	@Override
 	public void getDestroyed() {
-		count--;
+		NeutralUnit.count--;
+		
 		super.getDestroyed();
 	}
 }

@@ -9,7 +9,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +37,10 @@ class GetDestroyedTest {
 			Field commander = MilitaryBaseSimulation.class.getDeclaredField("commander");
 			commander.setAccessible(true);
 			commander.set(null, new Commander(null, null));
-			
+			//below is used to clear counted instances from other tests
+			Field count = EnemyUnit.class.getDeclaredField("count");
+			count.setAccessible(true);
+			count.set(null, 0);
 		}catch(Exception e) {
 			fail("Test found an error: " + e.getMessage());
 		}
@@ -78,12 +80,5 @@ class GetDestroyedTest {
 			}
 		}
 		assertTrue(result, "Enemy was not removed from the map.");
-	}
-	
-	@AfterAll
-	static void clear() {
-		for(EnemyUnit u : list) {
-			u.getDestroyed();
-		}
 	}
 }

@@ -50,8 +50,8 @@ public abstract class Unit implements IUnit{
 	 * Removes unit from the map.
 	 */
 	protected void disappearFromMap() {
-		Map.getInstance().removeUnitFromMap(this);
 		Unit.count--;
+		Map.getInstance().removeUnitFromMap(this);
 	}
 	
 	/**
