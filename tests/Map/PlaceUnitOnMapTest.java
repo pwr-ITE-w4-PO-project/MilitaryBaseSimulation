@@ -1,18 +1,14 @@
 package Map;
 
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
-import MilitaryBaseSimulation.Militaries.Commander.Commander;
-import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
 import java.util.List;
 
-import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Map.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

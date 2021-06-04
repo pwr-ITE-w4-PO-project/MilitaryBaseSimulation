@@ -20,7 +20,7 @@ class NextPositionTest {
 
 	@Test
 	void sayPositionIsCorrect() {
-		
+		Map.getInstance().initializeMap();
 		EnemyMoveGenerator tested = new EnemyMoveGenerator();
 		
 		int[] initialPos = {6,10};
@@ -28,7 +28,6 @@ class NextPositionTest {
 		
 		int[] newPos = tested.nextPosition(initialPos, movRange);
 		
-		Map.getInstance().initializeMap();
 		assertTrue(Map.getInstance().isPositionWithinMap(newPos), "Position should be within map.");
 	}
 	
@@ -56,7 +55,7 @@ class NextPositionTest {
 	
 	@Test
 	void sayPositionIsCloserToBase() {
-		
+		Map.getInstance().initializeMap();
 		EnemyMoveGenerator tested = new EnemyMoveGenerator();
 		
 		int[] initialPos = {6,10};
@@ -66,7 +65,6 @@ class NextPositionTest {
 		
 		Map.getInstance().initializeMap();
 		int x = newPos[0] - initialPos[0];
-		int y = newPos[1] - initialPos[1];
-		assertTrue(x>=0 && y>=0, "New position wasn't closer to the base.");
+		assertTrue(x>=0, "New position wasn't closer to the base.");
 	}
 }

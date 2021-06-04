@@ -17,7 +17,6 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Ene
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
-import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
 /**
  * @author Przemys³aw Ma³ecki
@@ -28,9 +27,11 @@ class SearchTest {
 	@BeforeAll
 	static void setup() {
 		try {
-			Field random = MilitaryBaseSimulation.class.getDeclaredField("random");
-			random.setAccessible(true);
-			random.set(null, new java.util.Random());
+			Field commander = MilitaryBaseSimulation.class.getDeclaredField("commander");
+			commander.setAccessible(true);
+			commander.set(null, new Commander(null, null));
+			
+			
 			
 		}catch(Exception e) {
 			fail("Test found an error: " + e.getMessage());
@@ -45,7 +46,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(neutral);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 100, 0, 1, new Commander(null, null));
+		Scout scout = new Scout(0, pos, 100, 0, 1);
 		
 		scout.move(); //move method invokes search method
 		
@@ -66,7 +67,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(neutral);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 0, 0, 1, new Commander(null, null));
+		Scout scout = new Scout(0, pos, 0, 0, 1);
 		
 		scout.move(); //move method invokes search method
 		
@@ -87,7 +88,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(disguised);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 100, 0, 1, new Commander(null, null));
+		Scout scout = new Scout(0, pos, 100, 0, 1);
 		
 		scout.move(); //move method invokes search method
 		
@@ -108,7 +109,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(disguised);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 0, 0, 1, new Commander(null, null));
+		Scout scout = new Scout(0, pos, 0, 0, 1);
 		
 		scout.move(); //move method invokes search method
 		
@@ -129,7 +130,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(enemy);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 50, 0, 1, new Commander(null, null));
+		Scout scout = new Scout(0, pos, 50, 0, 1);
 		
 		scout.move(); //move method invokes search method
 		

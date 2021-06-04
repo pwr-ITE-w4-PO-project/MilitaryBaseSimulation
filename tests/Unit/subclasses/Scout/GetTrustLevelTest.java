@@ -20,7 +20,7 @@ class GetTrustLevelTest {
 	@Test
 	void sayGotCorrectValue() {
 		int[] pos = {0,0};
-		Scout scout = new Scout(0,pos,0,50,0, null);
+		Scout scout = new Scout(0,pos,0,50,0);
 		
 		try {
 			Field tl = scout.getClass().getDeclaredField("trustLevel");

@@ -19,7 +19,7 @@ public class EnemyMoveGenerator implements IMoveGenerator{
 		int[] pos;
 		Random random = new Random();
 		
-		for(int x = currentPosition[0] + movementRange; x <= currentPosition[0]; x--) {
+		for(int x = currentPosition[0] + movementRange; x > currentPosition[0]; x--) {
 			for(int y = currentPosition[1] - movementRange; y <= currentPosition[1] + movementRange; y++) {
 				pos = new int[2];
 				pos[0] = x;

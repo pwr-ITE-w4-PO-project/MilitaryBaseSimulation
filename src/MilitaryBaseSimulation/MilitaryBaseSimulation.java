@@ -1,7 +1,7 @@
 package MilitaryBaseSimulation;
 
 import MilitaryBaseSimulation.Map.Map;
-import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.EnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
@@ -11,9 +11,9 @@ import MilitaryBaseSimulation.Militaries.Gunner.*;
 import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
 import java.io.ByteArrayInputStream;
-
+import java.io.FileWriter;
 import java.util.*;
-
+import java.util.List;
 //import org.eclipse.swt.widgets.*;
 import java.awt.*;
 
@@ -24,8 +24,29 @@ public class MilitaryBaseSimulation {
 		//Frame x = new Frame();
 		//x.setSize(1000, 500);
 		//x.setVisible(true);
-		
 		if(args.length > 0) {
+			List<Integer> argsInt = new ArrayList<Integer>();
+			//converts args to integers and exits if unsuccessful
+			for(int i = 0; i<args.length; i++) {
+				try {
+					argsInt.add(i, Integer.parseInt(args[i]));
+				}catch(Exception e) {
+					System.out.println("All of input arguments must be integer numbers.");
+					System.out.println("Argument no." + i +", " + args[i] + ", was detected not to be integer number.");
+					System.out.println("Please try again.");
+					System.exit(0);
+				}
+			}
+			int scoutsCount = argsInt.get(0); //number of scouts
+			int gunnersCount = argsInt.get(1+ scoutsCount*4); //number of gunners
+			int expectedArgsLength = scoutsCount*4 + gunnersCount + 4;
+			
+			boolean enoughArgs = expectedArgsLength == argsInt.size() ? true : false;
+			
+			if(!enoughArgs) {
+				System.out.println("Not enough input arguments. The rest must be filled in GUI.");
+			}
+			//below is used to transfer args to existing input scheme
 			String userInput = "";
 			for(String value: args) {
 				userInput += value + '\n';
@@ -36,10 +57,10 @@ public class MilitaryBaseSimulation {
 		
 		
 		buildSimulation();
-		//run();
+		run();
 	}
 	//randomness handler
-	private static Random random;
+	private static Random random = new Random();
 	
 	//objects to access
 	private static Commander commander;
@@ -53,33 +74,48 @@ public class MilitaryBaseSimulation {
 	private static int disguisedEnemyFreq;
 	private static int iterations;
 	
+	
 	/**
 	 * Starts simulation based on input parameters. Ends after reaching input iterations limit,
 	 * or when base hp drops to 0.
 	 */
 	public static void run() {
+		//List<IUnit> units = Map.getInstance().getAllUnits();
 		IUnit[][] map = Map.getInstance().getMap();
 		
-		for(int i = 0; i<iterations;i++) {
-			for(IUnit[] unitRow: map) {
-				for(IUnit unit: unitRow) {
-					if(unit != null) {
-						unit.move();
-						System.out.print(unit.getUnitChar());
-					}
-					else {
-						System.out.print(" ");
-					}
+		//below code must be changed to fit gui
+		try {
+			FileWriter writer = new FileWriter("simulationData.txt");	
+			for(int i = 0; i<iterations;i++) {
+				for(IUnit[] unitRow: map) {
+					for(IUnit unit: unitRow) {
+						if(unit != null) {
+							try {
+								unit.move();
+							}catch(Exception e) {
+								System.out.println("Simulation approached an error: " + e.getMessage());
+								writer.close();
+								return;
+							}
+							System.out.print(unit.getUnitChar());
+						}
+						else {
+							System.out.print(" ");
+						}
 					
-					if(baseHP <= 0) {
-						break;
+						if(baseHP <= 0) {
+							saveSimulationData(writer, i);
+							writer.close();
+							return;
+						}
 					}
+					System.out.print("#\n");
 				}
-				System.out.print("#\n");
-				if(baseHP <= 0) {
-					break;
-				}
-			}	
+				saveSimulationData(writer, i);
+			}
+				writer.close();
+		}catch(Exception e) {
+			System.out.println("Cannot access simulationData.txt, simulation data cannot be saved. " + e.getMessage());
 		}
 	}
 	
@@ -231,7 +267,7 @@ public class MilitaryBaseSimulation {
 			effectiveness = getNumberFromUser(1, 100, "Set effectiveness of Scout no."+ (i+1) +" in percentages (from 1 to 100): ", scanner);
 			trustLevel = getNumberFromUser(1, 100, "Set initial trust level of Scout no."+ (i+1) +" in percentages (from 1 to 100): ", scanner);
 			
-			newScout = new Scout(movementRange, Map.getInstance().getRandomPosition(), effectiveness, trustLevel, visionRange, commander);
+			newScout = new Scout(movementRange, Map.getInstance().getRandomPosition(), effectiveness, trustLevel, visionRange);
 			scouts.add(newScout);
 			Map.getInstance().placeUnitOnMap(newScout);
 		}
@@ -275,5 +311,27 @@ public class MilitaryBaseSimulation {
 	 */
 	public static boolean generateRandomEventHappening(int probabilty) {
 		return random.nextInt(100) < probabilty;
+	}
+	
+	/**
+	 * Saves simulation data to simulationData.txt file.
+	 * @param writer Writer which is used for writing to the file.
+	 * @throws Exception Exception met when writer fails to write to file.
+	 */
+	private static void saveSimulationData(FileWriter writer, int iteration) throws Exception{
+		writer.write("Iteration: " + iteration + "\n");
+		writer.write("Number of units on map: " + Unit.getCount() +"\n");
+		writer.write("Number of neutral units on map: " + NeutralUnit.getCount() + "\n");
+		writer.write("Number of enemy units on map: " + EnemyUnit.getCount() +"\n");
+		writer.write("Number of disguised enemy units on map: " + DisguisedEnemyUnit.getCount() +"\n");
+		/*
+		List<IScout> scouts = commander.getScouts();
+		int size = scouts.size();
+		for(int i = 0; i < size; i++){
+			writer.write("Scout no." + i + " " trust level: + " scout.getTrustLevel());
+		}
+		writer.write("Commanders current rating: " + Commander.getRating() + "\n");
+		*/
+		writer.write("\n");
 	}
 }

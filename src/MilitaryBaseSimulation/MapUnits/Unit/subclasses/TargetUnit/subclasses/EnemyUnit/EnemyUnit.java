@@ -2,8 +2,8 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.En
 
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
-import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
-
+import MilitaryBaseSimulation.MoveGenerators.EnemyMoveGenerator;
+import MilitaryBaseSimulation.Map.Map;
 public class EnemyUnit extends TargetUnit {
 	private int damage;
 	private static int count;
@@ -19,21 +19,19 @@ public class EnemyUnit extends TargetUnit {
 		EnemyUnit.count++;
 		this.damage = damage;
 		this.unitChar = 'E';
-		this.moveGenerator = new AlliesMoveGenerator();
+		this.moveGenerator = new EnemyMoveGenerator();
 	}
 	
 	@Override
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
-		if(newPosition[0]>50) {
+		if(newPosition[0] >= Map.getInstance().getUpperBoundaries()[0]) {
 			MilitaryBaseSimulation.damageBase(damage);;
 			//wywo³anie headquarters gdy baza zostanie zaatakowana
 			return null;
 		}
 		else {
-			int vectorX = this.position[0] - newPosition[0];
-			int vectorY = this.position[1]-newPosition[1];
-			newPosition[0] = this.position[0]+vectorX;
-			newPosition[1] = this.position[1]+vectorY;
+			int vectorY = this.position[1] - newPosition[1];
+			newPosition[1] = this.position[1] + vectorY;
 			return newPosition;
 		}
 	}

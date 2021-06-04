@@ -20,7 +20,7 @@ class HandlePositionBeyondMapTest {
 	@Test
 	void sayPositionIsWithinMap() {
 		int[] pos = {0,0};
-		Scout scout = new Scout(1, pos, 0,0,0,null);
+		Scout scout = new Scout(1, pos, 0,0,0);
 		try {
 			Method handle = Scout.class.getDeclaredMethod("handlePositionBeyondMap", pos.getClass());	
 			handle.setAccessible(true);

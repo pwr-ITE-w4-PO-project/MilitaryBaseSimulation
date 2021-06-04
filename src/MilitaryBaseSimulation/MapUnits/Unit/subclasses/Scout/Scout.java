@@ -10,8 +10,6 @@ import MilitaryBaseSimulation.Militaries.interfaces.ISender;
 import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 
-import java.util.Random;
-
 import MilitaryBaseSimulation.Map.Map;
 
 
@@ -20,7 +18,6 @@ public class Scout extends Unit implements ISender, IScout{
 	private int trustLevel;
 	private int effectiveness;
 	private int visionRange;
-	private IReceiver commander;
 ;
 	/**
 	 * Constructor.
@@ -30,15 +27,13 @@ public class Scout extends Unit implements ISender, IScout{
 	 * @param trustLevel Commander's trust.
 	 * @param visionRange Detecting range.
 	 */
-	public Scout(int movementRange, int[] position, int effectiveness, int trustLevel, int visionRange, IReceiver commander) {
+	public Scout(int movementRange, int[] position, int effectiveness, int trustLevel, int visionRange) {
 		super(movementRange, position);
 		this.trustLevel = trustLevel;
 		this.effectiveness = effectiveness;
 		this.visionRange = visionRange;
 		this.unitChar = 'S';
 		this.moveGenerator = new AlliesMoveGenerator();
-		this.commander = commander;
-
 	}
 
 	@Override
@@ -109,7 +104,7 @@ public class Scout extends Unit implements ISender, IScout{
 							
 							unit.setIsIdentified(true);
 							unit.setIdentifiedBy(this);
-							send("yes", unit, commander);
+							send("yes", unit, MilitaryBaseSimulation.getCommander());
 						}
 					}
 				}

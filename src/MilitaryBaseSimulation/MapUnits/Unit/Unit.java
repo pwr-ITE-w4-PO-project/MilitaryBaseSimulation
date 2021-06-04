@@ -34,9 +34,10 @@ public abstract class Unit implements IUnit{
 				return;
 			}
 		}
-		
-		Map.getInstance().moveUnitOnMap(position, newPosition);
-		position = newPosition;
+		if(newPosition[0] != this.position[0] || newPosition[1] != this.position[1]){	
+			Map.getInstance().moveUnitOnMap(position, newPosition);
+			position = newPosition;
+		}
 	}
 	
 	/**

@@ -19,9 +19,9 @@ public class Map {
 	private int yMax = 50;
 	private int xMax = 50;
 	
-	private IUnit[][] unitMap = new IUnit[xMax][yMax];
+	private IUnit[][] unitMap;
 	private List<int[]> availablePositions;
-	
+	private List<IUnit> allUnits;
 	
 	/**
 	 * Gets randomly chosen accessible position from unit map.
@@ -38,6 +38,8 @@ public class Map {
 	 */
 	public void initializeMap() {
 		int[] pos;
+		allUnits = new ArrayList<IUnit>();
+		unitMap = new IUnit[xMax][yMax];
 		
 		this.availablePositions = new ArrayList<int[]>();
 		for(int i = 0; i<this.xMax; i++) {
@@ -68,7 +70,7 @@ public class Map {
 	public void placeUnitOnMap(IUnit unit) {
 		int[] pos = unit.getPosition();
 		this.unitMap[pos[0]][pos[1]] = unit;
-		
+		this.allUnits.add(unit);
 		//remove available position
 		this.availablePositions.removeIf(avPos -> (avPos[0] == pos[0] && avPos[1] == pos[1]));
 	}
@@ -93,6 +95,7 @@ public class Map {
 		freedPos[0] = pos[0];
 		freedPos[1] = pos[1];
 		this.availablePositions.add(freedPos);
+		this.allUnits.remove(unit);
 	}
 	
 	/**
@@ -105,6 +108,14 @@ public class Map {
 		this.availablePositions.removeIf(avPos -> (avPos[0] == to[0] && avPos[1] == to[1]));
 		this.unitMap[from[0]][from[1]] = null;
 		this.availablePositions.add(from);
+	}
+	
+	/**
+	 * Gets the list of all units.
+	 * @return List<IUnit> representing all units.
+	 */
+	public List<IUnit> getAllUnits() {
+		return this.allUnits;
 	}
 	
 	/**
@@ -125,7 +136,6 @@ public class Map {
 				accessibles.add(pos);
 			}
 		}
-		
 		return accessibles;
 	}
 	
