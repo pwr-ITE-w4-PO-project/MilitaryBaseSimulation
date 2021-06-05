@@ -1,9 +1,8 @@
 package MilitaryBaseSimulation.Militaries.Gunner;
 
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
+import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.ITargetUnit;
-import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
-import java.util.Random;
 
 public class Gunner implements IGunner {
 	private int accuracy;
@@ -31,8 +30,8 @@ public class Gunner implements IGunner {
 	 * @param report String which contains info about attack
 	 * @param unit Unit which will be attacked
 	 */
-	public void receive(String report, ITargetUnit unit) {
-		if(report == "yes")
+	public void receive(ReportInfo report, ITargetUnit unit) {
+		if(report == ReportInfo.ATTACK)
 			this.attack(unit,accuracy);
 	}
 	

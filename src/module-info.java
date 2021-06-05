@@ -1,5 +1,5 @@
 module MilitaryBaseSimulation {
-	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit;
+	//exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit;
 	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit;
 	exports MilitaryBaseSimulation;
 	exports MilitaryBaseSimulation.Militaries.Headquarters;
@@ -13,6 +13,7 @@ module MilitaryBaseSimulation {
 	exports MilitaryBaseSimulation.MoveGenerators;
 	exports MilitaryBaseSimulation.MapUnits.Unit;
 	exports Map;
+	exports MilitaryBaseSimulation.Enums;
 
 	requires junit;
 	requires org.junit.jupiter.api;

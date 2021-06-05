@@ -1,11 +1,14 @@
 package MilitaryBaseSimulation.Militaries.Commander;
 
+import MilitaryBaseSimulation.MilitaryBaseSimulation;
+import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.EnemyUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.Militaries.Gunner.IGunner;
 import MilitaryBaseSimulation.Militaries.interfaces.*;
 //import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.*;
 
 import java.util.Random;
 import java.util.ArrayList;
@@ -36,9 +39,9 @@ public class Commander implements ICommander {
 	 * Commands random Gunner to attack a unit
 	 * @param unit Unit which was chosen to be attacked
 	 */
-	public void commandAttack(ITargetUnit unit) {
+	private void commandAttack(ITargetUnit unit) {
 		Random random = new Random();
-		send("yes",unit,gunners.get(random.nextInt(gunners.size())));
+		send(ReportInfo.ATTACK,unit,gunners.get(random.nextInt(gunners.size())));
 	}
 	
 	/**
@@ -47,7 +50,7 @@ public class Commander implements ICommander {
 	 * @param unit unit detected by Scout
 	 * @param receiver Gunner which will get report
 	 */
-	public void send(String report, ITargetUnit unit, IReceiver receiver) {
+	public void send(ReportInfo report, ITargetUnit unit, IReceiver receiver) {
 		receiver.receive(report,unit);
 	}
 	
@@ -65,20 +68,19 @@ public class Commander implements ICommander {
 	 * @param report String which contains info about unit
 	 * @param unit Unit detected by Scout
 	 */
-	public void receive(String report, ITargetUnit unit) {
-		Random random = new Random();
-		if(unit.getIdentifiedBy().getTrustLevel()<random.nextInt(100))
-		{
-			if(report=="Wykryto wrog¹ jednostkê!")
-			{
-				commandAttack(unit);
-			}else if(report == "Wykryto neutraln¹ jednostkê!") {
+	public void receive(ReportInfo report, ITargetUnit unit) {
+		if(report == ReportInfo.HQ_INFO){
+			
+		}
+		//Scout's report case
+		else if(report == ReportInfo.SCOUT) {
+			if(MilitaryBaseSimulation.generateRandomEventHappening(unit.getIdentifiedBy().getTrustLevel())) {
+				if(unit instanceof EnemyUnit)
+					commandAttack(unit);
 			}
-		}else{
-			if(report=="Wykryto wrog¹ jednostkê!") {
-			}
-			else if(report == "Wykryto neutraln¹ jednostkê!") {
-				commandAttack(unit);
+			else {
+				if(unit instanceof NeutralUnit)
+					commandAttack(unit);
 			}
 		}
 	}

@@ -11,7 +11,7 @@ import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
 import MilitaryBaseSimulation.Militaries.interfaces.ISender;
 import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
-
+import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.Map.Map;
 
 
@@ -74,7 +74,7 @@ public class Scout extends Unit implements ISender, IScout{
 	 * @param unit Targeted unit.
 	 * @param receiver Receiver to send to.
 	 */
-	public void send(String report, ITargetUnit unit, IReceiver receiver) {
+	public void send(ReportInfo report, ITargetUnit unit, IReceiver receiver) {
 		receiver.receive(report, unit);
 	}
 
@@ -106,7 +106,7 @@ public class Scout extends Unit implements ISender, IScout{
 							
 							unit.setIsIdentified(true);
 							unit.setIdentifiedBy(this);
-							send("yes", (IIdentified)unit, MilitaryBaseSimulation.getCommander());
+							send(ReportInfo.SCOUT, unit, MilitaryBaseSimulation.getCommander());
 						}
 					}
 				}
