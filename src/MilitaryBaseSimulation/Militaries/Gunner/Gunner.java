@@ -1,10 +1,11 @@
 package MilitaryBaseSimulation.Militaries.Gunner;
 
+import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.ITargetUnit;
 import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
 import java.util.Random;
 
-public class Gunner implements IReceiver, IGunner{
+public class Gunner implements IGunner {
 	private int accuracy;
 	
 	/**
@@ -21,9 +22,7 @@ public class Gunner implements IReceiver, IGunner{
 	 * @param accuracy Propability of succeding the attack
 	 */
 	public void attack(ITargetUnit unit, int accuracy) {
-		Random rand = new Random();
-		int n = rand.nextInt(100);
-		if(n<accuracy)
+		if(MilitaryBaseSimulation.generateRandomEventHappening(accuracy))
 			unit.getDestroyed();
 	}
 	

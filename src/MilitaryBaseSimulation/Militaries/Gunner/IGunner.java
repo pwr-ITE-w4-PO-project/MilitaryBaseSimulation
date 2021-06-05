@@ -1,5 +1,7 @@
 package MilitaryBaseSimulation.Militaries.Gunner;
 
-public interface IGunner {
+import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
+
+public interface IGunner extends IReceiver {
 	public int getAccuracy();
 }

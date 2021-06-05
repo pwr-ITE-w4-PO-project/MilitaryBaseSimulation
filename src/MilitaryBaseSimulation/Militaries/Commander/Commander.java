@@ -10,7 +10,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Ene
 import java.util.Random;
 import java.util.ArrayList;
 
-public class Commander implements ISender, IReceiver{
+public class Commander implements ICommander {
 	private int rating;
 	private ArrayList<IGunner> gunners;
 	private ArrayList<IScout> scouts;
@@ -29,7 +29,7 @@ public class Commander implements ISender, IReceiver{
 	 * @param level Value which will be added to scouts trustLevel
 	 */
 	public void changeTrustLevel(IScout scout, int level) {
-		//scout.setTrustLevel(level);
+		scout.modifyTrustLevel(level);
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class Commander implements ISender, IReceiver{
 	 */
 	public void commandAttack(ITargetUnit unit) {
 		Random random = new Random();
-		send("yes",unit,(IReceiver) gunners.get(random.nextInt(gunners.size())));
+		send("yes",unit,gunners.get(random.nextInt(gunners.size())));
 	}
 	
 	/**
@@ -54,17 +54,10 @@ public class Commander implements ISender, IReceiver{
 	/**
 	 * Manages receiving rating from Headquarters
 	 * @param rate Value which will be added to commanders rating
-	 * @param destroyedUnit Unit which was destroyed by Gunner
 	 */
-	public void recevieRating(int rate, ITargetUnit destroyedUnit)
+	public void recevieRating(int rate)
 	{
-		Random random = new Random();
 		this.rating+=rate;
-			if(destroyedUnit.getIsCorrectlyIdentified()){
-				changeTrustLevel(destroyedUnit.getIdentifiedBy(),3*(random.nextInt(5)+1));
-			}else {
-				changeTrustLevel(destroyedUnit.getIdentifiedBy(),-3*(random.nextInt(5)+1));
-			}
 	}
 	
 	/**

@@ -2,6 +2,8 @@ package MilitaryBaseSimulation.Militaries.Headquarters;
 
 //import MilitaryBaseSimulation.TargetUnit.ITargetUnit;
 import MilitaryBaseSimulation.Militaries.Commander.*;
+import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
+import MilitaryBaseSimulation.Militaries.interfaces.ISender;
 
 import java.util.Random;
 
@@ -11,35 +13,51 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Neu
 //import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
 import java.util.Random;
 
-public class Headquarters {//implements ISender{
-	//public void send(String report, ITargetUnit unit, IReceiver receiver) {};
-	//private Commander commander = MilitaryBaseSimulation.commander;
-	public Headquarters() {}
+public class Headquarters implements ISender{
+	private ICommander commander;
+	public Headquarters(ICommander commander) {
+		this.commander = commander;
+	}
 	
 	/**
 	 * Changes rating of Commander
 	 * @param rate Value which will be added to commander.rating
-	 * @param destroyedUnit Unit which was destroyed by Gunner
 	 */
-	private void rateCommander(int rate, ITargetUnit destroyedUnit)
+	private void rateCommander(int rate)
 	{
-		MilitaryBaseSimulation.getCommander().recevieRating(rate, destroyedUnit);
+		commander.recevieRating(rate);
 	}
 	
 	/**
 	 * Manages info after destroying unit
-	 * @param destroyedUnit Unit which was destroyed by Gunner
+	 * @param destroyedUnit Unit which was destroyed by Gunner	
 	 */
-	public void deathInfo(ITargetUnit destroyedUnit)
+	public void manageDeathInfo(ITargetUnit destroyedUnit)
 	{
 		Random rand = new Random();
 		if(destroyedUnit instanceof NeutralUnit)
 		{
-			rateCommander(-2*(rand.nextInt(5)+1), destroyedUnit);
+			rateCommander(-2*(rand.nextInt(5)+1));
+			send("Enum1",destroyedUnit,commander);
 		}else{
-			rateCommander(2*(rand.nextInt(5)+1), destroyedUnit);
+			rateCommander(2*(rand.nextInt(5)+1));
+			send("Enum2",destroyedUnit,commander);
 		}
 		
+	}
+	
+	public void receiveBaseAttack(ITargetUnit unit)
+	{
+		Random rand = new Random();
+		MilitaryBaseSimulation.damageBase(unit.getDamage());
+		rateCommander(-2*(rand.nextInt(10)+1));
+		send("Enum1",unit,commander);
+		
+	}
+	
+	public void send(String report, ITargetUnit unit, IReceiver receiver) 
+	{
+		receiver.receive(report, unit);
 	}
 	
 }
