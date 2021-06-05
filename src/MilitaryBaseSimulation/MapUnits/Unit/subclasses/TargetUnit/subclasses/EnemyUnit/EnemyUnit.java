@@ -49,4 +49,12 @@ public class EnemyUnit extends TargetUnit {
 		EnemyUnit.count--;
 		super.getDestroyed();
 	}
+	
+	/**
+	 * Gets the damage of the unit.
+	 * @return Integer value representing unit's damage.
+	 */
+	public int getDamage() {
+		return this.getDamage();
+	}
 }

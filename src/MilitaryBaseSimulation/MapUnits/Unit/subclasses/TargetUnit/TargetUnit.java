@@ -3,7 +3,7 @@ import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.IScout;
 
-public abstract class TargetUnit extends Unit implements ITargetUnit{
+public abstract class TargetUnit extends Unit implements IDestroyable, IIdentified, IIdentifiable{
 	private boolean isCorrectlyIdentified;
 	private boolean isIdentified;
 	private static int count;
@@ -30,7 +30,7 @@ public abstract class TargetUnit extends Unit implements ITargetUnit{
 	 * Occurs when unit is shot by gunner.
 	 */
 	public void getDestroyed() {
-		MilitaryBaseSimulation.getHeadquarters().deathInfo(this);
+		MilitaryBaseSimulation.getHeadquarters().manageDeathInfo(this);
 		super.disappearFromMap();
 	}
 	/**

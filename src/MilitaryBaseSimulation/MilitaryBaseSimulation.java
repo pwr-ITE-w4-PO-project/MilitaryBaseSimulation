@@ -139,7 +139,7 @@ public class MilitaryBaseSimulation {
 		iterations = setIterations(scanner);
 		baseHP = setBaseHP(scanner);
 		
-		headquarters = new Headquarters();
+		headquarters = new Headquarters(commander);
 		
 		scanner.close();
 		

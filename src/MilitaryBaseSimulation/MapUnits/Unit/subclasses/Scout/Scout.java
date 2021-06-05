@@ -2,6 +2,8 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout;
 
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IIdentifiable;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IIdentified;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.ITargetUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
@@ -82,16 +84,16 @@ public class Scout extends Unit implements ISender, IScout{
 	 */
 	public void search(){
 		IUnit[][] map = Map.getInstance().getMap();
-		ITargetUnit unit;
+		IIdentifiable unit;
 		
 		for(int x = position[0] - visionRange; x <= position[0] + visionRange; x++) {
 			for(int y = position[1] - visionRange; y <= position[1] + visionRange; y++) {
 				
-				if(Map.getInstance().isPositionWithinMap(x, y) && map[x][y]!=null) {
-					if(map[x][y] instanceof ITargetUnit) {
+				if(Map.getInstance().isPositionWithinMap(x, y) && map[x][y] != null) {
+					if(map[x][y] instanceof IIdentifiable) {
 						
-						unit = (ITargetUnit) map[x][y];
-						
+						unit = (IIdentifiable) map[x][y];
+
 						if(unit.getIsIdentified() == false) {
 							if(unit instanceof NeutralUnit || unit instanceof DisguisedEnemyUnit) {
 								
@@ -104,7 +106,7 @@ public class Scout extends Unit implements ISender, IScout{
 							
 							unit.setIsIdentified(true);
 							unit.setIdentifiedBy(this);
-							send("yes", unit, MilitaryBaseSimulation.getCommander());
+							send("yes", (IIdentified)unit, MilitaryBaseSimulation.getCommander());
 						}
 					}
 				}

@@ -32,7 +32,7 @@ class MoveTest {
 		try {
 			Field hq = MilitaryBaseSimulation.class.getDeclaredField("headquarters");
 			hq.setAccessible(true);
-			hq.set(null, new Headquarters());
+			hq.set(null, new Headquarters(null));
 			
 			Field commander = MilitaryBaseSimulation.class.getDeclaredField("commander");
 			commander.setAccessible(true);

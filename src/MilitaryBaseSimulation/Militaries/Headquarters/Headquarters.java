@@ -49,7 +49,7 @@ public class Headquarters implements ISender{
 	public void receiveBaseAttack(ITargetUnit unit)
 	{
 		Random rand = new Random();
-		MilitaryBaseSimulation.damageBase(unit.getDamage());
+		//MilitaryBaseSimulation.damageBase(unit.getDamage());
 		rateCommander(-2*(rand.nextInt(10)+1));
 		send("Enum1",unit,commander);
 		
