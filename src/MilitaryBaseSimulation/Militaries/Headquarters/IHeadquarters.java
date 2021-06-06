@@ -1,10 +1,9 @@
 package MilitaryBaseSimulation.Militaries.Headquarters;
 
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.ITargetUnit;
-import MilitaryBaseSimulation.Militaries.interfaces.ISender;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IIdentified;
 
-public interface IHeadquarters extends ISender {
-	public void manageDeathInfo(ITargetUnit destroyedUnit);
-	public void receiveBaseAttack(ITargetUnit unit);
+public interface IHeadquarters {
+	public void manageDeathInfo(IIdentified destroyedUnit);
+	public void manageBaseAttack(IIdentified unit);
 	
 }

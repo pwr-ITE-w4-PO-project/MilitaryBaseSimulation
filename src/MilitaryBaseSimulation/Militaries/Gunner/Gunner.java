@@ -2,7 +2,7 @@ package MilitaryBaseSimulation.Militaries.Gunner;
 
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.ITargetUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IDestroyable;
 
 public class Gunner implements IGunner {
 	private int accuracy;
@@ -18,10 +18,9 @@ public class Gunner implements IGunner {
 	/**
 	 * 
 	 * @param unit Unit which will be attacked by Gunner
-	 * @param accuracy Propability of succeding the attack
 	 */
-	public void attack(ITargetUnit unit, int accuracy) {
-		if(MilitaryBaseSimulation.generateRandomEventHappening(accuracy))
+	public void attack(IDestroyable unit) {
+		if(MilitaryBaseSimulation.generateRandomEventHappening(this.accuracy))
 			unit.getDestroyed();
 	}
 	
@@ -30,9 +29,9 @@ public class Gunner implements IGunner {
 	 * @param report String which contains info about attack
 	 * @param unit Unit which will be attacked
 	 */
-	public void receive(ReportInfo report, ITargetUnit unit) {
+	public void receive(ReportInfo report, IDestroyable unit) {
 		if(report == ReportInfo.ATTACK)
-			this.attack(unit,accuracy);
+			this.attack(unit);
 	}
 	
 	/**

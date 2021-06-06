@@ -1,7 +1,9 @@
 package MilitaryBaseSimulation.Enums;
 
 public enum ReportInfo {
-		SCOUT,
-		HQ_INFO,
-		ATTACK
+		ENEMY,
+		NEUTRAL,
+		ATTACK,
+		POSITIVE,
+		NEGATIVE
 }

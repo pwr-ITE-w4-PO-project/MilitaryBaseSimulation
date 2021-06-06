@@ -2,12 +2,9 @@ package MilitaryBaseSimulation.Militaries.Headquarters;
 
 //import MilitaryBaseSimulation.TargetUnit.ITargetUnit;
 import MilitaryBaseSimulation.Militaries.Commander.*;
-import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
-import MilitaryBaseSimulation.Militaries.interfaces.ISender;
 
 import java.util.Random;
 
-import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
@@ -15,13 +12,19 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Neu
 
 public class Headquarters implements IHeadquarters{
 	private ICommander commander;
+	private Random rand = new Random();
+	
+	/**
+	 * Constructor
+	 * @param commander Subordinate Commander.
+	 */
 	public Headquarters(ICommander commander) {
 		this.commander = commander;
 	}
 	
 	/**
 	 * Changes rating of Commander
-	 * @param rate Value which will be added to commander.rating
+	 * @param rate Value which will be added to commander.rating.
 	 */
 	private void rateCommander(int rate)
 	{
@@ -29,33 +32,29 @@ public class Headquarters implements IHeadquarters{
 	}
 	
 	/**
-	 * Manages info after destroying unit
-	 * @param destroyedUnit Unit which was destroyed by Gunner	
+	 * Manages info after destroying unit.
+	 * @param destroyedUnit Unit which was destroyed by Gunner.
 	 */
-	public void manageDeathInfo(ITargetUnit destroyedUnit)
+	public void manageDeathInfo(IIdentified destroyedUnit)
 	{
-		Random rand = new Random();
 		if(destroyedUnit instanceof NeutralUnit)
 		{
 			rateCommander(-2*(rand.nextInt(5)+1));
+			commander.manage(ReportInfo.NEGATIVE, destroyedUnit);
 		}else{
 			rateCommander(2*(rand.nextInt(5)+1));
+			commander.manage(ReportInfo.POSITIVE, destroyedUnit);
 		}
-		send(ReportInfo.HQ_INFO,destroyedUnit,commander);
 	}
 	
-	public void receiveBaseAttack(ITargetUnit unit)
+	/**
+	 * 
+	 */
+	public void manageBaseAttack(IIdentified unit)
 	{
-		Random rand = new Random();
-		//MilitaryBaseSimulation.damageBase(unit.getDamage());
 		rateCommander(-2*(rand.nextInt(10)+1));
-		send(ReportInfo.HQ_INFO,unit,commander);
+		commander.manage(ReportInfo.NEGATIVE, unit);
 		
-	}
-	
-	public void send(ReportInfo report, ITargetUnit unit, IReceiver receiver) 
-	{
-		receiver.receive(report, unit);
 	}
 	
 }

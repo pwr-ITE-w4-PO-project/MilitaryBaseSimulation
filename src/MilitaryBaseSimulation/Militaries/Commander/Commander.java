@@ -4,10 +4,7 @@ import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.EnemyUnit;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.Militaries.Gunner.IGunner;
-import MilitaryBaseSimulation.Militaries.interfaces.*;
 //import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
 
 import java.util.Random;
@@ -15,6 +12,7 @@ import java.util.ArrayList;
 
 public class Commander implements ICommander {
 	private int rating;
+	private Random rand = new Random();
 	private ArrayList<IGunner> gunners;
 	private ArrayList<IScout> scouts;
 	/**
@@ -39,19 +37,8 @@ public class Commander implements ICommander {
 	 * Commands random Gunner to attack a unit
 	 * @param unit Unit which was chosen to be attacked
 	 */
-	private void commandAttack(ITargetUnit unit) {
-		Random random = new Random();
-		send(ReportInfo.ATTACK,unit,gunners.get(random.nextInt(gunners.size())));
-	}
-	
-	/**
-	 * Sends report to Gunner
-	 * @param report String which contains info about unit
-	 * @param unit unit detected by Scout
-	 * @param receiver Gunner which will get report
-	 */
-	public void send(ReportInfo report, ITargetUnit unit, IReceiver receiver) {
-		receiver.receive(report,unit);
+	private void commandAttack(IDestroyable unit) {
+		gunners.get(rand.nextInt(gunners.size())).receive(ReportInfo.ATTACK,unit);
 	}
 	
 	/**
@@ -63,25 +50,46 @@ public class Commander implements ICommander {
 		this.rating+=rate;
 	}
 	
+	public int getRating()
+	{
+		return rating;
+	}
+	
 	/**
 	 * Manages receiving report from scout
 	 * @param report String which contains info about unit
 	 * @param unit Unit detected by Scout
 	 */
-	public void receive(ReportInfo report, ITargetUnit unit) {
-		if(report == ReportInfo.HQ_INFO){
-			
+	public void receive(ReportInfo report, IIdentified unit) {
+		if(MilitaryBaseSimulation.generateRandomEventHappening(unit.getIdentifiedBy().getTrustLevel())) {
+			if(report == ReportInfo.ENEMY)
+				commandAttack((IDestroyable)unit);
 		}
-		//Scout's report case
-		else if(report == ReportInfo.SCOUT) {
-			if(MilitaryBaseSimulation.generateRandomEventHappening(unit.getIdentifiedBy().getTrustLevel())) {
-				if(unit instanceof EnemyUnit)
-					commandAttack(unit);
-			}
-			else {
-				if(unit instanceof NeutralUnit)
-					commandAttack(unit);
-			}
+		else {
+			if(report == ReportInfo.NEUTRAL)
+				commandAttack((IDestroyable)unit);
 		}
+	}
+	
+	/**
+	 * @param report String which contains info about unit
+	 * @param unit Unit detected by Scout
+	 */
+	public void manage(ReportInfo report, IIdentified unit)
+	{
+		IScout scout = unit.getIdentifiedBy();
+		int param = 0;
+		if(report == ReportInfo.POSITIVE)
+			if(unit.getIsCorrectlyIdentified())
+				param = 1;
+			else
+				param = -1;
+		else if(report == ReportInfo.NEGATIVE)
+			if(unit.getIsCorrectlyIdentified())
+				param = 2;
+			else
+				param = -2;	
+		int level = param*(rand.nextInt(3)+2);
+		changeTrustLevel(scout,level);
 	}
 }
