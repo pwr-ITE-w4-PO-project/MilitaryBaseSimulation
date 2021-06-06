@@ -166,7 +166,7 @@ public class MilitaryBaseSimulation {
 	 * @param damage Damage inflicted to the base hit points.
 	 */
 	public static void damageBase(int damage) {
-		baseHP += damage;
+		baseHP -= damage;
 	}
 	
 	/**

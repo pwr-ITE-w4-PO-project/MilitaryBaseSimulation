@@ -24,9 +24,6 @@ class MoveUnitOnMapTest {
 	static int[] newPos = {1,1};
 	static NeutralUnit unit;
 	
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@BeforeAll
 	static void setUp() throws Exception {
 		Map.getInstance().initializeMap();

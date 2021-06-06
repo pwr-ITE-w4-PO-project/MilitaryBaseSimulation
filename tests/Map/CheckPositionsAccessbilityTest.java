@@ -21,9 +21,6 @@ class CheckPositionsAccessbilityTest {
 
 	List<int[]> positions = new ArrayList<int[]>();
 	
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@BeforeEach
 	void setUp() throws Exception {
 		Map.getInstance().initializeMap();

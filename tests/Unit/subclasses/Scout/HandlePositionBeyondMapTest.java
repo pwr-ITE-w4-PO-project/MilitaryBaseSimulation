@@ -19,6 +19,7 @@ class HandlePositionBeyondMapTest {
 
 	@Test
 	void sayPositionIsWithinMap() {
+		Map.getInstance().initializeMap();
 		int[] pos = {0,0};
 		Scout scout = new Scout(1, pos, 0,0,0);
 		try {

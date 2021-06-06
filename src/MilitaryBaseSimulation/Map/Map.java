@@ -140,6 +140,22 @@ public class Map {
 	}
 	
 	/**
+	 * Verifies whether given position is accessible for moving to.
+	 * @param position Position to check.
+	 * @return Boolean value representing whether position is accessible.
+	 */
+	public boolean isPositionAccessible(int[] position) {
+		boolean result = false;
+		for(int[] pos : this.availablePositions) {
+			if(pos[0] == position[0] && pos[1] == position[1]) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	/**
 	 * Checks if position is within the map.
 	 * @param position Position to check.
 	 * @return True if position is within the map; false if beyond. 

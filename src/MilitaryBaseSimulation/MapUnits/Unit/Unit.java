@@ -33,7 +33,10 @@ public abstract class Unit implements IUnit{
 				this.disappearFromMap();
 				return;
 			}
-		}
+			else if(!Map.getInstance().isPositionAccessible(newPosition)) {
+				newPosition = position;  //verifies if handled position is accessible
+			}
+		}//checks if new position isn't the same as current position
 		if(newPosition[0] != this.position[0] || newPosition[1] != this.position[1]){	
 			Map.getInstance().moveUnitOnMap(position, newPosition);
 			position = newPosition;

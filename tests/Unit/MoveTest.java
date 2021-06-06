@@ -24,8 +24,6 @@ import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
  *
  */
 class MoveTest {
-
-	private static List<NeutralUnit> list = new ArrayList<NeutralUnit>();
 	
 	@BeforeAll
 	static void setup() {
@@ -65,7 +63,7 @@ class MoveTest {
 				if((i != 10 || j != 10) && (i != 11 || j != 11)) {
 					int[] pos = {i,j};
 					unit = new NeutralUnit(0, pos);
-					list.add((NeutralUnit)unit);
+					
 					Map.getInstance().placeUnitOnMap(unit);
 				}
 			}
@@ -82,12 +80,4 @@ class MoveTest {
 		
 		assertTrue(newPos[0] == 11 && newPos[1] == 11, "Unit should be at coordinates: 11,11.");
 	}
-	
-	@AfterAll
-	static void clear() {
-		for(NeutralUnit u : list) {
-			u.getDestroyed();
-		}
-	}
-
 }

@@ -79,18 +79,20 @@ public class Commander implements ICommander {
 	public void manage(ReportInfo report, IIdentified unit)
 	{
 		IScout scout = unit.getIdentifiedBy();
-		int param = 0;
-		if(report == ReportInfo.POSITIVE)
-			if(unit.getIsCorrectlyIdentified())
-				param = 1;
-			else
-				param = -1;
-		else if(report == ReportInfo.NEGATIVE)
-			if(unit.getIsCorrectlyIdentified())
-				param = 2;
-			else
-				param = -2;	
-		int level = param*(rand.nextInt(3)+2);
-		changeTrustLevel(scout,level);
+		if(scout != null ) {
+			int param = 0;
+			if(report == ReportInfo.POSITIVE)
+				if(unit.getIsCorrectlyIdentified())
+					param = 1;
+				else
+					param = -1;
+			else if(report == ReportInfo.NEGATIVE)
+				if(unit.getIsCorrectlyIdentified())
+					param = 2;
+				else
+					param = -2;	
+			int level = param*(rand.nextInt(3)+2);
+			changeTrustLevel(scout,level);	
+		}
 	}
 }
