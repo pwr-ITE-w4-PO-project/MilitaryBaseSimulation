@@ -38,7 +38,8 @@ public class Commander implements ICommander {
 	 * @param unit Unit which was chosen to be attacked
 	 */
 	private void commandAttack(IDestroyable unit) {
-		gunners.get(rand.nextInt(gunners.size())).receive(ReportInfo.ATTACK,unit);
+		if(gunners != null)
+			gunners.get(rand.nextInt(gunners.size())).receive(ReportInfo.ATTACK,unit);
 	}
 	
 	/**

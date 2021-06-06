@@ -71,7 +71,6 @@ class MoveTest {
 			}
 		}
 		
-		
 		posInit[0] = 10;
 		posInit[1] = 10;
 		unit = new NeutralUnit(1, posInit);

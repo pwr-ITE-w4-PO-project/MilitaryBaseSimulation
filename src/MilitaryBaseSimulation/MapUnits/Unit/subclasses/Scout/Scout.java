@@ -4,11 +4,8 @@ import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IIdentifiable;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IIdentified;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.ITargetUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
-import MilitaryBaseSimulation.Militaries.interfaces.IReceiver;
-import MilitaryBaseSimulation.Militaries.interfaces.ISender;
 import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
@@ -16,7 +13,7 @@ import MilitaryBaseSimulation.Map.Map;
 
 
 
-public class Scout extends Unit implements ISender, IScout{
+public class Scout extends Unit implements IScout{
 	private int trustLevel;
 	private int effectiveness;
 	private int visionRange;
@@ -68,15 +65,6 @@ public class Scout extends Unit implements ISender, IScout{
 	public void modifyTrustLevel(int value) {
 		this.trustLevel += value;
 	}
-	/**
-	 * Sends reports.
-	 * @param report Report sent.
-	 * @param unit Targeted unit.
-	 * @param receiver Receiver to send to.
-	 */
-	public void send(ReportInfo report, ITargetUnit unit, IReceiver receiver) {
-		receiver.receive(report, unit);
-	}
 
 	/**
 	 * Checks nearest area based on vision range. Detects other units, 
@@ -95,18 +83,31 @@ public class Scout extends Unit implements ISender, IScout{
 						unit = (IIdentifiable) map[x][y];
 
 						if(unit.getIsIdentified() == false) {
+							
+							ReportInfo report;
+							
 							if(unit instanceof NeutralUnit || unit instanceof DisguisedEnemyUnit) {
 								
 								boolean identifiactionResult = MilitaryBaseSimulation.generateRandomEventHappening(this.effectiveness);
 								unit.setIsCorrectlyIdentified(identifiactionResult);
+								
+								if(unit instanceof NeutralUnit) { //doing below code via ternary operators throws jdk errors
+									if(identifiactionResult) report = ReportInfo.NEUTRAL;
+									else report = ReportInfo.ENEMY;
+								}
+								else {
+									if(identifiactionResult) report = ReportInfo.ENEMY;
+									else report = ReportInfo.NEUTRAL;
+								}
 							}
 							else{//unit is type of EnemyUnit
 								unit.setIsCorrectlyIdentified(true);
+								report = ReportInfo.ENEMY;
 							}
 							
 							unit.setIsIdentified(true);
-							unit.setIdentifiedBy(this);
-							send(ReportInfo.SCOUT, unit, MilitaryBaseSimulation.getCommander());
+							unit.setIdentifiedBy((IScout)this);
+							MilitaryBaseSimulation.getCommander().receive(report, (IIdentified)unit);
 						}
 					}
 				}

@@ -7,6 +7,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Ene
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
+import MilitaryBaseSimulation.Militaries.Commander.ICommander;
 import MilitaryBaseSimulation.Militaries.Gunner.*;
 import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
 
@@ -63,7 +64,7 @@ public class MilitaryBaseSimulation {
 	private static Random random = new Random();
 	
 	//objects to access
-	private static Commander commander;
+	private static ICommander commander;
 	private static Headquarters headquarters;
 	
 	//base hit points
@@ -172,7 +173,7 @@ public class MilitaryBaseSimulation {
 	 * Gets the commander.
 	 * @return
 	 */
-	public static Commander getCommander() {
+	public static ICommander getCommander() {
 		return commander;
 	}
 	

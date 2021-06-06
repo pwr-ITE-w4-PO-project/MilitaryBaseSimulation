@@ -47,13 +47,6 @@ class GetCountTest {
 	
 	@Test
 	void sayCorrectCount() {
-		try{//below is used to clear counted instances from other tests
-			Field count = Unit.class.getDeclaredField("count");
-			count.setAccessible(true);
-			count.set(null, 0);
-		}catch(Exception e) {
-			fail("Test found an error: " + e.getMessage());
-		}
 		
 		int n = 17;
 		for(int i = 0; i<n; i++) {

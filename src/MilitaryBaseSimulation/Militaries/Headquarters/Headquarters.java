@@ -37,13 +37,15 @@ public class Headquarters implements IHeadquarters{
 	 */
 	public void manageDeathInfo(IIdentified destroyedUnit)
 	{
-		if(destroyedUnit instanceof NeutralUnit)
-		{
-			rateCommander(-2*(rand.nextInt(5)+1));
-			commander.manage(ReportInfo.NEGATIVE, destroyedUnit);
-		}else{
-			rateCommander(2*(rand.nextInt(5)+1));
-			commander.manage(ReportInfo.POSITIVE, destroyedUnit);
+		if(this.commander != null) {
+			if(destroyedUnit instanceof NeutralUnit)
+			{
+				rateCommander(-2*(rand.nextInt(5)+1));
+				commander.manage(ReportInfo.NEGATIVE, destroyedUnit);
+			}else{
+				rateCommander(2*(rand.nextInt(5)+1));
+				commander.manage(ReportInfo.POSITIVE, destroyedUnit);
+			}
 		}
 	}
 	
@@ -52,8 +54,10 @@ public class Headquarters implements IHeadquarters{
 	 */
 	public void manageBaseAttack(IIdentified unit)
 	{
-		rateCommander(-2*(rand.nextInt(10)+1));
-		commander.manage(ReportInfo.NEGATIVE, unit);
+		if(this.commander != null) {
+			rateCommander(-2*(rand.nextInt(10)+1));
+			commander.manage(ReportInfo.NEGATIVE, unit);
+		}
 		
 	}
 	
