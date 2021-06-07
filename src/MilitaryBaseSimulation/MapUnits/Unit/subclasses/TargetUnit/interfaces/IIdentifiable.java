@@ -1,4 +1,4 @@
-package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit;
+package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces;
 
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.IScout;
 

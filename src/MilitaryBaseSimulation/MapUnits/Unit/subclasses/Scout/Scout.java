@@ -2,10 +2,11 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout;
 
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IIdentifiable;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IIdentified;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentifiable;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit.DisguisedEnemyUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
+import MilitaryBaseSimulation.Militaries.Commander.interfaces.IReportReceiver;
 import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
@@ -17,6 +18,7 @@ public class Scout extends Unit implements IScout{
 	private int trustLevel;
 	private int effectiveness;
 	private int visionRange;
+	private IReportReceiver commander;
 ;
 	/**
 	 * Constructor.
@@ -26,13 +28,14 @@ public class Scout extends Unit implements IScout{
 	 * @param trustLevel Commander's trust.
 	 * @param visionRange Detecting range.
 	 */
-	public Scout(int movementRange, int[] position, int effectiveness, int trustLevel, int visionRange) {
+	public Scout(int movementRange, int[] position, int effectiveness, int trustLevel, int visionRange, IReportReceiver commander) {
 		super(movementRange, position);
 		this.trustLevel = trustLevel;
 		this.effectiveness = effectiveness;
 		this.visionRange = visionRange;
 		this.unitChar = 'S';
 		this.moveGenerator = new AlliesMoveGenerator();
+		this.commander = commander;
 	}
 
 	@Override
@@ -107,7 +110,8 @@ public class Scout extends Unit implements IScout{
 							
 							unit.setIsIdentified(true);
 							unit.setIdentifiedBy((IScout)this);
-							MilitaryBaseSimulation.getCommander().receive(report, (IIdentified)unit);
+							
+							if(this.commander != null) this.commander.receive(report, (IIdentified)unit);
 						}
 					}
 				}

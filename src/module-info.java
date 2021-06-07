@@ -6,7 +6,6 @@ module MilitaryBaseSimulation {
 	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit;
 	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit;
 	exports MilitaryBaseSimulation.Map;
-	exports MilitaryBaseSimulation.Militaries.interfaces;
 	exports MilitaryBaseSimulation.Militaries.Gunner;
 	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout;
 	exports MilitaryBaseSimulation.Militaries.Commander;
@@ -14,6 +13,7 @@ module MilitaryBaseSimulation {
 	exports MilitaryBaseSimulation.MapUnits.Unit;
 	exports Map;
 	exports MilitaryBaseSimulation.Enums;
+	exports MilitaryBaseSimulation.Militaries.Commander.interfaces;
 
 	requires junit;
 	requires org.junit.jupiter.api;

@@ -29,7 +29,7 @@ class SearchTest {
 		try {
 			Field commander = MilitaryBaseSimulation.class.getDeclaredField("commander");
 			commander.setAccessible(true);
-			commander.set(null, new Commander(null, null));
+			commander.set(null, new Commander(null));
 			
 			
 			
@@ -46,7 +46,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(neutral);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 100, 0, 1);
+		Scout scout = new Scout(0, pos, 100, 0, 1, null);
 		
 		scout.move(); //move method invokes search method
 		
@@ -67,7 +67,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(neutral);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 0, 0, 1);
+		Scout scout = new Scout(0, pos, 0, 0, 1, null);
 		
 		scout.move(); //move method invokes search method
 		
@@ -88,7 +88,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(disguised);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 100, 0, 1);
+		Scout scout = new Scout(0, pos, 100, 0, 1, null);
 		
 		scout.move(); //move method invokes search method
 		
@@ -109,7 +109,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(disguised);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 0, 0, 1);
+		Scout scout = new Scout(0, pos, 0, 0, 1, null);
 		
 		scout.move(); //move method invokes search method
 		
@@ -130,7 +130,7 @@ class SearchTest {
 		Map.getInstance().placeUnitOnMap(enemy);
 		
 		int[] pos = {1,1};
-		Scout scout = new Scout(0, pos, 50, 0, 1);
+		Scout scout = new Scout(0, pos, 50, 0, 1, null);
 		
 		scout.move(); //move method invokes search method
 		

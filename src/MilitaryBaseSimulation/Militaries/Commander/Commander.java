@@ -4,6 +4,8 @@ import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IDestroyable;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 import MilitaryBaseSimulation.Militaries.Gunner.IGunner;
 //import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
 
@@ -14,15 +16,13 @@ public class Commander implements ICommander {
 	private int rating;
 	private Random rand = new Random();
 	private ArrayList<IGunner> gunners;
-	private ArrayList<IScout> scouts;
 	/**
 	 * Constructor
 	 * @param scouts List of Scouts in simulation
 	 * @param gunners List of Gunners in simulation
 	 */
-	public Commander(ArrayList<IScout> scouts, ArrayList<IGunner> gunners) {
+	public Commander(ArrayList<IGunner> gunners) {
 		this.gunners = gunners;
-		this.scouts = scouts;
 	}
 	/**
 	 * Changes trust level of scout which sent report
@@ -51,6 +51,10 @@ public class Commander implements ICommander {
 		this.rating+=rate;
 	}
 	
+	/**
+	 * Gets commander's rating.
+	 * @return Integer value representing the rating.
+	 */
 	public int getRating()
 	{
 		return rating;

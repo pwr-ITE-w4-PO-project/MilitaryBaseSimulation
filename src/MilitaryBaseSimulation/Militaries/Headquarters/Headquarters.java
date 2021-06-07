@@ -1,24 +1,23 @@
 package MilitaryBaseSimulation.Militaries.Headquarters;
 
-//import MilitaryBaseSimulation.TargetUnit.ITargetUnit;
-import MilitaryBaseSimulation.Militaries.Commander.*;
+import MilitaryBaseSimulation.Militaries.Commander.interfaces.IRatable;
 
 import java.util.Random;
 
 import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
-//import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
 
 public class Headquarters implements IHeadquarters{
-	private ICommander commander;
+	private IRatable commander;
 	private Random rand = new Random();
 	
 	/**
 	 * Constructor
 	 * @param commander Subordinate Commander.
 	 */
-	public Headquarters(ICommander commander) {
+	public Headquarters(IRatable commander) {
 		this.commander = commander;
 	}
 	

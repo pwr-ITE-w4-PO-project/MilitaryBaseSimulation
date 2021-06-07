@@ -2,6 +2,9 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.IScout;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IDestroyable;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentifiable;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 
 public abstract class TargetUnit extends Unit implements IDestroyable, IIdentified, IIdentifiable{
 	private boolean isCorrectlyIdentified;

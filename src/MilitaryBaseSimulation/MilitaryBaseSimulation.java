@@ -8,8 +8,11 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Ene
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
 import MilitaryBaseSimulation.Militaries.Commander.ICommander;
+import MilitaryBaseSimulation.Militaries.Commander.interfaces.IRatable;
+import MilitaryBaseSimulation.Militaries.Commander.interfaces.IReportReceiver;
 import MilitaryBaseSimulation.Militaries.Gunner.*;
 import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
+import MilitaryBaseSimulation.Militaries.Headquarters.IHeadquarters;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
@@ -65,7 +68,8 @@ public class MilitaryBaseSimulation {
 	
 	//objects to access
 	private static ICommander commander;
-	private static Headquarters headquarters;
+	private static IHeadquarters headquarters;
+	private static List<IScout> scouts;
 	
 	//base hit points
 	private static int baseHP;
@@ -128,8 +132,9 @@ public class MilitaryBaseSimulation {
 		
 		Scanner scanner = new Scanner(System.in); //outer Scanner is used to bypass bugs
 		
+		scouts = setScouts(scanner);
+		
 		commander = new Commander(
-				setScouts(scanner), 
 				setGunners(scanner)
 				);
 		
@@ -173,7 +178,7 @@ public class MilitaryBaseSimulation {
 	 * Gets the commander.
 	 * @return
 	 */
-	public static ICommander getCommander() {
+	public static IRatable getCommander() {
 		return commander;
 	}
 	
@@ -181,7 +186,7 @@ public class MilitaryBaseSimulation {
 	 * Gets the headquarters.
 	 * @return
 	 */
-	public static Headquarters getHeadquarters() {
+	public static IHeadquarters getHeadquarters() {
 		return headquarters;
 	}
 	
@@ -268,7 +273,7 @@ public class MilitaryBaseSimulation {
 			effectiveness = getNumberFromUser(1, 100, "Set effectiveness of Scout no."+ (i+1) +" in percentages (from 1 to 100): ", scanner);
 			trustLevel = getNumberFromUser(1, 100, "Set initial trust level of Scout no."+ (i+1) +" in percentages (from 1 to 100): ", scanner);
 			
-			newScout = new Scout(movementRange, Map.getInstance().getRandomPosition(), effectiveness, trustLevel, visionRange);
+			newScout = new Scout(movementRange, Map.getInstance().getRandomPosition(), effectiveness, trustLevel, visionRange, (IReportReceiver) commander);
 			scouts.add(newScout);
 			Map.getInstance().placeUnitOnMap(newScout);
 		}

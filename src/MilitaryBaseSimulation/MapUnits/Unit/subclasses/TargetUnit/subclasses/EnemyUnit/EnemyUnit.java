@@ -1,8 +1,8 @@
 package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit;
 
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IIdentified;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 import MilitaryBaseSimulation.MoveGenerators.EnemyMoveGenerator;
 import MilitaryBaseSimulation.Map.Map;
 public class EnemyUnit extends TargetUnit {

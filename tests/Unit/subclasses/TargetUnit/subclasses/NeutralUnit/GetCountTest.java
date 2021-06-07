@@ -29,7 +29,7 @@ class GetCountTest {
 			
 			Field commander = MilitaryBaseSimulation.class.getDeclaredField("commander");
 			commander.setAccessible(true);
-			commander.set(null, new Commander(null, null));
+			commander.set(null, new Commander(null));
 			
 		}catch(Exception e) {
 			fail("Test found an error: " + e.getMessage());

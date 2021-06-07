@@ -16,7 +16,7 @@ class GetUnitCharTest {
 	@Test
 	void sayS() {
 		int[] pos = {0,0};
-		Scout scout = new Scout(0,pos,0,0, 0);
+		Scout scout = new Scout(0,pos,0,0, 0, null);
 		
 		assertTrue(scout.getUnitChar() == 'S', "Scout should return S char.");
 	}

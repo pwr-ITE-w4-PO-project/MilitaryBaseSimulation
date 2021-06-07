@@ -2,7 +2,7 @@ package MilitaryBaseSimulation.Militaries.Gunner;
 
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.IDestroyable;
+import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IDestroyable;
 
 public class Gunner implements IGunner {
 	private int accuracy;

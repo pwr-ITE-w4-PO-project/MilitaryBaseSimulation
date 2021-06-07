@@ -36,7 +36,7 @@ class GetDestroyedTest {
 			
 			Field commander = MilitaryBaseSimulation.class.getDeclaredField("commander");
 			commander.setAccessible(true);
-			commander.set(null, new Commander(null, null));
+			commander.set(null, new Commander(null));
 			
 			//below is used to clear counted instances from other tests
 			Field count = DisguisedEnemyUnit.class.getDeclaredField("count");
