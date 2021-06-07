@@ -14,6 +14,7 @@ module MilitaryBaseSimulation {
 	exports Map;
 	exports MilitaryBaseSimulation.Enums;
 	exports MilitaryBaseSimulation.Militaries.Commander.interfaces;
+	exports MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces;
 
 	requires junit;
 	requires org.junit.jupiter.api;

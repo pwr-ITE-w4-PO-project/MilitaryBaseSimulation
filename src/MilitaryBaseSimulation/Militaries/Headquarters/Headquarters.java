@@ -5,7 +5,6 @@ import MilitaryBaseSimulation.Militaries.Commander.interfaces.IRatable;
 import java.util.Random;
 
 import MilitaryBaseSimulation.Enums.ReportInfo;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 

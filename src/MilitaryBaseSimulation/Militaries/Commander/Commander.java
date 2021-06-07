@@ -3,7 +3,6 @@ package MilitaryBaseSimulation.Militaries.Commander;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
-import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IDestroyable;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 import MilitaryBaseSimulation.Militaries.Gunner.IGunner;
