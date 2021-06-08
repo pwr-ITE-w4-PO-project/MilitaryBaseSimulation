@@ -13,6 +13,8 @@ public class GUI {
 	private ArrayList<TextField[]> scoutFields;
 	private TextField gunnerNumberField;
 	private ArrayList<TextField> gunnerFields;
+	private ActionListener scoutButtonOnClick;
+	private Button scoutButton;
 		
 		static Frame window = 	new Frame("Military Base Simulation");
 		public GUI () {
@@ -46,8 +48,10 @@ public class GUI {
 			window.add(scoutNumber);
 			window.add(scoutNumberField);
 			
-			Button scoutButton = new Button("Next");
+			this.scoutButton = new Button("Next");
 			window.add(scoutButton);
+			
+
 			
 			//gunners' fields
 			Label gunnerNumber = new Label("Declare gunners:");
@@ -56,7 +60,7 @@ public class GUI {
 			
 			ArrayList<TextField[]> scoutFields = new ArrayList<TextField[]>();
 
-		    scoutButton.addActionListener(new ActionListener(){  
+			this.scoutButtonOnClick = new ActionListener(){  
 		        public void actionPerformed(ActionEvent e){  
 		        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
 					for(int i = 0; i < numberOfScouts; i++){
@@ -98,9 +102,9 @@ public class GUI {
 	                
 	                
 		            }  
-		        });  
-		    
-		    
+		        };  
+			
+		    this.scoutButton.addActionListener(this.scoutButtonOnClick);
 		    
 		    this.gunnerFields = new ArrayList<TextField>();
 
@@ -190,6 +194,7 @@ public class GUI {
 		
 		public void setNumberOfScouts(int scouts) {
 			scoutNumberField.setText(String.valueOf(scouts));
+			this.scoutButtonOnClick.actionPerformed(new ActionEvent(scoutButton, ActionEvent.ACTION_PERFORMED, "test"));
 		}
 		
 		public void setNumberOfGunners(int gunners) {
