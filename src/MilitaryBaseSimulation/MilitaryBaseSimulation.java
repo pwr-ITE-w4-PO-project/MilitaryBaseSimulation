@@ -26,12 +26,12 @@ public class MilitaryBaseSimulation {
 		
 		GUI gui = new GUI();
 
-		if(args.length > 0) {
-			List<Integer> argsInt = new ArrayList<Integer>();
+		if(args.length > 0) { //below code handles command line arguments
+			int[] argsInt = new int[args.length];
 			//converts args to integers and exits if unsuccessful
 			for(int i = 0; i<args.length; i++) {
 				try {
-					argsInt.add(i, Integer.parseInt(args[i]));
+					argsInt[i] = Integer.parseInt(args[i]);
 				}catch(Exception e) {
 					System.out.println("All of input arguments must be integer numbers.");
 					System.out.println("Argument no." + i +", " + args[i] + ", was detected not to be integer number.");
@@ -39,34 +39,13 @@ public class MilitaryBaseSimulation {
 					System.exit(0);
 				}
 			}
-			int scoutsCount = argsInt.get(0); //number of scouts
-			int gunnersCount = argsInt.get(1+ scoutsCount*4); //number of gunners
-			int expectedArgsLength = scoutsCount*4 + gunnersCount + 6;
 			
-			boolean enoughArgs = expectedArgsLength == argsInt.size() ? true : false;
+			int expectedArgsLength = fillGui(gui, argsInt);
 			
-			if(!enoughArgs) {
-				System.out.println("Not enough input arguments. The rest must be filled in GUI.");
+			if(expectedArgsLength != args.length) {
+				System.out.println("Provided input had too few arguments. The required missing input arguments must be provided manually in gui.");
 			}
-			
-			gui.setNumberOfScouts(scoutsCount);
-			
-			try {
-				
-			}catch(Exception e) {
-				
-			}
-			
-			//below is used to transfer args to existing input scheme
-			String userInput = "";
-			for(String value: args) {
-				userInput += value + '\n';
-			}
-			ByteArrayInputStream input = new ByteArrayInputStream(userInput.getBytes());
-			System.setIn(input);
 		}
-		
-		//GUI x = new GUI();
 		
 		//buildSimulation();
 		//run();
@@ -87,6 +66,59 @@ public class MilitaryBaseSimulation {
 	private static int disguisedEnemyFreq;
 	private static int iterations;
 	
+	/**
+	 * Tries to get data at given position from args.
+	 * @param position Position from which it is tried to extract data from.
+	 * @param args Array of integers from which the data is tried to be extraced from.
+	 * @return Data at given position or 0 if it fails, since empty gui fields have 0 as value by default.
+	 */
+	private static int tryGetData(int position, int[] args) {
+		try {
+			return args[position];
+		}catch(Exception e) {
+			return 0; //empty gui fields have 0 value as default
+		}
+	}
+	
+	/**
+	 * Fills gui's input text fields with given arguments.
+	 * @param gui Gui to fill data with.
+	 * @param args Array of arguments.
+	 * @return Integer value representing counted necessary input fields.
+	 */
+	private static int fillGui(GUI gui, int[] args) {
+		int numberOfScouts = args[0];
+		gui.setNumberOfScouts(numberOfScouts);
+		
+		int argsIterator = 0;
+		for(int i = 0; i < numberOfScouts; i++, argsIterator += 4){
+			gui.setScout(i, 
+				tryGetData(1 + argsIterator, args), 
+				tryGetData(2 + argsIterator, args), 
+				tryGetData(3 + argsIterator, args),
+				tryGetData(4 + argsIterator, args)
+				);
+		}
+		argsIterator++;
+		
+		int numberOfGunners = tryGetData(argsIterator, args);
+		gui.setNumberOfGunners(numberOfGunners);
+		
+		argsIterator++;
+		for(int i = 0; i < numberOfGunners; i++, argsIterator++) {
+			gui.setGunner(i, tryGetData(argsIterator, args));
+		}
+		
+		gui.setBaseHP(tryGetData(argsIterator, args));
+		argsIterator++;
+		gui.setEnemy(tryGetData(argsIterator, args));
+		argsIterator++;
+		gui.setDisguisedEnemy(tryGetData(argsIterator, args));
+		argsIterator++;
+		gui.setIterations(tryGetData(argsIterator, args));
+		
+		return argsIterator;
+	}
 	
 	/**
 	 * Starts simulation based on input parameters. Ends after reaching input iterations limit,

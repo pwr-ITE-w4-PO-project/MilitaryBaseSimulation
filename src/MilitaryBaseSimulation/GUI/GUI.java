@@ -58,7 +58,7 @@ public class GUI {
 			this.gunnerNumberField = new TextField("5", 8);
 			Button gunnerButton = new Button("Next");
 			
-			ArrayList<TextField[]> scoutFields = new ArrayList<TextField[]>();
+			this.scoutFields = new ArrayList<TextField[]>();
 
 			this.scoutButtonOnClick = new ActionListener(){  
 		        public void actionPerformed(ActionEvent e){  
