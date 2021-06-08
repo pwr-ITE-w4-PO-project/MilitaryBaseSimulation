@@ -20,12 +20,12 @@ public class GUI {
 			//texts
 			Label duration = new Label("Duration of the simulation:");
 			Label baseHP = new Label("Initial base health points:");
-			TextField baseHPField = new TextField("1000000", 8);
-			TextField durationField = new TextField("1000000", 8);
+			this.baseHPField = new TextField("1000000", 8);
+			this.durationField = new TextField("1000000", 8);
 			Label enemy = new Label("Enemy units generating period:");
-			TextField enemyField = new TextField("10", 8);
+			this.enemyField = new TextField("10", 8);
 			Label disguisedEnemy = new Label("Disguised enemy units generating period:");
-			TextField disguisedEnemyField = new TextField("10", 8);
+			this.disguisedEnemyField = new TextField("10", 8);
 			Button set = new Button("Start");
 			
 			//adding to window
@@ -42,7 +42,7 @@ public class GUI {
 			
 			//scouts' fields
 			Label scoutNumber = new Label("Declare scouts:");
-			TextField scoutNumberField = new TextField("5", 8);
+			this.scoutNumberField = new TextField("5", 8);
 			window.add(scoutNumber);
 			window.add(scoutNumberField);
 			
@@ -51,7 +51,7 @@ public class GUI {
 			
 			//gunners' fields
 			Label gunnerNumber = new Label("Declare gunners:");
-			TextField gunnerNumberField = new TextField("5", 8);
+			this.gunnerNumberField = new TextField("5", 8);
 			Button gunnerButton = new Button("Next");
 			
 			ArrayList<TextField[]> scoutFields = new ArrayList<TextField[]>();
@@ -102,7 +102,7 @@ public class GUI {
 		    
 		    
 		    
-			List<TextField> gunnerFields = new ArrayList<TextField>();
+		    this.gunnerFields = new ArrayList<TextField>();
 
 		    gunnerButton.addActionListener(new ActionListener(){  
 		        public void actionPerformed(ActionEvent e){  

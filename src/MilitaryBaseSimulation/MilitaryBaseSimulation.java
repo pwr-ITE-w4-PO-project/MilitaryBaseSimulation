@@ -1,5 +1,6 @@
 package MilitaryBaseSimulation;
 
+import MilitaryBaseSimulation.GUI.GUI;
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
@@ -18,16 +19,13 @@ import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
 import java.util.*;
 import java.util.List;
-//import org.eclipse.swt.widgets.*;
-import java.awt.*;
 
 public class MilitaryBaseSimulation {
 
 	public static void main(String[] args) {
 		
-		//Frame x = new Frame();
-		//x.setSize(1000, 500);
-		//x.setVisible(true);
+		GUI gui = new GUI();
+
 		if(args.length > 0) {
 			List<Integer> argsInt = new ArrayList<Integer>();
 			//converts args to integers and exits if unsuccessful
@@ -43,13 +41,22 @@ public class MilitaryBaseSimulation {
 			}
 			int scoutsCount = argsInt.get(0); //number of scouts
 			int gunnersCount = argsInt.get(1+ scoutsCount*4); //number of gunners
-			int expectedArgsLength = scoutsCount*4 + gunnersCount + 4;
+			int expectedArgsLength = scoutsCount*4 + gunnersCount + 6;
 			
 			boolean enoughArgs = expectedArgsLength == argsInt.size() ? true : false;
 			
 			if(!enoughArgs) {
 				System.out.println("Not enough input arguments. The rest must be filled in GUI.");
 			}
+			
+			gui.setNumberOfScouts(scoutsCount);
+			
+			try {
+				
+			}catch(Exception e) {
+				
+			}
+			
 			//below is used to transfer args to existing input scheme
 			String userInput = "";
 			for(String value: args) {
@@ -59,9 +66,10 @@ public class MilitaryBaseSimulation {
 			System.setIn(input);
 		}
 		
+		//GUI x = new GUI();
 		
-		buildSimulation();
-		run();
+		//buildSimulation();
+		//run();
 	}
 	//randomness handler
 	private static Random random = new Random();
