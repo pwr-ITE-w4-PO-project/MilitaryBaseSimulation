@@ -27,7 +27,7 @@ class FillGuiTest {
 		try {
 			Method tested = MilitaryBaseSimulation.class.getDeclaredMethod("fillGui", IGUI.class, int[].class);
 			tested.setAccessible(true);
-			//1 5 20 50 50 1 100 200 5 3 20
+
 			int[] args = {1, 5, 20, 50, 50, 1, 100, 200, 5, 3, 20};
 			
 			IGUI xyz = new GUI(Map.getInstance(), false);
