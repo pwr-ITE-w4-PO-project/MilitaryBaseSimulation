@@ -16,6 +16,7 @@ import MilitaryBaseSimulation.Militaries.Gunner.*;
 import MilitaryBaseSimulation.Militaries.Headquarters.*;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -143,12 +144,13 @@ public class MilitaryBaseSimulation {
 			
 			for(int i = 0; i<iterations;i++) {
 				
-				writer.write(i + ";" + commander.getRating() + ";" + baseHP +";");
+				writer.write(i+1 + ";" + commander.getRating() + ";" + baseHP +";");
 				for(int j = 0; j<scouts.size(); j++) writer.write(scouts.get(j).getTrustLevel() + ";");
 				writer.write(Unit.getCount() + ";" + NeutralUnit.getCount() + ";" + EnemyUnit.getCount() + ";" + DisguisedEnemyUnit.getCount() + "\n");
 				
+				scoutsTrusts.clear();
 				scouts.forEach(scout -> scoutsTrusts.add(scout.getTrustLevel()));
-				gui.drawMap(scoutsTrusts, baseHP, i, commander.getRating(), 
+				gui.drawMap(scoutsTrusts, baseHP, i+1, commander.getRating(), 
 						Unit.getCount(), NeutralUnit.getCount(), 
 						EnemyUnit.getCount(), DisguisedEnemyUnit.getCount());
 				
@@ -178,8 +180,10 @@ public class MilitaryBaseSimulation {
 			}
 			writer.write("\nSimulation ended because it approached iteration limit.");
 			writer.close();
-		}catch(Exception e) {
+		}catch(IOException e){
 			System.out.println("Cannot access simulationData.txt, simulation data cannot be saved. " + e.getMessage());
+		}catch(InterruptedException e) {
+			System.out.println("Delaying process interrupted. " + e.getMessage());
 		}
 	}
 	

@@ -19,7 +19,7 @@ public class Scout extends Unit implements IScout{
 	private int effectiveness;
 	private int visionRange;
 	private IReportReceiver commander;
-;
+
 	/**
 	 * Constructor.
 	 * @param movementRange Range of motion.
