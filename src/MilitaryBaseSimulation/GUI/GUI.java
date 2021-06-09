@@ -26,7 +26,6 @@ public class GUI extends Frame{
 	private Button gunnerButton;
 	private Button set;
 	private ActionListener setButtonOnClick;
-	private Color zolty;
 	private Map map;
 		
 		public GUI (Map mapToDraw) {
@@ -43,7 +42,6 @@ public class GUI extends Frame{
 			this.disguisedEnemyField = new TextField("10", 8);
 			this.set = new Button("Start");
 			addWindowListener(new MyWindowListener());
-			this.zolty=new Color(0, 181, 162);
 			
 			//adding to window
 			add(duration);
@@ -54,7 +52,7 @@ public class GUI extends Frame{
 			add(enemyField);
 			add(disguisedEnemy);
 			add(disguisedEnemyField);
-			add(set);
+			
 			
 			
 			//scouts' fields
@@ -76,10 +74,15 @@ public class GUI extends Frame{
 			this.scoutFields = new ArrayList<TextField[]>();
 
 			this.scoutButtonOnClick = new ActionListener(){  
-		        public void actionPerformed(ActionEvent e){  
+		        
+				public void actionPerformed(ActionEvent e){  
+		        	
 		        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
-					for(int i = 0; i < numberOfScouts; i++){
-					    scoutFields.add(new TextField[4]);
+					
+		        	for(int i = 0; i < numberOfScouts; i++){
+					    	
+							scoutFields.add(new TextField[4]);
+					    
 					    	Label scoutSpeed = new Label("Movement speed:");
 					    	add(scoutSpeed);
 					        scoutFields.get(i)[0] = new TextField("0", 8);
@@ -131,12 +134,12 @@ public class GUI extends Frame{
 					    	Label gunnerAccuracy = new Label("Accuracy:");
 					    	add(gunnerAccuracy);
 					        add(gunnerFields.get(i));
-					        zolty=new Color(0, 17, 182);
 
 					}
 					
 					
 		        	remove(gunnerButton);
+		        	add(set);
 	                revalidate();
 	                repaint();
 	                
@@ -146,9 +149,22 @@ public class GUI extends Frame{
 		        
 
 		    this.gunnerButton.addActionListener(this.gunnerButtonOnClick);
-			setLayout(new FlowLayout());
+			
+		    
+		    
+		    this.setButtonOnClick = new ActionListener(){
+		    		
+		    	public void actionPerformed(ActionEvent e){  
+		    		MilitaryBaseSimulation.MilitaryBaseSimulation.buildSimulation();
+		    		MilitaryBaseSimulation.MilitaryBaseSimulation.run();
+		    		}  
+		    };
+		    this.set.addActionListener(this.setButtonOnClick);
+		    
+		    setLayout(new FlowLayout());
 			setSize(1280, 720);
 			setVisible(true);
+			
 		}
 		
 		
@@ -249,7 +265,6 @@ public class GUI extends Frame{
 		      @Override public void windowActivated(WindowEvent evt) { System.out.println("Window Activated"); }
 		      @Override public void windowDeactivated(WindowEvent evt) { System.out.println("Window Deactivated"); }
 		   }	
-		
 
 		   public void drawMap() {
 			   this.paint(getGraphics());
