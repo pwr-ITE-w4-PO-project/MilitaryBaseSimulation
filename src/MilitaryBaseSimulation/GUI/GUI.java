@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import MilitaryBaseSimulation.Map.IMap;
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 
@@ -22,28 +23,43 @@ public class GUI extends Frame implements IGUI{
 	private ArrayList<TextField> gunnerFields;
 	private ActionListener scoutButtonOnClick;
 	private Button scoutButton;
-	private ActionListener gunnerButtonOnClick;
-	private Button gunnerButton;
 	private Button set;
 	private ActionListener setButtonOnClick;
-	private Map map;
+	private IMap map;
 		
-		public GUI (Map mapToDraw, boolean shouldBeVisible) {
+		public GUI (IMap mapToDraw, boolean shouldBeVisible) {
 
 			this.map = mapToDraw;
 			
+			
+			setLayout(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			
+
+
+	         
+	         
+	         
+	         
 			//texts
 			Label duration = new Label("Duration of the simulation:");
 			Label baseHP = new Label("Initial base health points:");
 			Label disguisedEnemy = new Label("Disguised enemy units generating period:");
 			Label enemy = new Label("Enemy units generating period:");
+			Label scoutNumber = new Label("Declare scouts:");			
+			Label gunnerNumber = new Label("Declare gunners:");	
 			
 			//textfields
+			this.scoutNumberField = new TextField("5", 8);
 			this.baseHPField = new TextField("1000000", 8);
 			this.durationField = new TextField("1000000", 8);
 			this.enemyField = new TextField("10", 8);
 			this.disguisedEnemyField = new TextField("10", 8);
 			this.set = new Button("Start");
+			this.set.setEnabled(false);
+
+			this.gunnerNumberField = new TextField("5", 8);
+			this.scoutButton = new Button("Next");
 			
 			
 			
@@ -57,78 +73,133 @@ public class GUI extends Frame implements IGUI{
 			addWindowListener(new MyWindowListener());
 			
 			
-			//adding to window
-			add(duration);
-			add(durationField);
-			add(baseHP);
-			add(baseHPField);
-			add(enemy);
-			add(enemyField);
-			add(disguisedEnemy);
-			add(disguisedEnemyField);
 			
-			
-			
-			//scouts' fields
-			Label scoutNumber = new Label("Declare scouts:");
-			this.scoutNumberField = new TextField("5", 8);
-			add(scoutNumber);
-			add(scoutNumberField);
-			
-			this.scoutButton = new Button("Next");
-			add(scoutButton);
-			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 0;
+			c.gridy = 0;
 
 			
-			//gunners' fields
-			Label gunnerNumber = new Label("Declare gunners:");
-			this.gunnerNumberField = new TextField("5", 8);
-			this.gunnerButton = new Button("Next");
+			
+			//adding first column of labels
+			add(duration, c);
+			c.gridy = 1;
+			add(baseHP, c);
+			c.gridy = 2;
+			add(enemy, c);
+			c.gridy = 3;
+			add(disguisedEnemy, c);
+			c.gridy = 4;
+			add(scoutNumber, c);
+			c.gridy = 5;
+			add(gunnerNumber, c);
+			c.gridy = 6;
+			add(set, c);
+			
+			
+			//adding first column of fields
+			c.gridx = 1;
+			c.gridy = 0;
+			add(durationField, c);
+			c.gridy = 1;
+			add(baseHPField, c);
+			c.gridy = 2;
+			add(enemyField, c);
+			c.gridy = 3;
+			add(disguisedEnemyField, c);
+			c.gridy = 4;
+			add(scoutNumberField, c);
+			c.gridy = 5;
+			add(gunnerNumberField, c);
+			c.gridy = 6;
+        	add(scoutButton, c);
+			
+
+
 			
 			this.scoutFields = new ArrayList<TextField[]>();
+		    this.gunnerFields = new ArrayList<TextField>();
 
 			this.scoutButtonOnClick = new ActionListener(){  
 		        
 				public void actionPerformed(ActionEvent e){  
 		        	
 		        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
-					
+		        	c.weightx = 1.0;
+					c.gridx = 3;
 		        	for(int i = 0; i < numberOfScouts; i++){
 					    	
 							scoutFields.add(new TextField[4]);
-					    
+							
+
+							//labels
 					    	Label scoutSpeed = new Label("Movement speed:");
-					    	add(scoutSpeed);
-					        scoutFields.get(i)[0] = new TextField("0", 8);
-					        add(scoutFields.get(i)[0]);
-					        
 					    	Label scoutEffectiveness = new Label("Effectiveness:");
-					    	add(scoutEffectiveness);
-					        scoutFields.get(i)[1] = new TextField("0", 8);
-					        add(scoutFields.get(i)[1]);
-					        
-					    	Label scoutTrust = new Label("Trust level:");
-					    	add(scoutTrust);
-					        scoutFields.get(i)[2] = new TextField("0", 8);
-					        add(scoutFields.get(i)[2]);
-					        
+					    	Label scoutTrust = new Label("Trust level:");	
 					    	Label scoutVisionRange = new Label("Vision range:");
-					    	add(scoutVisionRange);
+					    	
+					    	//fields
+					        scoutFields.get(i)[0] = new TextField("0", 8);	
+					        scoutFields.get(i)[1] = new TextField("0", 8);
+					        scoutFields.get(i)[2] = new TextField("0", 8);		
 					        scoutFields.get(i)[3] = new TextField("0", 8);
-					        add(scoutFields.get(i)[3]);
+					        
+
+							c.gridy = 0;
+							
+					        //first column of labels
+					        add(scoutSpeed, c);
+							c.gridy = 1;
+					    	add(scoutTrust, c);
+							c.gridy = 2;
+					    	add(scoutEffectiveness, c);
+							c.gridy = 3;
+					    	add(scoutVisionRange, c);
+
+					    	
+							c.gridx++;
+							c.gridy = 0;
+							
+					        //first column of fields
+					        add(scoutFields.get(i)[0], c);
+							c.gridy = 1;
+					        add(scoutFields.get(i)[1], c);
+							c.gridy = 2;
+					        add(scoutFields.get(i)[2], c);	
+							c.gridy = 3;
+					        add(scoutFields.get(i)[3], c);
+							c.gridx++;
+
+
 
 					}
 					
+		        	
+		        	
+		        	
+		        	int numberOfGunners= Integer.parseInt(gunnerNumberField.getText());
+					c.gridx = 3;
+					c.gridy = 5;
+					
+					for(int i = 0; i < numberOfGunners; i++){
+						
+					    	gunnerFields.add(new TextField("0", 8));
+					    	Label gunnerAccuracy = new Label("Accuracy:");
+					    	
+							
+			
+
+							
+					    	add(gunnerAccuracy, c);
+					    	c.gridx++;
+							add(gunnerFields.get(i), c);
+							c.gridx++;
+
+					}
 					
 
-					add(gunnerNumber);
-					add(gunnerNumberField);
-					
-					
-					add(gunnerButton);
+
 					
 
-		        	remove(scoutButton);
 	                revalidate();
 	                repaint();
 	                
@@ -138,31 +209,10 @@ public class GUI extends Frame implements IGUI{
 			
 		    this.scoutButton.addActionListener(this.scoutButtonOnClick);
 		    
-		    this.gunnerFields = new ArrayList<TextField>();
 
-			this.gunnerButtonOnClick = new ActionListener(){  
-		        public void actionPerformed(ActionEvent e){  
-		        	int numberOfGunners= Integer.parseInt(gunnerNumberField.getText());
-					for(int i = 0; i < numberOfGunners; i++){
-					    gunnerFields.add(new TextField("0", 8));
-					    	Label gunnerAccuracy = new Label("Accuracy:");
-					    	add(gunnerAccuracy);
-					        add(gunnerFields.get(i));
 
-					}
-					
-					
-		        	remove(gunnerButton);
-		        	add(set);
-	                revalidate();
-	                repaint();
-	                
-	                
-		            }  
-		        }; 
-		        
 
-		    this.gunnerButton.addActionListener(this.gunnerButtonOnClick);
+		     
 			
 		    
 		    
@@ -176,7 +226,7 @@ public class GUI extends Frame implements IGUI{
 		    this.set.addActionListener(this.setButtonOnClick);
 		    
 		    
-		    setLayout(null);
+
 			setSize(1920, 1080);
 			setVisible(shouldBeVisible);
 			
@@ -245,7 +295,6 @@ public class GUI extends Frame implements IGUI{
 		
 		public void setNumberOfGunners(int gunners) {
 			gunnerNumberField.setText(String.valueOf(gunners));
-			this.gunnerButtonOnClick.actionPerformed(new ActionEvent(gunnerButton, ActionEvent.ACTION_PERFORMED, "test"));
 		}
 		
 		
