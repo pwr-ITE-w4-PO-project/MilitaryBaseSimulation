@@ -11,7 +11,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 
 
 
-public class GUI extends Frame{
+public class GUI extends Frame implements IGUI{
 	private TextField baseHPField;	
 	private TextField durationField;
 	private TextField enemyField;
