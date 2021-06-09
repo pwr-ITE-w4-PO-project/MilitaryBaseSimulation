@@ -24,7 +24,7 @@ module MilitaryBaseSimulation {
 	exports Map;
 	exports MoveGenerators.EnemyMoveGenerator;
 
-	requires java.desktop;
+	requires transitive java.desktop;
 	requires junit;
 	requires org.junit.jupiter.api;
 }

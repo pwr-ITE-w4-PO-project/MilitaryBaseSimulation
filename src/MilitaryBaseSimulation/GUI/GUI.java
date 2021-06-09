@@ -4,15 +4,14 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
 
 import MilitaryBaseSimulation.Map.IMap;
-import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 
 
-
+@SuppressWarnings("serial")
 public class GUI extends Frame implements IGUI{
+	
 	private TextField baseHPField;	
 	private TextField durationField;
 	private TextField enemyField;
@@ -49,6 +48,10 @@ public class GUI extends Frame implements IGUI{
 			Label scoutNumber = new Label("Declare scouts:");			
 			Label gunnerNumber = new Label("Declare gunners:");	
 			
+	    	//stat labels
+			Label titleHP = new Label("Base HP:");
+			Label HP = new Label("100/100");
+			
 			//textfields
 			this.scoutNumberField = new TextField("5", 8);
 			this.baseHPField = new TextField("1000000", 8);
@@ -63,17 +66,15 @@ public class GUI extends Frame implements IGUI{
 			
 			
 			
-			
+			c.ipady = 0; 
 			//setting location
-			duration.setLocation(200, 150);
-			this.set.setSize(100, 20);
-			
+
+
 			
 
 			addWindowListener(new MyWindowListener());
 			
-			
-			
+			c.anchor = GridBagConstraints.CENTER;
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = 0;
@@ -95,6 +96,10 @@ public class GUI extends Frame implements IGUI{
 			c.gridy = 6;
 			add(set, c);
 			
+			c.ipady = 780; 
+			c.gridy = 10;
+
+			c.ipady = 0; 
 			
 			//adding first column of fields
 			c.gridx = 1;
@@ -114,8 +119,13 @@ public class GUI extends Frame implements IGUI{
         	add(scoutButton, c);
 			
 
+        	
+        	
+        	
+        	
+        	
 
-			
+
 			this.scoutFields = new ArrayList<TextField[]>();
 		    this.gunnerFields = new ArrayList<TextField>();
 
@@ -124,19 +134,22 @@ public class GUI extends Frame implements IGUI{
 				public void actionPerformed(ActionEvent e){  
 		        	
 		        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
-		        	c.weightx = 1.0;
+
 					c.gridx = 3;
 		        	for(int i = 0; i < numberOfScouts; i++){
 					    	
 							scoutFields.add(new TextField[4]);
 							
-
+				        	c.insets = new Insets(0,30,0,0); 
 							//labels
 					    	Label scoutSpeed = new Label("Movement speed:");
 					    	Label scoutEffectiveness = new Label("Effectiveness:");
 					    	Label scoutTrust = new Label("Trust level:");	
 					    	Label scoutVisionRange = new Label("Vision range:");
 					    	
+
+					    	
+
 					    	//fields
 					        scoutFields.get(i)[0] = new TextField("0", 8);	
 					        scoutFields.get(i)[1] = new TextField("0", 8);
@@ -155,7 +168,7 @@ public class GUI extends Frame implements IGUI{
 							c.gridy = 3;
 					    	add(scoutVisionRange, c);
 
-					    	
+					    	c.insets = new Insets(0,10,0,0);
 							c.gridx++;
 							c.gridy = 0;
 							
@@ -188,18 +201,23 @@ public class GUI extends Frame implements IGUI{
 							
 			
 
-							
+					    	c.insets = new Insets(0,30,0,0);
 					    	add(gunnerAccuracy, c);
 					    	c.gridx++;
+					    	
+					    	c.insets = new Insets(0,10,0,0);
 							add(gunnerFields.get(i), c);
 							c.gridx++;
+					    	
 
 					}
 					
 
 
+					c.insets = new Insets(0,0,0,0);
 					
-
+					set.setEnabled(true);
+					scoutButton.setEnabled(false);
 	                revalidate();
 	                repaint();
 	                
@@ -219,6 +237,21 @@ public class GUI extends Frame implements IGUI{
 		    this.setButtonOnClick = new ActionListener(){
 		    		
 		    	public void actionPerformed(ActionEvent e){  
+					set.setEnabled(false);
+	                
+					//base stats
+
+					c.gridx = 0;
+					c.gridy = 7;
+					add(titleHP, c);
+					add(HP, c);
+					
+					
+					
+					
+					
+					revalidate();
+	                repaint();
 		    		MilitaryBaseSimulation.MilitaryBaseSimulation.buildSimulation();
 		    		MilitaryBaseSimulation.MilitaryBaseSimulation.run();
 		    		}  
@@ -226,7 +259,8 @@ public class GUI extends Frame implements IGUI{
 		    this.set.addActionListener(this.setButtonOnClick);
 		    
 		    
-
+			c.gridx = 10;
+			c.gridy = 10;
 			setSize(1920, 1080);
 			setVisible(shouldBeVisible);
 			
@@ -300,6 +334,10 @@ public class GUI extends Frame implements IGUI{
 			this.scoutButtonOnClick.actionPerformed(new ActionEvent(scoutButton, ActionEvent.ACTION_PERFORMED, "test"));
 		}
 		
+		public void pressStart() {
+			this.setButtonOnClick.actionPerformed(new ActionEvent(set, ActionEvent.ACTION_PERFORMED, "test"));
+		}
+		
 		
 		
 		public void setScout(int scoutID, int movement, int effectiveness, int trust, int vision) {
@@ -367,7 +405,7 @@ public class GUI extends Frame implements IGUI{
 					   			else {
 					   				g.setColor(Color.GREEN);
 					   			}
-				   				g.fillRect(i*10+350, j*10+200, 10, 10);
+				   				g.fillRect(i*10+350, j*10+200, 20, 20);
 					   		}
 					   	}	
 			   		}
