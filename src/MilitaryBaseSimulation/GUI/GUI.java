@@ -25,6 +25,14 @@ public class GUI extends Frame implements IGUI{
 	private Button set;
 	private ActionListener setButtonOnClick;
 	private IMap map;
+	
+	private Label HP;
+	private Label iterationsNumber;
+	private Label commandersRating;
+	private Label unitCountNumber;
+	private Label neutralNumber;
+	private Label enemiesNumber;
+	private Label disguisedNumber;
 		
 		public GUI (IMap mapToDraw, boolean shouldBeVisible) {
 
@@ -49,8 +57,23 @@ public class GUI extends Frame implements IGUI{
 			Label gunnerNumber = new Label("Declare gunners:");	
 			
 	    	//stat labels
+			Label titleStats = new Label("Simulation statistics:");
 			Label titleHP = new Label("Base HP:");
-			Label HP = new Label("100/100");
+			Label iterations = new Label("Iteration:");
+			Label commander = new Label("Commander's rating:");
+			Label unitCount = new Label("Unit count:");
+			Label neutral = new Label("Neutral units:");
+			Label enemies = new Label("Enemy units:");
+			Label disguised = new Label("Disguised enemy units:");
+			
+			this.HP = new Label("100/100");
+			this.iterationsNumber = new Label("1");
+			this.commandersRating = new Label("100");
+			this.unitCountNumber = new Label("1");
+			this.neutralNumber = new Label("1");
+			this.enemiesNumber = new Label("1");
+			this.disguisedNumber = new Label("1");
+			
 			
 			//textfields
 			this.scoutNumberField = new TextField("5", 8);
@@ -240,11 +263,67 @@ public class GUI extends Frame implements IGUI{
 					set.setEnabled(false);
 	                
 					//base stats
-
+					
+					c.insets = new Insets(200,0,0,0);
 					c.gridx = 0;
 					c.gridy = 7;
+					add(titleStats, c);
+					c.insets = new Insets(0,0,0,0);
+					c.gridy++;
 					add(titleHP, c);
+					c.gridy++;
 					add(HP, c);
+					c.gridy++;
+					add(iterations, c);
+					c.gridy++;
+					add(iterationsNumber, c);
+					c.gridy++;
+					add(commander, c);
+					c.gridy++;
+					add(commandersRating, c);
+					c.gridy++;
+					add(unitCount, c);
+					c.gridy++;
+					add(unitCountNumber, c);
+					c.gridy++;
+					add(neutral, c);
+					c.gridy++;
+					add(neutralNumber, c);
+					c.gridy++;
+					add(enemies, c);
+					c.gridy++;
+					add(enemiesNumber, c); 
+					c.gridy++;
+					add(disguised, c);
+					c.gridy++;
+					c.insets = new Insets(0,0,250,0);
+					add(disguisedNumber, c);
+					c.insets = new Insets(0,0,0,0);
+
+			    	c.gridx = 1;
+					c.gridy = 7;
+					c.insets = new Insets(200,0,0,0);
+		        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
+					for(int i = 0; i < numberOfScouts; i++){
+						//labels
+				    	Label scout = new Label("Scout");
+				    	Label scoutTrust = new Label("Trust level:");
+				    	Label scoutTrustLevel = new Label("30");
+
+						scout.setText("Scout "+(i+1));
+						add(scout,c);
+						c.insets = new Insets(0,0,0,0);
+						c.gridy++;
+						add(scoutTrust, c);
+						c.gridy++;
+						if(i+1==numberOfScouts) {
+							c.insets = new Insets(0,0,250,0);
+						}
+						add(scoutTrustLevel, c);
+						c.gridy++;
+						
+					}
+					
 					
 					
 					
@@ -259,8 +338,7 @@ public class GUI extends Frame implements IGUI{
 		    this.set.addActionListener(this.setButtonOnClick);
 		    
 		    
-			c.gridx = 10;
-			c.gridy = 10;
+
 			setSize(1920, 1080);
 			setVisible(shouldBeVisible);
 			
@@ -371,8 +449,21 @@ public class GUI extends Frame implements IGUI{
 		      @Override public void windowDeactivated(WindowEvent evt) { System.out.println("Window Deactivated"); }
 		   }	
 
-		   public void drawMap() {
-			   this.paint(getGraphics());
+		   public void drawMap(List<Integer> scouts, int baseHP, int iterations, int rating, int unitCount, int neutral, int enemy, int disguised) {
+				this.HP.setText(String.valueOf(baseHP));
+				this.iterationsNumber.setText(String.valueOf(iterations));
+				this.commandersRating.setText(String.valueOf(rating));
+				this.unitCountNumber.setText(String.valueOf(unitCount));
+				this.neutralNumber.setText(String.valueOf(neutral));
+				this.enemiesNumber.setText(String.valueOf(enemy));
+				this.disguisedNumber.setText(String.valueOf(disguised));
+	        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
+	        	this.paint(getGraphics());
+		   }
+		   
+		   
+		   public String getTextData (int text) {
+			   return String.valueOf(text);
 		   }
 		   
 		   @Override
@@ -405,7 +496,7 @@ public class GUI extends Frame implements IGUI{
 					   			else {
 					   				g.setColor(Color.GREEN);
 					   			}
-				   				g.fillRect(i*10+350, j*10+200, 20, 20);
+				   				g.fillRect(i*10+600, j*10+360, 20, 20);
 					   		}
 					   	}	
 			   		}

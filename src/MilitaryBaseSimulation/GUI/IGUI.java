@@ -19,6 +19,6 @@ public interface IGUI {
 	public void setParameters();
 	public void setScout(int scoutID, int movement, int effectiveness, int trust, int vision);
 	public void setGunner(int gunnerID, int accuracy);
-	public void drawMap();
+	public void drawMap(List<Integer> scouts, int baseHP, int iterations, int rating, int unitCount, int neutral, int enemy, int disguised);
 
 }
