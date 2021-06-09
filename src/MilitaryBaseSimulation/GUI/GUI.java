@@ -33,6 +33,7 @@ public class GUI extends Frame implements IGUI{
 	private Label neutralNumber;
 	private Label enemiesNumber;
 	private Label disguisedNumber;
+	private ArrayList<Label> trustLevel; 
 		
 		public GUI (IMap mapToDraw, boolean shouldBeVisible) {
 
@@ -73,6 +74,7 @@ public class GUI extends Frame implements IGUI{
 			this.neutralNumber = new Label("1");
 			this.enemiesNumber = new Label("1");
 			this.disguisedNumber = new Label("1");
+			this.trustLevel = new ArrayList<Label>();
 			
 			
 			//textfields
@@ -263,7 +265,6 @@ public class GUI extends Frame implements IGUI{
 					set.setEnabled(false);
 	                
 					//base stats
-					
 					c.insets = new Insets(200,0,0,0);
 					c.gridx = 0;
 					c.gridy = 7;
@@ -308,8 +309,7 @@ public class GUI extends Frame implements IGUI{
 						//labels
 				    	Label scout = new Label("Scout");
 				    	Label scoutTrust = new Label("Trust level:");
-				    	Label scoutTrustLevel = new Label("30");
-
+				    	trustLevel.add(new Label("0"));
 						scout.setText("Scout "+(i+1));
 						add(scout,c);
 						c.insets = new Insets(0,0,0,0);
@@ -319,7 +319,7 @@ public class GUI extends Frame implements IGUI{
 						if(i+1==numberOfScouts) {
 							c.insets = new Insets(0,0,250,0);
 						}
-						add(scoutTrustLevel, c);
+						add(trustLevel.get(i), c);
 						c.gridy++;
 						
 					}
@@ -450,7 +450,7 @@ public class GUI extends Frame implements IGUI{
 		   }	
 
 		   public void drawMap(List<Integer> scouts, int baseHP, int iterations, int rating, int unitCount, int neutral, int enemy, int disguised) {
-				this.HP.setText(String.valueOf(baseHP));
+				this.HP.setText(String.valueOf(baseHP)+"/"+baseHPField.getText());
 				this.iterationsNumber.setText(String.valueOf(iterations));
 				this.commandersRating.setText(String.valueOf(rating));
 				this.unitCountNumber.setText(String.valueOf(unitCount));
@@ -458,6 +458,9 @@ public class GUI extends Frame implements IGUI{
 				this.enemiesNumber.setText(String.valueOf(enemy));
 				this.disguisedNumber.setText(String.valueOf(disguised));
 	        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
+	        	for(int i=0; i<numberOfScouts; i++) {
+	        		this.trustLevel.get(i).setText(String.valueOf(scouts.get(i)));
+	        	}
 	        	this.paint(getGraphics());
 		   }
 		   
