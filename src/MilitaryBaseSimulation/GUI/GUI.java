@@ -290,11 +290,14 @@ public class GUI extends Frame implements IGUI{
 		
 		public void setNumberOfScouts(int scouts) {
 			scoutNumberField.setText(String.valueOf(scouts));
-			this.scoutButtonOnClick.actionPerformed(new ActionEvent(scoutButton, ActionEvent.ACTION_PERFORMED, "test"));
 		}
 		
 		public void setNumberOfGunners(int gunners) {
 			gunnerNumberField.setText(String.valueOf(gunners));
+		}
+		
+		public void setParameters() {
+			this.scoutButtonOnClick.actionPerformed(new ActionEvent(scoutButton, ActionEvent.ACTION_PERFORMED, "test"));
 		}
 		
 		
