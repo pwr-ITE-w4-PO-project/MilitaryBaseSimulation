@@ -34,6 +34,7 @@ public class GUI extends Frame implements IGUI{
 	private Label enemiesNumber;
 	private Label disguisedNumber;
 	private ArrayList<Label> trustLevel; 
+	private int numberOfScouts;
 		
 		public GUI (IMap mapToDraw, boolean shouldBeVisible) {
 
@@ -105,7 +106,6 @@ public class GUI extends Frame implements IGUI{
 			c.gridy = 0;
 
 			
-			
 			//adding first column of labels
 			add(duration, c);
 			c.gridy = 1;
@@ -158,7 +158,7 @@ public class GUI extends Frame implements IGUI{
 		        
 				public void actionPerformed(ActionEvent e){  
 		        	
-		        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
+		        	numberOfScouts= Integer.parseInt(scoutNumberField.getText());
 
 					c.gridx = 3;
 		        	for(int i = 0; i < numberOfScouts; i++){
@@ -297,14 +297,12 @@ public class GUI extends Frame implements IGUI{
 					c.gridy++;
 					add(disguised, c);
 					c.gridy++;
-					c.insets = new Insets(0,0,250,0);
 					add(disguisedNumber, c);
-					c.insets = new Insets(0,0,0,0);
+
 
 			    	c.gridx = 1;
 					c.gridy = 7;
 					c.insets = new Insets(200,0,0,0);
-		        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
 					for(int i = 0; i < numberOfScouts; i++){
 						//labels
 				    	Label scout = new Label("Scout");
@@ -317,16 +315,19 @@ public class GUI extends Frame implements IGUI{
 						add(scoutTrust, c);
 						c.gridy++;
 						if(i+1==numberOfScouts) {
-							c.insets = new Insets(0,0,250,0);
+
 						}
 						add(trustLevel.get(i), c);
 						c.gridy++;
 						
 					}
-					
-					
-					
-					
+			    	c.gridx = 0;
+					c.gridy = 22;
+					Panel panel = new Panel();
+					c.ipady = 200;
+					c.gridwidth = 2;
+					add(panel, c);
+
 					
 					
 					revalidate();
@@ -338,7 +339,7 @@ public class GUI extends Frame implements IGUI{
 		    this.set.addActionListener(this.setButtonOnClick);
 		    
 		    
-
+		    setResizable(false);
 			setSize(1920, 1080);
 			setVisible(shouldBeVisible);
 			
@@ -363,7 +364,6 @@ public class GUI extends Frame implements IGUI{
 		
 		public ArrayList<int[]> getScout() {
 			ArrayList<int[]> scoutList = new ArrayList<int[]>();
-			int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
 			for(int i = 0; i < numberOfScouts; i++){
 			    scoutList.add(new int[4]);
 			    	for(int j=0; j<4; j++) {
@@ -457,7 +457,6 @@ public class GUI extends Frame implements IGUI{
 				this.neutralNumber.setText(String.valueOf(neutral));
 				this.enemiesNumber.setText(String.valueOf(enemy));
 				this.disguisedNumber.setText(String.valueOf(disguised));
-	        	int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
 	        	for(int i=0; i<numberOfScouts; i++) {
 	        		this.trustLevel.get(i).setText(String.valueOf(scouts.get(i)));
 	        	}
@@ -480,16 +479,16 @@ public class GUI extends Frame implements IGUI{
 					   			if(units[i][j]!=null) {
 					   				switch(units[i][j].getUnitChar()) {
 					   					case 'S':
-					   						g.setColor(Color.RED);
+					   						g.setColor(new Color(90, 226, 106));
 					   						break;
 					   					case 'E':
-					   						g.setColor(Color.CYAN);
+					   						g.setColor(new Color(211, 69, 100));
 					   						break;
 					   					case 'D':
-					   						g.setColor(Color.YELLOW);
+					   						g.setColor(new Color(207, 250, 103));
 					   						break;
 					   					case 'N':
-					   						g.setColor(Color.BLUE);
+					   						g.setColor(new Color(97, 195, 225));
 					   						break;
 					   					default:
 					   						g.setColor(Color.white);
@@ -497,9 +496,9 @@ public class GUI extends Frame implements IGUI{
 					   				}
 					   			}
 					   			else {
-					   				g.setColor(Color.GREEN);
+					   				g.setColor(new Color(70, 70, 70));
 					   			}
-				   				g.fillRect(i*10+600, j*10+360, 20, 20);
+				   				g.fillRect(i*10+800+240/numberOfScouts, j*10+360, 20, 20);
 					   		}
 					   	}	
 			   		}
