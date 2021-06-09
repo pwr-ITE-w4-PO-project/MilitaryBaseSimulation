@@ -16,10 +16,10 @@ public class Gunner implements IGunner {
 	}
 	
 	/**
-	 * 
+	 * Causes unit to use getDestroyed method, depending on random chance due to Gunner's accuracy
 	 * @param unit Unit which will be attacked by Gunner
 	 */
-	public void attack(IDestroyable unit) {
+	private void attack(IDestroyable unit) {
 		if(MilitaryBaseSimulation.generateRandomEventHappening(this.accuracy))
 			unit.getDestroyed();
 	}

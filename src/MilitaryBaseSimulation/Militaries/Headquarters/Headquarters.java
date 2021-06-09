@@ -30,7 +30,7 @@ public class Headquarters implements IHeadquarters{
 	}
 	
 	/**
-	 * Manages info after destroying unit.
+	 * Manages rating Commander and sending info to him after destroying unit.
 	 * @param destroyedUnit Unit which was destroyed by Gunner.
 	 */
 	public void manageDeathInfo(IIdentified destroyedUnit)
@@ -48,7 +48,8 @@ public class Headquarters implements IHeadquarters{
 	}
 	
 	/**
-	 * 
+	 * Manages rating Commander and sending info to him after base being attacked.
+	 * @param unit Unit which attacked the base
 	 */
 	public void manageBaseAttack(IIdentified unit)
 	{
