@@ -27,9 +27,11 @@ public class GUI extends Frame{
 	private Button set;
 	private ActionListener setButtonOnClick;
 	private Color zolty;
+	private Map map;
 		
-		public GUI () {
+		public GUI (Map mapToDraw) {
 			
+			this.map = mapToDraw;
 			//texts
 			Label duration = new Label("Duration of the simulation:");
 			Label baseHP = new Label("Initial base health points:");
@@ -141,11 +143,12 @@ public class GUI extends Frame{
 	                
 		            }  
 		        }; 
+		        
+
 		    this.gunnerButton.addActionListener(this.gunnerButtonOnClick);
 			setLayout(new FlowLayout());
 			setSize(1280, 720);
 			setVisible(true);
-			
 			
 		}
 		
@@ -246,24 +249,44 @@ public class GUI extends Frame{
 		      @Override public void windowDeiconified(WindowEvent evt) { System.out.println("Window Deiconified"); }
 		      @Override public void windowActivated(WindowEvent evt) { System.out.println("Window Activated"); }
 		      @Override public void windowDeactivated(WindowEvent evt) { System.out.println("Window Deactivated"); }
-		   }
+		   }	
 		
 
-		   @Override
-		   public void paint(Graphics g) {
-			   Graphics2D rectangle = (Graphics2D) g;
+		   public void drawMap() {
+			   this.draw(getGraphics());
+		   }
+		   
+		   
+		   private void draw(Graphics g) {
 
-			   	int dimensions[] = Map.getInstance().getUpperBoundaries();
-
+			   	int dimensions[] = this.map.getUpperBoundaries();
+			   	IUnit [] [] units = this.map.getMap();
+			   	
 					   	for(int i=0; i<dimensions[0]; i++) {
 					   		for(int j=0; j<dimensions[1]; j++) {
-					   
-					   			if((i+j)%2 == 0) {
-					   				g.setColor(zolty);
-					   			}
-					   			else { 
-					   				g.setColor(Color.BLACK);
+					   			if(units[i][j]!=null) {
 
+					   			switch(units[i][j].getUnitChar()) {
+					
+					   			case 'S':
+					   				g.setColor(Color.RED);
+					   				break;
+					   			case 'E':
+					   				g.setColor(Color.CYAN);
+					   				break;
+					   			case 'D':
+					   				g.setColor(Color.YELLOW);
+					   				break;
+					   			case 'N':
+					   				g.setColor(Color.BLUE);
+					   				break;
+					   			default:
+					   				g.setColor(Color.white);
+					   			
+					   				}
+					   			}
+					   			else {
+					   				g.setColor(Color.GREEN);
 					   			}
 				   				g.fillRect(i*10+350, j*10+200, 10, 10);
 					   		}
