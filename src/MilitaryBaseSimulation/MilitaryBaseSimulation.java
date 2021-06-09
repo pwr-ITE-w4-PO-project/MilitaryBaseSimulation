@@ -135,7 +135,7 @@ public class MilitaryBaseSimulation {
 		
 		try {
 			FileWriter writer = new FileWriter("simulationData.csv");	
-			writer.write("Iteration;Commander's rating;");
+			writer.write("Iteration;Commander's rating;base hit points;");
 			for(int j = 0; j<scouts.size(); j++) writer.write("Scout no." + j + 1 + " trust level;");
 			writer.write("Unit count; NeutralUnit count; EnemyUnit count; DisguisedEnemyUnit count");
 			writer.write("\n");
@@ -143,16 +143,18 @@ public class MilitaryBaseSimulation {
 			for(int i = 0; i<iterations;i++) {
 				for(IUnit[] row : map) {
 					for(IUnit unit : row) {
-						try{
-							unit.move();
-							if(baseHP <= 0) {
-								System.out.println("Base was destroyed. Simulation ended.");
+						if(unit != null) {
+							try{
+								unit.move();
+								if(baseHP <= 0) {
+									System.out.println("Base was destroyed. Simulation ended.");
+									return;
+								}
+							}catch(Exception e) {
+								System.out.println("Simulation approached unexpected error." + e.getMessage());
+								writer.close();
 								return;
 							}
-						}catch(Exception e) {
-							System.out.println("Simulation approached unexpected error." + e.getMessage());
-							writer.close();
-							return;
 						}
 					}
 				}
@@ -160,7 +162,7 @@ public class MilitaryBaseSimulation {
 				TimeUnit.SECONDS.sleep(1);
 				for(IUnit unit : units) unit.refreshMovement();
 				
-				writer.write(i + ";" + commander.getRating() + ";");
+				writer.write(i + ";" + commander.getRating() + ";" + baseHP +";");
 				for(int j = 0; j<scouts.size(); j++) writer.write(scouts.get(j).getTrustLevel() + ";");
 				writer.write(Unit.getCount() + ";" + NeutralUnit.getCount() + ";" + EnemyUnit.getCount() + ";" + DisguisedEnemyUnit.getCount());
 				writer.write("\n");
