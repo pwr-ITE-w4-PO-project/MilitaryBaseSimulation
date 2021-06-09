@@ -1,6 +1,7 @@
 package MilitaryBaseSimulation;
 
 import MilitaryBaseSimulation.GUI.GUI;
+import MilitaryBaseSimulation.GUI.IGUI;
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
@@ -24,7 +25,7 @@ public class MilitaryBaseSimulation {
 
 	public static void main(String[] args) {
 
-		gui = new GUI(Map.getInstance());
+		gui = new GUI(Map.getInstance(), true);
 		
 		if(args.length > 0) { //below code handles command line arguments
 			int[] argsInt = new int[args.length];
@@ -58,7 +59,7 @@ public class MilitaryBaseSimulation {
 	private static ICommander commander;
 	private static IHeadquarters headquarters;
 	private static List<IScout> scouts;
-	private static GUI gui;
+	private static IGUI gui;
 	
 	//base hit points
 	private static int baseHP;
@@ -88,7 +89,7 @@ public class MilitaryBaseSimulation {
 	 * @param args Array of arguments.
 	 * @return Integer value representing counted necessary input fields.
 	 */
-	private static int fillGui(GUI gui, int[] args) {
+	private static int fillGui(IGUI gui, int[] args) {
 		int numberOfScouts = args[0];
 		gui.setNumberOfScouts(numberOfScouts);
 		

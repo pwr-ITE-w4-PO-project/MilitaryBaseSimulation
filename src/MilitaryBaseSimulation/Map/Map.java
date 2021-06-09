@@ -4,11 +4,11 @@ import java.util.*;
 
 import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 
-public class Map {
+public class Map implements IMap{
 	//applied singleton pattern
-	private static Map instance;
+	private static IMap instance;
 	private Map() {}
-	public static Map getInstance() {
+	public static IMap getInstance() {
 		if(instance == null) {
 			instance = new Map();
 		}
@@ -43,8 +43,7 @@ public class Map {
 		
 		this.availablePositions = new ArrayList<int[]>();
 		for(int i = 0; i<this.xMax; i++) {
-			for(int j =0; j<this.yMax; j++) {
-				this.unitMap[i][j] = null;
+			for(int j = 0; j<this.yMax; j++) {
 				pos = new int[2];
 				pos[0] = i;
 				pos[1] = j;
@@ -107,7 +106,7 @@ public class Map {
 		this.unitMap[to[0]][to[1]] = unitMap[from[0]][from[1]];
 		this.availablePositions.removeIf(avPos -> (avPos[0] == to[0] && avPos[1] == to[1]));
 		this.unitMap[from[0]][from[1]] = null;
-		this.availablePositions.add(from);
+		this.availablePositions.add(from);	
 	}
 	
 	/**
