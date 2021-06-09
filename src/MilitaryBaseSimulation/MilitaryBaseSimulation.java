@@ -42,12 +42,11 @@ public class MilitaryBaseSimulation {
 			
 			int expectedArgsLength = fillGui(gui, argsInt);
 			
-			if(expectedArgsLength > args.length) {
+			if(expectedArgsLength != args.length) {
 				System.out.println("Provided input had too few arguments. The required missing input arguments must be provided manually in gui.");
 			}
 			else {
-				buildSimulation();
-				run();
+				gui.pressStart();
 			}
 		}
 	}
@@ -97,32 +96,32 @@ public class MilitaryBaseSimulation {
 		int numberOfGunners = tryGetData(argsIterator, args);
 		gui.setNumberOfGunners(numberOfGunners);
 		
-		gui.setParameters();
-		
 		argsIterator = 0;
-		for(int i = 0; i < numberOfScouts; i++, argsIterator += 4){
-			gui.setScout(i, 
-				tryGetData(1 + argsIterator, args), 
-				tryGetData(2 + argsIterator, args), 
-				tryGetData(3 + argsIterator, args),
-				tryGetData(4 + argsIterator, args)
-				);
+		if(numberOfGunners > 0 && numberOfScouts > 0) {
+			gui.setParameters();
+			for(int i = 0; i < numberOfScouts; i++, argsIterator += 4){
+				gui.setScout(i, 
+					tryGetData(1 + argsIterator, args), 
+					tryGetData(2 + argsIterator, args), 
+					tryGetData(3 + argsIterator, args),
+					tryGetData(4 + argsIterator, args)
+					);
+			}
+			
+			argsIterator = numberOfScouts*4 + 2;
+			for(int i = 0; i < numberOfGunners; i++, argsIterator++) {
+				gui.setGunner(i, tryGetData(argsIterator, args));
+			}
+			
+			gui.setBaseHP(tryGetData(argsIterator, args));
+			argsIterator++;
+			gui.setEnemy(tryGetData(argsIterator, args));
+			argsIterator++;
+			gui.setDisguisedEnemy(tryGetData(argsIterator, args));
+			argsIterator++;
+			gui.setIterations(tryGetData(argsIterator, args));
+			argsIterator++;
 		}
-		
-		argsIterator = numberOfScouts*4 + 2;
-		for(int i = 0; i < numberOfGunners; i++, argsIterator++) {
-			gui.setGunner(i, tryGetData(argsIterator, args));
-		}
-		
-		gui.setBaseHP(tryGetData(argsIterator, args));
-		argsIterator++;
-		gui.setEnemy(tryGetData(argsIterator, args));
-		argsIterator++;
-		gui.setDisguisedEnemy(tryGetData(argsIterator, args));
-		argsIterator++;
-		gui.setIterations(tryGetData(argsIterator, args));
-		argsIterator++;
-		
 		return argsIterator;
 	}
 	
@@ -134,7 +133,7 @@ public class MilitaryBaseSimulation {
 		IUnit[][] map = Map.getInstance().getMap();
 		
 		List<IUnit> units = Map.getInstance().getAllUnits();
-		gui.drawMap();
+		List<Integer> scoutsTrusts = new ArrayList<>();
 		
 		try {
 			FileWriter writer = new FileWriter("simulationData.csv");	
@@ -147,6 +146,11 @@ public class MilitaryBaseSimulation {
 				writer.write(i + ";" + commander.getRating() + ";" + baseHP +";");
 				for(int j = 0; j<scouts.size(); j++) writer.write(scouts.get(j).getTrustLevel() + ";");
 				writer.write(Unit.getCount() + ";" + NeutralUnit.getCount() + ";" + EnemyUnit.getCount() + ";" + DisguisedEnemyUnit.getCount() + "\n");
+				
+				scouts.forEach(scout -> scoutsTrusts.add(scout.getTrustLevel()));
+				gui.drawMap(scoutsTrusts, baseHP, i, commander.getRating(), 
+						Unit.getCount(), NeutralUnit.getCount(), 
+						EnemyUnit.getCount(), DisguisedEnemyUnit.getCount());
 				
 				for(IUnit[] row : map) {
 					for(IUnit unit : row) {
@@ -169,8 +173,6 @@ public class MilitaryBaseSimulation {
 				}
 				
 				Map.getInstance().placeUnitOnMap(generateNewUnit(i, Map.getInstance().getRandomPosition()));
-				
-				gui.drawMap();
 				TimeUnit.SECONDS.sleep(1);
 				for(IUnit unit : units) unit.refreshMovement();
 			}
