@@ -2,6 +2,9 @@ package MilitaryBaseSimulation;
 
 import MilitaryBaseSimulation.GUI.GUI;
 import MilitaryBaseSimulation.GUI.IGUI;
+
+import MilitaryBaseSimulation.GUI.*;
+
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
@@ -138,10 +141,14 @@ public class MilitaryBaseSimulation {
 			FileWriter writer = new FileWriter("simulationData.csv");	
 			writer.write("Iteration;Commander's rating;base hit points;");
 			for(int j = 0; j<scouts.size(); j++) writer.write("Scout no." + j + 1 + " trust level;");
-			writer.write("Unit count; NeutralUnit count; EnemyUnit count; DisguisedEnemyUnit count");
-			writer.write("\n");
+			writer.write("Unit count; NeutralUnit count; EnemyUnit count; DisguisedEnemyUnit count\n");
 			
 			for(int i = 0; i<iterations;i++) {
+				
+				writer.write(i + ";" + commander.getRating() + ";" + baseHP +";");
+				for(int j = 0; j<scouts.size(); j++) writer.write(scouts.get(j).getTrustLevel() + ";");
+				writer.write(Unit.getCount() + ";" + NeutralUnit.getCount() + ";" + EnemyUnit.getCount() + ";" + DisguisedEnemyUnit.getCount() + "\n");
+				
 				for(IUnit[] row : map) {
 					for(IUnit unit : row) {
 						if(unit != null) {
@@ -159,14 +166,12 @@ public class MilitaryBaseSimulation {
 						}
 					}
 				}
+				
+				Map.getInstance().placeUnitOnMap(generateNewUnit(i, Map.getInstance().getRandomPosition()));
+				
 				gui.drawMap();
 				TimeUnit.SECONDS.sleep(1);
 				for(IUnit unit : units) unit.refreshMovement();
-				
-				writer.write(i + ";" + commander.getRating() + ";" + baseHP +";");
-				for(int j = 0; j<scouts.size(); j++) writer.write(scouts.get(j).getTrustLevel() + ";");
-				writer.write(Unit.getCount() + ";" + NeutralUnit.getCount() + ";" + EnemyUnit.getCount() + ";" + DisguisedEnemyUnit.getCount());
-				writer.write("\n");
 			}
 				writer.close();
 		}catch(Exception e) {
@@ -204,22 +209,10 @@ public class MilitaryBaseSimulation {
 		
 		headquarters = new Headquarters(commander);
 		
-		//filling 10% of 2d map with random units
-		
-
-		
+		//filling 10% of 2d map with random units		
 		random = new Random();
 		for(int i = 0; i < 100; i++) {
-			IUnit newUnit;
-			if( i%disguisedEnemyFreq == 0) {
-				newUnit = new DisguisedEnemyUnit(random.nextInt(3)+1, Map.getInstance().getRandomPosition(), random.nextInt(5)+1); 
-			}
-			else if( i%enemyFreq == 0) {
-				newUnit = new EnemyUnit(random.nextInt(3)+1, Map.getInstance().getRandomPosition(), random.nextInt(5)+1);
-			}
-			else {
-				newUnit = new NeutralUnit(random.nextInt(3)+1, Map.getInstance().getRandomPosition());
-			}
+			IUnit newUnit = generateNewUnit(i, Map.getInstance().getRandomPosition());
 			Map.getInstance().placeUnitOnMap(newUnit);
 		}
 	}
@@ -256,5 +249,24 @@ public class MilitaryBaseSimulation {
 	 */
 	public static boolean generateRandomEventHappening(int probabilty) {
 		return random.nextInt(100) < probabilty;
+	}
+	
+	/**
+	 * Generates unit of subclass chosen from NeutralUnit, EnemyUnit, DisguisedEnemyUnit
+	 * based on iteration, and sets its position to given.
+	 * @param iteration Iteration based on which subclass is chosen.
+	 * @param position Position of unit to place it on.
+	 * @return Generated IUnit.
+	 */
+	private static IUnit generateNewUnit(int iteration, int[] position) {
+		if( iteration%disguisedEnemyFreq == 0) {
+			return new DisguisedEnemyUnit(random.nextInt(3)+1, position, random.nextInt(5)+1); 
+		}
+		else if( iteration%enemyFreq == 0) {
+			return new EnemyUnit(random.nextInt(3)+1, position, random.nextInt(5)+1);
+		}
+		else {
+			return new NeutralUnit(random.nextInt(3)+1, position);
+		}
 	}
 }
