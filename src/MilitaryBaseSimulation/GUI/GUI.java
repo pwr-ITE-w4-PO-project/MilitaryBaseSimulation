@@ -4,7 +4,14 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUI {
+import javax.swing.*;
+
+import MilitaryBaseSimulation.Map.Map;
+import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
+
+
+
+public class GUI extends Frame{
 	private TextField baseHPField;	
 	private TextField durationField;
 	private TextField enemyField;
@@ -15,8 +22,12 @@ public class GUI {
 	private ArrayList<TextField> gunnerFields;
 	private ActionListener scoutButtonOnClick;
 	private Button scoutButton;
+	private ActionListener gunnerButtonOnClick;
+	private Button gunnerButton;
+	private Button set;
+	private ActionListener setButtonOnClick;
+	private Color zolty;
 		
-		static Frame window = 	new Frame("Military Base Simulation");
 		public GUI () {
 			
 			//texts
@@ -28,35 +39,37 @@ public class GUI {
 			this.enemyField = new TextField("10", 8);
 			Label disguisedEnemy = new Label("Disguised enemy units generating period:");
 			this.disguisedEnemyField = new TextField("10", 8);
-			Button set = new Button("Start");
+			this.set = new Button("Start");
+			addWindowListener(new MyWindowListener());
+			this.zolty=new Color(0, 181, 162);
 			
 			//adding to window
-			window.add(duration);
-			window.add(durationField);
-			window.add(baseHP);
-			window.add(baseHPField);
-			window.add(enemy);
-			window.add(enemyField);
-			window.add(disguisedEnemy);
-			window.add(disguisedEnemyField);
-			window.add(set);
+			add(duration);
+			add(durationField);
+			add(baseHP);
+			add(baseHPField);
+			add(enemy);
+			add(enemyField);
+			add(disguisedEnemy);
+			add(disguisedEnemyField);
+			add(set);
 			
 			
 			//scouts' fields
 			Label scoutNumber = new Label("Declare scouts:");
 			this.scoutNumberField = new TextField("5", 8);
-			window.add(scoutNumber);
-			window.add(scoutNumberField);
+			add(scoutNumber);
+			add(scoutNumberField);
 			
 			this.scoutButton = new Button("Next");
-			window.add(scoutButton);
+			add(scoutButton);
 			
 
 			
 			//gunners' fields
 			Label gunnerNumber = new Label("Declare gunners:");
 			this.gunnerNumberField = new TextField("5", 8);
-			Button gunnerButton = new Button("Next");
+			this.gunnerButton = new Button("Next");
 			
 			this.scoutFields = new ArrayList<TextField[]>();
 
@@ -66,39 +79,39 @@ public class GUI {
 					for(int i = 0; i < numberOfScouts; i++){
 					    scoutFields.add(new TextField[4]);
 					    	Label scoutSpeed = new Label("Movement speed:");
-					    	window.add(scoutSpeed);
+					    	add(scoutSpeed);
 					        scoutFields.get(i)[0] = new TextField("0", 8);
-					        window.add(scoutFields.get(i)[0]);
+					        add(scoutFields.get(i)[0]);
 					        
 					    	Label scoutEffectiveness = new Label("Effectiveness:");
-					    	window.add(scoutEffectiveness);
+					    	add(scoutEffectiveness);
 					        scoutFields.get(i)[1] = new TextField("0", 8);
-					        window.add(scoutFields.get(i)[1]);
+					        add(scoutFields.get(i)[1]);
 					        
 					    	Label scoutTrust = new Label("Trust level:");
-					    	window.add(scoutTrust);
+					    	add(scoutTrust);
 					        scoutFields.get(i)[2] = new TextField("0", 8);
-					        window.add(scoutFields.get(i)[2]);
+					        add(scoutFields.get(i)[2]);
 					        
 					    	Label scoutVisionRange = new Label("Vision range:");
-					    	window.add(scoutVisionRange);
+					    	add(scoutVisionRange);
 					        scoutFields.get(i)[3] = new TextField("0", 8);
-					        window.add(scoutFields.get(i)[3]);
+					        add(scoutFields.get(i)[3]);
 
 					}
 					
 					
 
-					window.add(gunnerNumber);
-					window.add(gunnerNumberField);
+					add(gunnerNumber);
+					add(gunnerNumberField);
 					
 					
-					window.add(gunnerButton);
+					add(gunnerButton);
 					
 
-		        	window.remove(scoutButton);
-	                window.revalidate();
-	                window.repaint();
+		        	remove(scoutButton);
+	                revalidate();
+	                repaint();
 	                
 	                
 		            }  
@@ -108,31 +121,31 @@ public class GUI {
 		    
 		    this.gunnerFields = new ArrayList<TextField>();
 
-		    gunnerButton.addActionListener(new ActionListener(){  
+			this.gunnerButtonOnClick = new ActionListener(){  
 		        public void actionPerformed(ActionEvent e){  
 		        	int numberOfGunners= Integer.parseInt(gunnerNumberField.getText());
 					for(int i = 0; i < numberOfGunners; i++){
 					    gunnerFields.add(new TextField("0", 8));
 					    	Label gunnerAccuracy = new Label("Accuracy:");
-					    	window.add(gunnerAccuracy);
-					        window.add(gunnerFields.get(i));
+					    	add(gunnerAccuracy);
+					        add(gunnerFields.get(i));
+					        zolty=new Color(0, 17, 182);
 
 					}
 					
 					
-		        	window.remove(gunnerButton);
-	                window.revalidate();
-	                window.repaint();
+		        	remove(gunnerButton);
+	                revalidate();
+	                repaint();
 	                
 	                
 		            }  
-		        });  
-		    
+		        }; 
+		    this.gunnerButton.addActionListener(this.gunnerButtonOnClick);
+			setLayout(new FlowLayout());
+			setSize(1280, 720);
+			setVisible(true);
 			
-			window.setLayout(new FlowLayout());
-			window.setSize(1280, 720);
-			window.setVisible(true);
-
 			
 		}
 		
@@ -199,6 +212,7 @@ public class GUI {
 		
 		public void setNumberOfGunners(int gunners) {
 			gunnerNumberField.setText(String.valueOf(gunners));
+			this.gunnerButtonOnClick.actionPerformed(new ActionEvent(gunnerButton, ActionEvent.ACTION_PERFORMED, "test"));
 		}
 		
 		
@@ -218,4 +232,47 @@ public class GUI {
 		
 		
 
+		   private class MyWindowListener implements WindowListener {
+
+		      @Override
+		      public void windowClosing(WindowEvent evt) {
+		         System.exit(0);  
+		      }
+
+
+		      @Override public void windowOpened(WindowEvent evt) { }
+		      @Override public void windowClosed(WindowEvent evt) { }
+		      @Override public void windowIconified(WindowEvent evt) { System.out.println("Window Iconified"); }
+		      @Override public void windowDeiconified(WindowEvent evt) { System.out.println("Window Deiconified"); }
+		      @Override public void windowActivated(WindowEvent evt) { System.out.println("Window Activated"); }
+		      @Override public void windowDeactivated(WindowEvent evt) { System.out.println("Window Deactivated"); }
+		   }
+		
+
+		   @Override
+		   public void paint(Graphics g) {
+			   Graphics2D rectangle = (Graphics2D) g;
+
+			   	int dimensions[] = Map.getInstance().getUpperBoundaries();
+
+					   	for(int i=0; i<dimensions[0]; i++) {
+					   		for(int j=0; j<dimensions[1]; j++) {
+					   
+					   			if((i+j)%2 == 0) {
+					   				g.setColor(zolty);
+					   			}
+					   			else { 
+					   				g.setColor(Color.BLACK);
+
+					   			}
+				   				g.fillRect(i*10+350, j*10+200, 10, 10);
+					   		}
+					   	}
+					   	
+			   	
+			   	
+
+		   }
+		   
+		   
 }

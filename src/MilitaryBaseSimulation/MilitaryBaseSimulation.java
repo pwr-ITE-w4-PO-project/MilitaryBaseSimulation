@@ -47,8 +47,8 @@ public class MilitaryBaseSimulation {
 			}
 		}
 		
-		//buildSimulation();
-		//run();
+		buildSimulation();
+		run();
 	}
 	//randomness handler
 	private static Random random = new Random();
