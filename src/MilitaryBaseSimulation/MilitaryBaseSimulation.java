@@ -184,6 +184,8 @@ public class MilitaryBaseSimulation {
 			System.out.println("Cannot access simulationData.txt, simulation data cannot be saved. " + e.getMessage());
 		}catch(InterruptedException e) {
 			System.out.println("Delaying process interrupted. " + e.getMessage());
+		}finally {
+			return;
 		}
 	}
 	
