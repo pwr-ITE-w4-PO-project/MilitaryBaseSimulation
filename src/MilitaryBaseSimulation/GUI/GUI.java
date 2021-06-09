@@ -30,7 +30,7 @@ public class GUI extends Frame{
 	private Map map;
 		
 		public GUI (Map mapToDraw) {
-			
+
 			this.map = mapToDraw;
 			//texts
 			Label duration = new Label("Duration of the simulation:");
@@ -149,7 +149,6 @@ public class GUI extends Frame{
 			setLayout(new FlowLayout());
 			setSize(1280, 720);
 			setVisible(true);
-			
 		}
 		
 		
@@ -174,7 +173,7 @@ public class GUI extends Frame{
 			int numberOfScouts= Integer.parseInt(scoutNumberField.getText());
 			for(int i = 0; i < numberOfScouts; i++){
 			    scoutList.add(new int[4]);
-			    	for(int j=0; i<4; j++) {
+			    	for(int j=0; j<4; j++) {
 			    		scoutList.get(i)[j] = Integer.parseInt(scoutFields.get(i)[j].getText());
 			    	}
 			}
@@ -253,35 +252,33 @@ public class GUI extends Frame{
 		
 
 		   public void drawMap() {
-			   this.draw(getGraphics());
+			   this.paint(getGraphics());
 		   }
 		   
-		   
-		   private void draw(Graphics g) {
+		   @Override
+		   public void paint(Graphics g) {
 
 			   	int dimensions[] = this.map.getUpperBoundaries();
 			   	IUnit [] [] units = this.map.getMap();
-			   	
-					   	for(int i=0; i<dimensions[0]; i++) {
+			   		if(units != null) {
+			   			for(int i=0; i<dimensions[0]; i++) {
 					   		for(int j=0; j<dimensions[1]; j++) {
 					   			if(units[i][j]!=null) {
-
-					   			switch(units[i][j].getUnitChar()) {
-					
-					   			case 'S':
-					   				g.setColor(Color.RED);
-					   				break;
-					   			case 'E':
-					   				g.setColor(Color.CYAN);
-					   				break;
-					   			case 'D':
-					   				g.setColor(Color.YELLOW);
-					   				break;
-					   			case 'N':
-					   				g.setColor(Color.BLUE);
-					   				break;
-					   			default:
-					   				g.setColor(Color.white);
+					   				switch(units[i][j].getUnitChar()) {
+					   					case 'S':
+					   						g.setColor(Color.RED);
+					   						break;
+					   					case 'E':
+					   						g.setColor(Color.CYAN);
+					   						break;
+					   					case 'D':
+					   						g.setColor(Color.YELLOW);
+					   						break;
+					   					case 'N':
+					   						g.setColor(Color.BLUE);
+					   						break;
+					   					default:
+					   						g.setColor(Color.white);
 					   			
 					   				}
 					   			}
@@ -290,11 +287,8 @@ public class GUI extends Frame{
 					   			}
 				   				g.fillRect(i*10+350, j*10+200, 10, 10);
 					   		}
-					   	}
-					   	
-			   	
-			   	
-
+					   	}	
+			   		}
 		   }
 		   
 		   

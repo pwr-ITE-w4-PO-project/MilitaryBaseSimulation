@@ -9,18 +9,18 @@ import MilitaryBaseSimulation.Militaries.Gunner.IGunner;
 //import MilitaryBaseSimulation.MapUnits.Unit.subclasses.NeutralUnit.*;
 
 import java.util.Random;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Commander implements ICommander {
 	private int rating;
 	private Random rand = new Random();
-	private ArrayList<IGunner> gunners;
+	private List<IGunner> gunners;
 	/**
 	 * Constructor
 	 * @param scouts List of Scouts in simulation
 	 * @param gunners List of Gunners in simulation
 	 */
-	public Commander(ArrayList<IGunner> gunners) {
+	public Commander(List<IGunner> gunners) {
 		this.gunners = gunners;
 	}
 	/**

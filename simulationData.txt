@@ -1,6 +1,0 @@
-Iteration: 0
-Number of units on map: 68
-Number of neutral units on map: 0
-Number of enemy units on map: 100
-Number of disguised enemy units on map: 100
-
