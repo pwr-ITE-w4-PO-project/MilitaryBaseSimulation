@@ -23,6 +23,9 @@ class ScoutsGeneralCreationTest {
 		int count = 2;
 		GUI tested = new GUI(Map.getInstance(), false);
 		tested.setNumberOfScouts(count);
+		
+		tested.setParameters();
+		
 		for(int i = 0; i < count; i++) {
 			tested.setScout(i, i, i, i, i);
 		}

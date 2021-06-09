@@ -1,8 +1,5 @@
 package MilitaryBaseSimulation;
 
-import MilitaryBaseSimulation.GUI.GUI;
-import MilitaryBaseSimulation.GUI.IGUI;
-
 import MilitaryBaseSimulation.GUI.*;
 
 import MilitaryBaseSimulation.Map.Map;
@@ -16,8 +13,7 @@ import MilitaryBaseSimulation.Militaries.Commander.ICommander;
 import MilitaryBaseSimulation.Militaries.Commander.interfaces.IRatable;
 
 import MilitaryBaseSimulation.Militaries.Gunner.*;
-import MilitaryBaseSimulation.Militaries.Headquarters.Headquarters;
-import MilitaryBaseSimulation.Militaries.Headquarters.IHeadquarters;
+import MilitaryBaseSimulation.Militaries.Headquarters.*;
 
 import java.io.FileWriter;
 import java.util.*;
@@ -96,7 +92,14 @@ public class MilitaryBaseSimulation {
 		int numberOfScouts = args[0];
 		gui.setNumberOfScouts(numberOfScouts);
 		
-		int argsIterator = 0;
+		int argsIterator = numberOfScouts*4 + 1;
+		
+		int numberOfGunners = tryGetData(argsIterator, args);
+		gui.setNumberOfGunners(numberOfGunners);
+		
+		gui.setParameters();
+		
+		argsIterator = 0;
 		for(int i = 0; i < numberOfScouts; i++, argsIterator += 4){
 			gui.setScout(i, 
 				tryGetData(1 + argsIterator, args), 
@@ -105,12 +108,8 @@ public class MilitaryBaseSimulation {
 				tryGetData(4 + argsIterator, args)
 				);
 		}
-		argsIterator++;
 		
-		int numberOfGunners = tryGetData(argsIterator, args);
-		gui.setNumberOfGunners(numberOfGunners);
-		
-		argsIterator++;
+		argsIterator = numberOfScouts*4 + 2;
 		for(int i = 0; i < numberOfGunners; i++, argsIterator++) {
 			gui.setGunner(i, tryGetData(argsIterator, args));
 		}
@@ -156,10 +155,12 @@ public class MilitaryBaseSimulation {
 								unit.move();
 								if(baseHP <= 0) {
 									System.out.println("Base was destroyed. Simulation ended.");
+									writer.write("\nSimulation ended because base hit points were brought down to 0.");
 									return;
 								}
 							}catch(Exception e) {
 								System.out.println("Simulation approached unexpected error." + e.getMessage());
+								writer.write("\nSimulation ended because of an error.");
 								writer.close();
 								return;
 							}
@@ -173,14 +174,15 @@ public class MilitaryBaseSimulation {
 				TimeUnit.SECONDS.sleep(1);
 				for(IUnit unit : units) unit.refreshMovement();
 			}
-				writer.close();
+			writer.write("\nSimulation ended because it approached iteration limit.");
+			writer.close();
 		}catch(Exception e) {
 			System.out.println("Cannot access simulationData.txt, simulation data cannot be saved. " + e.getMessage());
 		}
 	}
 	
 	/**
-	 * Builds simulation parameters and its actors via interacting with user.
+	 * Builds simulation parameters and its actors by getting data from gui.
 	 */
 	public static void buildSimulation() {
 		Map.getInstance().initializeMap();;
@@ -210,7 +212,6 @@ public class MilitaryBaseSimulation {
 		headquarters = new Headquarters(commander);
 		
 		//filling 10% of 2d map with random units		
-		random = new Random();
 		for(int i = 0; i < 100; i++) {
 			IUnit newUnit = generateNewUnit(i, Map.getInstance().getRandomPosition());
 			Map.getInstance().placeUnitOnMap(newUnit);

@@ -21,6 +21,7 @@ class NumberOfGunnersInputTest {
 		int value = 4;
 		GUI tested = new GUI(Map.getInstance(), false);
 		tested.setNumberOfGunners(value);
+		tested.setParameters();
 		int set = tested.getGunner().size();
 		
 		assertTrue(set == value, "GUI mismatched values.");

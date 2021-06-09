@@ -23,6 +23,9 @@ class GunnersGeneralCreationTest {
 		int count = 4;
 		GUI tested = new GUI(Map.getInstance(), false);
 		tested.setNumberOfGunners(count);
+		
+		tested.setParameters();
+		
 		for(int i = 0; i < count; i++) {
 			tested.setGunner(i, i);
 		}

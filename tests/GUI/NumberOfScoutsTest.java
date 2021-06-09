@@ -21,6 +21,7 @@ class NumberOfScoutsTest {
 		int value = 5;
 		GUI tested = new GUI(Map.getInstance(), false);
 		tested.setNumberOfScouts(value);
+		tested.setParameters();
 		int set = tested.getScout().size();
 		
 		assertTrue(set == value, "GUI mismatched values.");
