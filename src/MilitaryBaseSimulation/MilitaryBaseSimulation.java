@@ -182,9 +182,9 @@ public class MilitaryBaseSimulation {
 			writer.close();
 		}catch(IOException e){
 			System.out.println("Cannot access simulationData.txt, simulation data cannot be saved. " + e.getMessage());
+			return;
 		}catch(InterruptedException e) {
 			System.out.println("Delaying process interrupted. " + e.getMessage());
-		}finally {
 			return;
 		}
 	}
@@ -219,7 +219,7 @@ public class MilitaryBaseSimulation {
 		
 		headquarters = new Headquarters(commander);
 		
-		//filling 10% of 2d map with random units		
+		//filling 4% of 2d map with random units		
 		for(int i = 0; i < 100; i++) {
 			IUnit newUnit = generateNewUnit(i, Map.getInstance().getRandomPosition());
 			Map.getInstance().placeUnitOnMap(newUnit);
