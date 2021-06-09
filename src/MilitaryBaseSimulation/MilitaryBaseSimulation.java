@@ -18,6 +18,7 @@ import MilitaryBaseSimulation.Militaries.Headquarters.IHeadquarters;
 import java.io.FileWriter;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MilitaryBaseSimulation {
 
@@ -127,27 +128,47 @@ public class MilitaryBaseSimulation {
 	 * or when base hp drops to 0.
 	 */
 	public static void run() {
-		List<IUnit> units = Map.getInstance().getAllUnits();
+		IUnit[][] map = Map.getInstance().getMap();
 		
-		//below code must be changed to fit gui
+		List<IUnit> units = Map.getInstance().getAllUnits();
+		gui.drawMap();
+		
 		try {
-			//FileWriter writer = new FileWriter("simulationData.txt");	
+			FileWriter writer = new FileWriter("simulationData.csv");	
+			writer.write("Iteration;Commander's rating;");
+			for(int j = 0; j<scouts.size(); j++) writer.write("Scout no." + j + 1 + " trust level;");
+			writer.write("Unit count; NeutralUnit count; EnemyUnit count; DisguisedEnemyUnit count");
+			writer.write("\n");
+			
 			for(int i = 0; i<iterations;i++) {
-				for(IUnit unit : units) {
-					try {
-						unit.move();	
-					}catch(Exception e) {
-						System.out.print("Simulation approached unexpected error: " + e.getMessage());
+				for(IUnit[] row : map) {
+					for(IUnit unit : row) {
+						try{
+							unit.move();
+							if(baseHP <= 0) {
+								System.out.println("Base was destroyed. Simulation ended.");
+								return;
+							}
+						}catch(Exception e) {
+							System.out.println("Simulation approached unexpected error." + e.getMessage());
+							writer.close();
+							return;
+						}
 					}
 				}
+				gui.drawMap();
+				TimeUnit.SECONDS.sleep(1);
+				for(IUnit unit : units) unit.refreshMovement();
 				
-				//saveSimulationData(writer, i);
+				writer.write(i + ";" + commander.getRating() + ";");
+				for(int j = 0; j<scouts.size(); j++) writer.write(scouts.get(j).getTrustLevel() + ";");
+				writer.write(Unit.getCount() + ";" + NeutralUnit.getCount() + ";" + EnemyUnit.getCount() + ";" + DisguisedEnemyUnit.getCount());
+				writer.write("\n");
 			}
-				//writer.close();
+				writer.close();
 		}catch(Exception e) {
-			//System.out.println("Cannot access simulationData.txt, simulation data cannot be saved. " + e.getMessage());
+			System.out.println("Cannot access simulationData.txt, simulation data cannot be saved. " + e.getMessage());
 		}
-		gui.drawMap();
 	}
 	
 	/**
@@ -181,6 +202,9 @@ public class MilitaryBaseSimulation {
 		headquarters = new Headquarters(commander);
 		
 		//filling 10% of 2d map with random units
+		
+
+		
 		random = new Random();
 		for(int i = 0; i < 100; i++) {
 			IUnit newUnit;
@@ -194,8 +218,6 @@ public class MilitaryBaseSimulation {
 				newUnit = new NeutralUnit(random.nextInt(3)+1, Map.getInstance().getRandomPosition());
 			}
 			Map.getInstance().placeUnitOnMap(newUnit);
-			int[] pos = {1,1};
-			Map.getInstance().placeUnitOnMap(new NeutralUnit(0, pos));
 		}
 	}
 	
@@ -231,27 +253,5 @@ public class MilitaryBaseSimulation {
 	 */
 	public static boolean generateRandomEventHappening(int probabilty) {
 		return random.nextInt(100) < probabilty;
-	}
-	
-	/**
-	 * Saves simulation data to simulationData.txt file.
-	 * @param writer Writer which is used for writing to the file.
-	 * @throws Exception Exception met when writer fails to write to file.
-	 */
-	private static void saveSimulationData(FileWriter writer, int iteration) throws Exception{
-		writer.write("Iteration: " + iteration + "\n");
-		writer.write("Number of units on map: " + Unit.getCount() +"\n");
-		writer.write("Number of neutral units on map: " + NeutralUnit.getCount() + "\n");
-		writer.write("Number of enemy units on map: " + EnemyUnit.getCount() +"\n");
-		writer.write("Number of disguised enemy units on map: " + DisguisedEnemyUnit.getCount() +"\n");
-		/*
-		List<IScout> scouts = commander.getScouts();
-		int size = scouts.size();
-		for(int i = 0; i < size; i++){
-			writer.write("Scout no." + i + " " trust level: + " scout.getTrustLevel());
-		}
-		writer.write("Commanders current rating: " + Commander.getRating() + "\n");
-		*/
-		writer.write("\n");
 	}
 }

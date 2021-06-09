@@ -1,0 +1,1 @@
+Iteration;Commander's rating;Scout no.0 trust level;
