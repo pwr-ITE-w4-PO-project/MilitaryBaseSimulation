@@ -28,20 +28,34 @@ public class GUI extends Frame implements IGUI{
 	private ActionListener setButtonOnClick;
 	private Map map;
 		
-		public GUI (Map mapToDraw) {
+		public GUI (Map mapToDraw, boolean shouldBeVisible) {
 
 			this.map = mapToDraw;
+			
 			//texts
 			Label duration = new Label("Duration of the simulation:");
 			Label baseHP = new Label("Initial base health points:");
+			Label disguisedEnemy = new Label("Disguised enemy units generating period:");
+			Label enemy = new Label("Enemy units generating period:");
+			
+			//textfields
 			this.baseHPField = new TextField("1000000", 8);
 			this.durationField = new TextField("1000000", 8);
-			Label enemy = new Label("Enemy units generating period:");
 			this.enemyField = new TextField("10", 8);
-			Label disguisedEnemy = new Label("Disguised enemy units generating period:");
 			this.disguisedEnemyField = new TextField("10", 8);
 			this.set = new Button("Start");
+			
+			
+			
+			
+			//setting location
+			duration.setLocation(200, 150);
+			this.set.setSize(100, 20);
+			
+			
+
 			addWindowListener(new MyWindowListener());
+			
 			
 			//adding to window
 			add(duration);
@@ -161,9 +175,10 @@ public class GUI extends Frame implements IGUI{
 		    };
 		    this.set.addActionListener(this.setButtonOnClick);
 		    
-		    setLayout(new FlowLayout());
-			setSize(1280, 720);
-			setVisible(true);
+		    
+		    setLayout(null);
+			setSize(1920, 1080);
+			setVisible(shouldBeVisible);
 			
 		}
 		
