@@ -112,6 +112,8 @@ public class GUI extends Frame implements IGUI{
 				public void actionPerformed(ActionEvent e){  
 		        	numberOfScouts= Integer.parseInt(scoutNumberField.getText());
 					c.gridx = 3;
+					if(Integer.parseInt(scoutNumberField.getText()) > 0
+		    				&& Integer.parseInt(gunnerNumberField.getText()) > 0) {
 		        	for(int i = 0; i < numberOfScouts; i++){
 							scoutFields.add(new TextField[4]);
 							//labels
@@ -160,7 +162,8 @@ public class GUI extends Frame implements IGUI{
 	                revalidate();
 	                repaint();
 		            }  
-		        };  
+				}
+		    };  
 		    this.scoutButton.addActionListener(this.scoutButtonOnClick);
 		    this.setButtonOnClick = new ActionListener(){	
 		    	public void actionPerformed(ActionEvent e){  

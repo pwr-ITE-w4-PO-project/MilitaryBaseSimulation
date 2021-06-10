@@ -43,7 +43,7 @@ public class MilitaryBaseSimulation {
 			
 			int expectedArgsLength = fillGui(gui, argsInt);
 			
-			if(expectedArgsLength != args.length) {
+			if(expectedArgsLength > args.length) {
 				System.out.println("Provided input had too few arguments. The required missing input arguments must be provided manually in gui.");
 			}
 			else {
