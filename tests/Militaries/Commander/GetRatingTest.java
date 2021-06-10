@@ -18,7 +18,7 @@ import MilitaryBaseSimulation.Militaries.Commander.Commander;
 class GetRatingTest {
 
 	@Test
-	void test() {
+	void sayRatingValue() {
 		Commander commander = new Commander(null);
 		try
 		{
