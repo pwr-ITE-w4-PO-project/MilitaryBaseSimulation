@@ -25,7 +25,6 @@ public class GUI extends Frame implements IGUI{
 	private Button set;
 	private ActionListener setButtonOnClick;
 	private IMap map;
-	
 	private Label HP;
 	private Label iterationsNumber;
 	private Label commandersRating;
@@ -37,27 +36,12 @@ public class GUI extends Frame implements IGUI{
 	private int numberOfScouts;
 		
 		public GUI (IMap mapToDraw, boolean shouldBeVisible) {
-
 			this.map = mapToDraw;
-			
-			
 			setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
-			
-
-
-	         
-	         
-	         
-	         
 			//texts
-			Label duration = new Label("Duration of the simulation:");
-			Label baseHP = new Label("Initial base health points:");
-			Label disguisedEnemy = new Label("Disguised enemy units generating period:");
-			Label enemy = new Label("Enemy units generating period:");
-			Label scoutNumber = new Label("Declare scouts:");			
-			Label gunnerNumber = new Label("Declare gunners:");	
-			
+			Label labels [] = {new Label("Duration of the simulation:"), new Label("Initial base health points:"), 
+			new Label("Disguised enemy units generating period:"), new Label("Enemy units generating period:"), new Label("Declare scouts:"), new Label("Declare gunners:")};
 	    	//stat labels
 			Label titleStats = new Label("Simulation statistics:");
 			Label titleHP = new Label("Base HP:");
@@ -67,7 +51,7 @@ public class GUI extends Frame implements IGUI{
 			Label neutral = new Label("Neutral units:");
 			Label enemies = new Label("Enemy units:");
 			Label disguised = new Label("Disguised enemy units:");
-			
+			//stats
 			this.HP = new Label("100/100");
 			this.iterationsNumber = new Label("1");
 			this.commandersRating = new Label("100");
@@ -77,7 +61,6 @@ public class GUI extends Frame implements IGUI{
 			this.disguisedNumber = new Label("1");
 			this.trustLevel = new ArrayList<Label>();
 			
-			
 			//textfields
 			this.scoutNumberField = new TextField("5", 8);
 			this.baseHPField = new TextField("1000000", 8);
@@ -86,46 +69,26 @@ public class GUI extends Frame implements IGUI{
 			this.disguisedEnemyField = new TextField("10", 8);
 			this.set = new Button("Start");
 			this.set.setEnabled(false);
-
 			this.gunnerNumberField = new TextField("5", 8);
 			this.scoutButton = new Button("Next");
-			
-			
-			
 			c.ipady = 0; 
-			//setting location
-
-
 			
-
-			addWindowListener(new MyWindowListener());
-			
+	        addWindowListener(new WindowAdapter(){  
+	            public void windowClosing(WindowEvent e) {  
+	                dispose();  
+	            }  
+	        }); 
+	        
 			c.anchor = GridBagConstraints.CENTER;
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = 0;
-
-			
 			//adding first column of labels
-			add(duration, c);
-			c.gridy = 1;
-			add(baseHP, c);
-			c.gridy = 2;
-			add(enemy, c);
-			c.gridy = 3;
-			add(disguisedEnemy, c);
-			c.gridy = 4;
-			add(scoutNumber, c);
-			c.gridy = 5;
-			add(gunnerNumber, c);
-			c.gridy = 6;
-			add(set, c);
-			
+			createLabelColumn(labels, c);
+			add(set, c);	
 			c.ipady = 780; 
 			c.gridy = 10;
-
 			c.ipady = 0; 
-			
 			//adding first column of fields
 			c.gridx = 1;
 			c.gridy = 0;
@@ -142,61 +105,31 @@ public class GUI extends Frame implements IGUI{
 			add(gunnerNumberField, c);
 			c.gridy = 6;
         	add(scoutButton, c);
-			
-
-        	
-        	
-        	
-        	
-        	
-
-
+        	//gunners and scouts
 			this.scoutFields = new ArrayList<TextField[]>();
 		    this.gunnerFields = new ArrayList<TextField>();
-
 			this.scoutButtonOnClick = new ActionListener(){  
-		        
 				public void actionPerformed(ActionEvent e){  
-		        	
 		        	numberOfScouts= Integer.parseInt(scoutNumberField.getText());
-
 					c.gridx = 3;
 		        	for(int i = 0; i < numberOfScouts; i++){
-					    	
 							scoutFields.add(new TextField[4]);
-							
-				        	c.insets = new Insets(0,30,0,0); 
 							//labels
-					    	Label scoutSpeed = new Label("Movement speed:");
-					    	Label scoutEffectiveness = new Label("Effectiveness:");
-					    	Label scoutTrust = new Label("Trust level:");	
-					    	Label scoutVisionRange = new Label("Vision range:");
-					    	
-
-					    	
-
+				        	Label scout [] = {new Label("Movement speed:"), new Label("Effectiveness:"), new Label("Trust level:"), new Label("Vision range:")};
+					    	//Label scoutSpeed = new Label("Movement speed:");
+					    	//Label scoutEffectiveness = new Label("Effectiveness:");
+					    	//Label scoutTrust = new Label("Trust level:");	
+					    	//Label scoutVisionRange = new Label("Vision range:");
 					    	//fields
 					        scoutFields.get(i)[0] = new TextField("0", 8);	
 					        scoutFields.get(i)[1] = new TextField("0", 8);
 					        scoutFields.get(i)[2] = new TextField("0", 8);		
 					        scoutFields.get(i)[3] = new TextField("0", 8);
-					        
-
-							c.gridy = 0;
-							
+							c.gridy = 0;	
 					        //first column of labels
-					        add(scoutSpeed, c);
-							c.gridy = 1;
-					    	add(scoutTrust, c);
-							c.gridy = 2;
-					    	add(scoutEffectiveness, c);
-							c.gridy = 3;
-					    	add(scoutVisionRange, c);
-
-					    	c.insets = new Insets(0,10,0,0);
-							c.gridx++;
+							createScoutColumn(scout, c);
+				        	c.insets = new Insets(0,10,0,0); 
 							c.gridy = 0;
-							
 					        //first column of fields
 					        add(scoutFields.get(i)[0], c);
 							c.gridy = 1;
@@ -206,64 +139,32 @@ public class GUI extends Frame implements IGUI{
 							c.gridy = 3;
 					        add(scoutFields.get(i)[3], c);
 							c.gridx++;
-
-
-
 					}
-					
-		        	
-		        	
-		        	
 		        	int numberOfGunners= Integer.parseInt(gunnerNumberField.getText());
 					c.gridx = 3;
 					c.gridy = 5;
-					
 					for(int i = 0; i < numberOfGunners; i++){
-						
 					    	gunnerFields.add(new TextField("0", 8));
 					    	Label gunnerAccuracy = new Label("Accuracy:");
-					    	
-							
-			
-
-					    	c.insets = new Insets(0,30,0,0);
+					    	//accuracy label
 					    	add(gunnerAccuracy, c);
 					    	c.gridx++;
-					    	
+					    	//accuracy field
 					    	c.insets = new Insets(0,10,0,0);
 							add(gunnerFields.get(i), c);
 							c.gridx++;
-					    	
-
 					}
-					
-
-
 					c.insets = new Insets(0,0,0,0);
-					
 					set.setEnabled(true);
 					scoutButton.setEnabled(false);
 	                revalidate();
 	                repaint();
-	                
-	                
 		            }  
 		        };  
-			
 		    this.scoutButton.addActionListener(this.scoutButtonOnClick);
-		    
-
-
-
-		     
-			
-		    
-		    
-		    this.setButtonOnClick = new ActionListener(){
-		    		
+		    this.setButtonOnClick = new ActionListener(){	
 		    	public void actionPerformed(ActionEvent e){  
 					set.setEnabled(false);
-	                
 					//base stats
 					c.insets = new Insets(200,0,0,0);
 					c.gridx = 0;
@@ -298,8 +199,7 @@ public class GUI extends Frame implements IGUI{
 					add(disguised, c);
 					c.gridy++;
 					add(disguisedNumber, c);
-
-
+					//scout labels
 			    	c.gridx = 1;
 					c.gridy = 7;
 					c.insets = new Insets(200,0,0,0);
@@ -314,12 +214,8 @@ public class GUI extends Frame implements IGUI{
 						c.gridy++;
 						add(scoutTrust, c);
 						c.gridy++;
-						if(i+1==numberOfScouts) {
-
-						}
 						add(trustLevel.get(i), c);
 						c.gridy++;
-						
 					}
 			    	c.gridx = 0;
 					c.gridy = 22;
@@ -327,9 +223,6 @@ public class GUI extends Frame implements IGUI{
 					c.ipady = 200;
 					c.gridwidth = 2;
 					add(panel, c);
-
-					
-					
 					revalidate();
 	                repaint();
 		    		MilitaryBaseSimulation.MilitaryBaseSimulation.buildSimulation();
@@ -337,14 +230,28 @@ public class GUI extends Frame implements IGUI{
 		    		}  
 		    };
 		    this.set.addActionListener(this.setButtonOnClick);
-		    
-		    
+		    //window settings
 		    setResizable(false);
 			setSize(1920, 1080);
 			setVisible(shouldBeVisible);
-			
+		}
+
+		private void createScoutColumn(Label label[], GridBagConstraints c) {
+			for(int i=0; i<label.length; i++) {
+		    	c.insets = new Insets(0,10,0,0);
+		    	add(label[i], c);
+				c.gridy++;
+			}
+			c.gridx++;
 		}
 		
+		private void createLabelColumn(Label label[], GridBagConstraints c) {
+			for(int i=0; i<label.length; i++) {
+		    	c.insets = new Insets(0,10,0,0);
+		    	add(label[i], c);
+				c.gridy++;
+			}
+		}
 		
 		public int getBaseHP() {
 			return Integer.parseInt(baseHPField.getText());
@@ -373,7 +280,6 @@ public class GUI extends Frame implements IGUI{
 			return scoutList;
 		}
 		
-		
 		public List<Integer> getGunner() {
 			List<Integer> gunnerList = new ArrayList<Integer>();
 			int numberOfGunners= Integer.parseInt(gunnerNumberField.getText());
@@ -382,7 +288,6 @@ public class GUI extends Frame implements IGUI{
 			}
 			return gunnerList;
 		}
-		
 		
 		public void setBaseHP(int HP) {
 			baseHPField.setText(String.valueOf(HP));
@@ -416,8 +321,6 @@ public class GUI extends Frame implements IGUI{
 			this.setButtonOnClick.actionPerformed(new ActionEvent(set, ActionEvent.ACTION_PERFORMED, "test"));
 		}
 		
-		
-		
 		public void setScout(int scoutID, int movement, int effectiveness, int trust, int vision) {
 			scoutFields.get(scoutID)[0].setText(String.valueOf(movement));
 			scoutFields.get(scoutID)[1].setText(String.valueOf(effectiveness));
@@ -425,84 +328,59 @@ public class GUI extends Frame implements IGUI{
 			scoutFields.get(scoutID)[3].setText(String.valueOf(vision));
 		}
 		
-		
 		public void setGunner(int gunnerID, int accuracy) {
 			gunnerFields.get(gunnerID).setText(String.valueOf(accuracy));
 		}
 
-		
-		
+		public void drawMap(List<Integer> scouts, int baseHP, int iterations, int rating, int unitCount, int neutral, int enemy, int disguised) {
+			this.HP.setText(String.valueOf(baseHP)+"/"+baseHPField.getText());
+			this.iterationsNumber.setText(String.valueOf(iterations));
+			this.commandersRating.setText(String.valueOf(rating));
+			this.unitCountNumber.setText(String.valueOf(unitCount));
+			this.neutralNumber.setText(String.valueOf(neutral));
+			this.enemiesNumber.setText(String.valueOf(enemy));
+			this.disguisedNumber.setText(String.valueOf(disguised));
+	        for(int i=0; i<numberOfScouts; i++) {
+	        	this.trustLevel.get(i).setText(String.valueOf(scouts.get(i)));
+	        }
+	        this.paint(getGraphics());
+		}
 
-		   private class MyWindowListener implements WindowListener {
-
-		      @Override
-		      public void windowClosing(WindowEvent evt) {
-		         System.exit(0);  
-		      }
-
-
-		      @Override public void windowOpened(WindowEvent evt) { }
-		      @Override public void windowClosed(WindowEvent evt) { }
-		      @Override public void windowIconified(WindowEvent evt) { System.out.println("Window Iconified"); }
-		      @Override public void windowDeiconified(WindowEvent evt) { System.out.println("Window Deiconified"); }
-		      @Override public void windowActivated(WindowEvent evt) { System.out.println("Window Activated"); }
-		      @Override public void windowDeactivated(WindowEvent evt) { System.out.println("Window Deactivated"); }
-		   }	
-
-		   public void drawMap(List<Integer> scouts, int baseHP, int iterations, int rating, int unitCount, int neutral, int enemy, int disguised) {
-				this.HP.setText(String.valueOf(baseHP)+"/"+baseHPField.getText());
-				this.iterationsNumber.setText(String.valueOf(iterations));
-				this.commandersRating.setText(String.valueOf(rating));
-				this.unitCountNumber.setText(String.valueOf(unitCount));
-				this.neutralNumber.setText(String.valueOf(neutral));
-				this.enemiesNumber.setText(String.valueOf(enemy));
-				this.disguisedNumber.setText(String.valueOf(disguised));
-	        	for(int i=0; i<numberOfScouts; i++) {
-	        		this.trustLevel.get(i).setText(String.valueOf(scouts.get(i)));
-	        	}
-	        	this.paint(getGraphics());
-		   }
+		public String getTextData (int text) {
+			return String.valueOf(text);
+		}
 		   
-		   
-		   public String getTextData (int text) {
-			   return String.valueOf(text);
-		   }
-		   
-		   @Override
-		   public void paint(Graphics g) {
-
-			   	int dimensions[] = this.map.getUpperBoundaries();
-			   	IUnit [] [] units = this.map.getMap();
-			   		if(units != null) {
-			   			for(int i=0; i<dimensions[0]; i++) {
-					   		for(int j=0; j<dimensions[1]; j++) {
-					   			if(units[i][j]!=null) {
-					   				switch(units[i][j].getUnitChar()) {
-					   					case 'S':
-					   						g.setColor(new Color(90, 226, 106));
-					   						break;
-					   					case 'E':
-					   						g.setColor(new Color(211, 69, 100));
-					   						break;
-					   					case 'D':
-					   						g.setColor(new Color(207, 250, 103));
-					   						break;
-					   					case 'N':
-					   						g.setColor(new Color(97, 195, 225));
-					   						break;
-					   					default:
-					   						g.setColor(Color.white);
-					   			
-					   				}
+		@Override
+		public void paint(Graphics g) {
+			int dimensions[] = this.map.getUpperBoundaries();
+			IUnit [] [] units = this.map.getMap();
+			if(units != null) {
+				for(int i=0; i<dimensions[0]; i++) {
+					for(int j=0; j<dimensions[1]; j++) {
+						if(units[i][j]!=null) {
+							switch(units[i][j].getUnitChar()) {
+					   			case 'S':
+					   				g.setColor(new Color(90, 226, 106));
+					   				break;
+					   			case 'E':
+					   				g.setColor(new Color(211, 69, 100));
+					   				break;
+					   			case 'D':
+					   				g.setColor(new Color(207, 250, 103));
+					   				break;
+					   			case 'N':
+					   				g.setColor(new Color(97, 195, 225));
+					   				break;
+					   			default:
+					   				g.setColor(Color.white);
 					   			}
-					   			else {
-					   				g.setColor(new Color(70, 70, 70));
-					   			}
-				   				g.fillRect(i*10+800+240/numberOfScouts, j*10+360, 20, 20);
-					   		}
-					   	}	
-			   		}
-		   }
-		   
-		   
+							}
+						else {
+							g.setColor(new Color(70, 70, 70));
+						}
+				   		g.fillRect(i*10+800+240/numberOfScouts, j*10+360, 20, 20);
+					}
+				}	
+			}
+		}		   
 }
