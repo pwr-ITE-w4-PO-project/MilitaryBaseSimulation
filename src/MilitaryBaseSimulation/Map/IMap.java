@@ -6,6 +6,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.IUnit;
 
 public interface IMap {
 	public int[] getRandomPosition();
+	public int[] getRandomStartingPosition();
 	public void initializeMap();
 	public int[] getUpperBoundaries();
 	public void placeUnitOnMap(IUnit unit);

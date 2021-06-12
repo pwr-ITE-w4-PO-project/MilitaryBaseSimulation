@@ -174,7 +174,7 @@ public class MilitaryBaseSimulation {
 					}
 				}
 				
-				Map.getInstance().placeUnitOnMap(generateNewUnit(i, Map.getInstance().getRandomPosition()));
+				Map.getInstance().placeUnitOnMap(generateNewUnit(i, Map.getInstance().getRandomStartingPosition()));
 				TimeUnit.SECONDS.sleep(1);
 				for(IUnit unit : units) unit.refreshMovement();
 			}
@@ -220,7 +220,7 @@ public class MilitaryBaseSimulation {
 		headquarters = new Headquarters(commander);
 		
 		//filling 4% of 2d map with random units		
-		for(int i = 0; i < 100; i++) {
+		for(int i = 0; i < 200; i++) {
 			IUnit newUnit = generateNewUnit(i, Map.getInstance().getRandomPosition());
 			Map.getInstance().placeUnitOnMap(newUnit);
 		}

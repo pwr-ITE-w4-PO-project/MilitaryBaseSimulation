@@ -22,17 +22,25 @@ public class Map implements IMap{
 	private IUnit[][] unitMap;
 	private List<int[]> availablePositions;
 	private List<IUnit> allUnits;
+	private List<int[]> availableStartingPositions;
+	
+	private Random random = new Random();
 	
 	/**
 	 * Gets randomly chosen accessible position from unit map.
 	 * @return Integer array representing random accessible position.
 	 */
-	public int[] getRandomPosition() {
-		Random random = new Random();
-		
+	public int[] getRandomPosition() {		
 		return availablePositions.get(random.nextInt(availablePositions.size()));
 	}
 	
+	/**
+	 * Gets randomly chosen accessible starting position (those with x from 0 to 2) from unit map.
+	 * @return Integer array representing random accessible position.
+	 */
+	public int[] getRandomStartingPosition() {
+		return availableStartingPositions.get(random.nextInt(availableStartingPositions.size()));
+	}
 	/**
 	 * Initializes new map.
 	 */
@@ -41,6 +49,7 @@ public class Map implements IMap{
 		allUnits = new ArrayList<IUnit>();
 		unitMap = new IUnit[xMax][yMax];
 		
+		this.availableStartingPositions = new ArrayList<int[]>();
 		this.availablePositions = new ArrayList<int[]>();
 		for(int i = 0; i<this.xMax; i++) {
 			for(int j = 0; j<this.yMax; j++) {
@@ -48,6 +57,7 @@ public class Map implements IMap{
 				pos[0] = i;
 				pos[1] = j;
 				this.availablePositions.add(pos);
+				if(i < 3) this.availableStartingPositions.add(pos);
 			}
 		}
 	}
@@ -72,6 +82,7 @@ public class Map implements IMap{
 		this.allUnits.add(unit);
 		//remove available position
 		this.availablePositions.removeIf(avPos -> (avPos[0] == pos[0] && avPos[1] == pos[1]));
+		if(pos[0] < 3) this.availableStartingPositions.removeIf(avPos -> (avPos[0] == pos[0] && avPos[1] == pos[1]));
 	}
 	
 	/**
@@ -94,6 +105,7 @@ public class Map implements IMap{
 		freedPos[0] = pos[0];
 		freedPos[1] = pos[1];
 		this.availablePositions.add(freedPos);
+		if(freedPos[0] < 3) this.availableStartingPositions.add(freedPos);
 		this.allUnits.remove(unit);
 	}
 	
@@ -105,6 +117,7 @@ public class Map implements IMap{
 	public void moveUnitOnMap(int[] from, int[] to) {
 		this.unitMap[to[0]][to[1]] = unitMap[from[0]][from[1]];
 		this.availablePositions.removeIf(avPos -> (avPos[0] == to[0] && avPos[1] == to[1]));
+		if(to[0] < 3) this.availableStartingPositions.removeIf(avPos -> (avPos[0] == to[0] && avPos[1] == to[1]));
 		this.unitMap[from[0]][from[1]] = null;
 		this.availablePositions.add(from);	
 	}

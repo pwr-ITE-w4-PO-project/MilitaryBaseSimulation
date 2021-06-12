@@ -87,5 +87,30 @@ class MoveUnitOnMapTest {
 			fail("Test found an error: " + e.getMessage());
 		}
 	}
+	
+	@Test
+	void sayNewStartingPositionIsInaccessible() {
+		try{
+			Field field = Map.getInstance().getClass().getDeclaredField("availableStartingPositions");
+			field.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			List<int[]> posList = (List<int[]>) field.get(Map.getInstance());
+			
+			boolean positionNotFoundInAccessibles = true;
+			
+			for(int[] position: posList) {
+				if(position[0] == newPos[0] && position[1] == newPos[1]) {
+					positionNotFoundInAccessibles = false;
+					break;
+				}
+			}
+			
+			assertTrue(positionNotFoundInAccessibles, "Unit's new position is accessible, though it should not be.");
+			
+		}
+		catch(Exception e) {
+			fail("Test found an error: " + e.getMessage());
+		}
+	}
 
 }
