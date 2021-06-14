@@ -8,6 +8,11 @@ import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit.NeutralUnit;
 
+/**
+ * 
+ * @author Bartosz S³omowicz
+ *
+ */
 public class Headquarters implements IHeadquarters{
 	private IRatable commander;
 	private Random rand = new Random();
@@ -24,8 +29,7 @@ public class Headquarters implements IHeadquarters{
 	 * Changes rating of Commander
 	 * @param rate Value which will be added to commander.rating.
 	 */
-	private void rateCommander(int rate)
-	{
+	private void rateCommander(int rate){
 		commander.recevieRating(rate);
 	}
 	
@@ -33,8 +37,7 @@ public class Headquarters implements IHeadquarters{
 	 * Manages rating Commander and sending info to him after destroying unit.
 	 * @param destroyedUnit Unit which was destroyed by Gunner.
 	 */
-	public void manageDeathInfo(IIdentified destroyedUnit)
-	{
+	public void manageDeathInfo(IIdentified destroyedUnit){
 		if(this.commander != null) {
 			if(destroyedUnit instanceof NeutralUnit)
 			{

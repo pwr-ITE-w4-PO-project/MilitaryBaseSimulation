@@ -14,11 +14,12 @@ public class EnemyMoveGenerator implements IMoveGenerator{
 	 * @return int[] representing new position for unit to move to.
 	 */
 	public int[] nextPosition(int[] currentPosition, int movementRange) {
-		List<int[]> positions = new ArrayList<int[]>();
+		List<int[]> positions = new ArrayList<int[]>();  //create new collection
 		
 		int[] pos;
 		Random random = new Random();
 		
+		//add each surrounding position that are closer to the base, within movement range, to collection
 		for(int x = currentPosition[0] + movementRange; x > currentPosition[0]; x--) {
 			for(int y = currentPosition[1] - movementRange; y <= currentPosition[1] + movementRange; y++) {
 				pos = new int[2];
@@ -36,6 +37,7 @@ public class EnemyMoveGenerator implements IMoveGenerator{
 			}
 		}
 		
+		//returns random position or current if accessible position doesn't exist
 		if(positions.size() > 0) return positions.get(random.nextInt(positions.size()));
 		else return currentPosition;
 	}

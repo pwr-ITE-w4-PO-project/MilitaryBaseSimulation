@@ -12,8 +12,11 @@ import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.Enums.ReportInfo;
 import MilitaryBaseSimulation.Map.Map;
 
-
-
+/**
+ * 
+ * @author Mateusz Torski
+ *
+ */
 public class Scout extends Unit implements IScout{
 	private int trustLevel;
 	private int effectiveness;
@@ -39,16 +42,25 @@ public class Scout extends Unit implements IScout{
 	}
 
 	@Override
+	/**
+	 * Returns opposite position.
+	 */
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
+		//calculates the negated movement vector
 		int vectorX = this.position[0] - newPosition[0];
-		int vectorY = this.position[1]-newPosition[1];
-		newPosition[0]=this.position[0]+vectorX;
-		newPosition[1]=this.position[1]+vectorY;
+		int vectorY = this.position[1] - newPosition[1];
 		
-		 return this.position;
+		//calculates opposite position
+		newPosition[0] = this.position[0]+vectorX;
+		newPosition[1] = this.position[1]+vectorY;
+		
+		return this.position;
 	}
 	
 	@Override
+	/**
+	 * Moves unit on the map, and searches for other units to identification.
+	 */
 	public void move() {
 		super.move();
 		this.search();
@@ -77,20 +89,25 @@ public class Scout extends Unit implements IScout{
 		IUnit[][] map = Map.getInstance().getMap();
 		IIdentifiable unit;
 		
+		//foreach surrounding position in vision range
 		for(int x = position[0] - visionRange; x <= position[0] + visionRange; x++) {
 			for(int y = position[1] - visionRange; y <= position[1] + visionRange; y++) {
 				
+				//checks if searched position isn't beyond map, and isn't unoccupied
 				if(Map.getInstance().isPositionWithinMap(x, y) && map[x][y] != null) {
+					
+					//checks if unit is identifiable (is not another scout)
 					if(map[x][y] instanceof IIdentifiable) {
 						
 						unit = (IIdentifiable) map[x][y];
-
+						
+						//checks if unit hasn't been already identified
 						if(unit.getIsIdentified() == false) {
 							
 							ReportInfo report;
 							
 							if(unit instanceof NeutralUnit || unit instanceof DisguisedEnemyUnit) {
-								
+								//draw identification result and identify unit according to the draw
 								boolean identifiactionResult = MilitaryBaseSimulation.generateRandomEventHappening(this.effectiveness);
 								unit.setIsCorrectlyIdentified(identifiactionResult);
 								
@@ -103,7 +120,7 @@ public class Scout extends Unit implements IScout{
 									else report = ReportInfo.NEUTRAL;
 								}
 							}
-							else{//unit is type of EnemyUnit
+							else{//unit is type of EnemyUnit, which are always identified as enemy
 								unit.setIsCorrectlyIdentified(true);
 								report = ReportInfo.ENEMY;
 							}
@@ -111,7 +128,9 @@ public class Scout extends Unit implements IScout{
 							unit.setIsIdentified(true);
 							unit.setIdentifiedBy((IScout)this);
 							
-							if(this.commander != null) this.commander.receive(report, (IIdentified)unit);
+							//sends report to the commander, if exists
+							if(this.commander != null)
+								this.commander.receive(report, (IIdentified)unit);
 						}
 					}
 				}

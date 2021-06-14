@@ -5,6 +5,12 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 import MilitaryBaseSimulation.MoveGenerators.EnemyMoveGenerator;
 import MilitaryBaseSimulation.Map.Map;
+
+/**
+ * 
+ * @author Mateusz Torski
+ *
+ */
 public class EnemyUnit extends TargetUnit {
 	private int damage;
 	private static int count;
@@ -24,6 +30,10 @@ public class EnemyUnit extends TargetUnit {
 	}
 	
 	@Override
+	/**
+	 * If unit was about to move out of the map on the right side - damages base and removes unit.
+	 * If on the top or the bottom - bounces off the the edge.
+	 */
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
 		if(newPosition[0] >= Map.getInstance().getUpperBoundaries()[0]) {
 			MilitaryBaseSimulation.damageBase(damage);
@@ -31,6 +41,7 @@ public class EnemyUnit extends TargetUnit {
 			return null;
 		}
 		else {
+			//calculate reverse movement in Y direction.
 			int vectorY = this.position[1] - newPosition[1];
 			newPosition[1] = this.position[1] + vectorY;
 			

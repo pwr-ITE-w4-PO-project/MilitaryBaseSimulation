@@ -1,7 +1,6 @@
 package MilitaryBaseSimulation;
 
 import MilitaryBaseSimulation.GUI.*;
-
 import MilitaryBaseSimulation.Map.Map;
 import MilitaryBaseSimulation.MapUnits.Unit.*;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.*;
@@ -11,24 +10,33 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Neu
 import MilitaryBaseSimulation.Militaries.Commander.Commander;
 import MilitaryBaseSimulation.Militaries.Commander.ICommander;
 import MilitaryBaseSimulation.Militaries.Commander.interfaces.IRatable;
-
 import MilitaryBaseSimulation.Militaries.Gunner.*;
 import MilitaryBaseSimulation.Militaries.Headquarters.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Random;
 
+
+/**
+ * 
+ * @author Przemys³aw Ma³ecki
+ * @author Bartosz S³omowicz
+ * @author Mateusz Torski
+ *
+ */
 public class MilitaryBaseSimulation {
 
 	public static void main(String[] args) {
-
-		gui = new GUI(Map.getInstance(), true);
+		gui = new GUI(Map.getInstance(), true); //creates new gui window
 		
-		if(args.length > 0) { //below code handles command line arguments
+		//below code handles command line arguments
+		if(args.length > 0) {
 			int[] argsInt = new int[args.length];
+			
 			//converts args to integers and exits if unsuccessful
 			for(int i = 0; i<args.length; i++) {
 				try {
@@ -41,20 +49,22 @@ public class MilitaryBaseSimulation {
 				}
 			}
 			
+			//fills gui with command liine arguments and returns expected number of arguments
 			int expectedArgsLength = fillGui(gui, argsInt);
 			
+			//checks if user gave enough command line arguments and informs the user.
 			if(expectedArgsLength > args.length) {
 				System.out.println("Provided input had too few arguments. The required missing input arguments must be provided manually in gui.");
 			}
 			else {
-				gui.pressStart();
+				gui.pressStart(); //builds and starts the simulation
 			}
 		}
 	}
 	//randomness handler
 	private static Random random = new Random();
 	
-	//objects to access
+	//private objects for the program to access
 	private static ICommander commander;
 	private static IHeadquarters headquarters;
 	private static List<IScout> scouts;
@@ -89,19 +99,20 @@ public class MilitaryBaseSimulation {
 	 * @return Integer value representing counted necessary input fields.
 	 */
 	private static int fillGui(IGUI gui, int[] args) {
-		int numberOfScouts = args[0];
+		int numberOfScouts = args[0]; 			 //gets and fills number of scouts
 		gui.setNumberOfScouts(numberOfScouts);
 		
-		int argsIterator = numberOfScouts*4 + 1;
-		
-		int numberOfGunners = tryGetData(argsIterator, args);
+		int argsIterator = numberOfScouts*4 + 1; //point to argument representing number of gunners,
+												 //each scout requires 4 arguments
+		int numberOfGunners = tryGetData(argsIterator, args);	//gets and fills number of gunners
 		gui.setNumberOfGunners(numberOfGunners);
 		
-		argsIterator = 0;
+		argsIterator = 0; 			//point to start, so the scouts can be filled
 		if(numberOfGunners > 0 && numberOfScouts > 0) {
-			gui.setParameters();
+			gui.setParameters(); 	//enables scouts and gunners fields to be filled
+			
 			for(int i = 0; i < numberOfScouts; i++, argsIterator += 4){
-				gui.setScout(i, 
+				gui.setScout(i,  						//fills all scouts
 					tryGetData(1 + argsIterator, args), 
 					tryGetData(2 + argsIterator, args), 
 					tryGetData(3 + argsIterator, args),
@@ -109,11 +120,12 @@ public class MilitaryBaseSimulation {
 					);
 			}
 			
-			argsIterator = numberOfScouts*4 + 2;
+			argsIterator = numberOfScouts*4 + 2; //point to the first gunners parameter
 			for(int i = 0; i < numberOfGunners; i++, argsIterator++) {
-				gui.setGunner(i, tryGetData(argsIterator, args));
+				gui.setGunner(i, tryGetData(argsIterator, args)); //fill all gunners
 			}
 			
+			//fills the rest of required fields
 			gui.setBaseHP(tryGetData(argsIterator, args));
 			argsIterator++;
 			gui.setEnemy(tryGetData(argsIterator, args));
@@ -131,34 +143,39 @@ public class MilitaryBaseSimulation {
 	 * or when base hp drops to 0.
 	 */
 	public static void run() {
-		IUnit[][] map = Map.getInstance().getMap();
+		IUnit[][] map = Map.getInstance().getMap();			 //map to be iterated through
 		
-		List<IUnit> units = Map.getInstance().getAllUnits();
-		List<Integer> scoutsTrusts = new ArrayList<>();
+		List<IUnit> units = Map.getInstance().getAllUnits(); //collection of units required for refresh
+		List<Integer> scoutsTrusts = new ArrayList<>(); 	 //collection required for outputing data to user
 		
-		try {
+		try {		//creates a file writer and writes names of tracked parameters
 			FileWriter writer = new FileWriter("simulationData.csv");	
 			writer.write("Iteration;Commander's rating;base hit points;");
 			for(int j = 0; j<scouts.size(); j++) writer.write("Scout no." + j + 1 + " trust level;");
 			writer.write("Unit count; NeutralUnit count; EnemyUnit count; DisguisedEnemyUnit count\n");
 			
-			for(int i = 0; i<iterations;i++) {
+			for(int i = 0; i<iterations;i++) {		//runs simulation for given duration
 				
+				//writes data at the beginning of iteration
 				writer.write(i+1 + ";" + commander.getRating() + ";" + baseHP +";");
 				for(int j = 0; j<scouts.size(); j++) writer.write(scouts.get(j).getTrustLevel() + ";");
 				writer.write(Unit.getCount() + ";" + NeutralUnit.getCount() + ";" + EnemyUnit.getCount() + ";" + DisguisedEnemyUnit.getCount() + "\n");
 				
+				//draws map in the gui and outputs tracked data
 				scoutsTrusts.clear();
 				scouts.forEach(scout -> scoutsTrusts.add(scout.getTrustLevel()));
 				gui.drawMap(scoutsTrusts, baseHP, i+1, commander.getRating(), 
 						Unit.getCount(), NeutralUnit.getCount(), 
 						EnemyUnit.getCount(), DisguisedEnemyUnit.getCount());
 				
-				for(IUnit[] row : map) {
-					for(IUnit unit : row) {
-						if(unit != null) {
+				for(IUnit[] row : map) {	//iterate through the map, this approach
+					for(IUnit unit : row) { //is required since collection of units 
+						if(unit != null) {  //can be modified at the runtime
 							try{
+								//try to move, and check for unexpected error
 								unit.move();
+								
+								//chceck if base was not destroyed and finish simulation if is so
 								if(baseHP <= 0) {
 									System.out.println("Base was destroyed. Simulation ended.");
 									writer.write("\nSimulation ended because base hit points were brought down to 0.");
@@ -173,10 +190,10 @@ public class MilitaryBaseSimulation {
 						}
 					}
 				}
-				
+				// create new unit at the end of iteration
 				Map.getInstance().placeUnitOnMap(generateNewUnit(i, Map.getInstance().getRandomStartingPosition()));
-				TimeUnit.SECONDS.sleep(1);
-				for(IUnit unit : units) unit.refreshMovement();
+				TimeUnit.SECONDS.sleep(1); 	//delays changes so the animation can be seen
+				for(IUnit unit : units) unit.refreshMovement(); //refresh movements of each alive unit
 			}
 			writer.write("\nSimulation ended because it approached iteration limit.");
 			writer.close();
@@ -193,16 +210,19 @@ public class MilitaryBaseSimulation {
 	 * Builds simulation parameters and its actors by getting data from gui.
 	 */
 	public static void buildSimulation() {
-		Map.getInstance().initializeMap();;
+		Map.getInstance().initializeMap();
 		
+		//sets gunners
 		List<Integer> gunnersParams = gui.getGunner();
 		List<IGunner> gunners = new ArrayList<>();
 		for(Integer acc : gunnersParams) {
 			gunners.add(new Gunner(acc));
 		}
 		
+		//sets commander
 		commander = new Commander(gunners);
 		
+		//sets scouts
 		List<int[]> scoutsParams = gui.getScout();
 		scouts = new ArrayList<>();
 		IScout scout;
@@ -212,15 +232,17 @@ public class MilitaryBaseSimulation {
 			Map.getInstance().placeUnitOnMap((IUnit)scout);
 		}
 		
+		//sets simulation control parameters
 		enemyFreq = gui.getEnemy();
 		disguisedEnemyFreq = gui.getDisguisedEnemy();
 		iterations = gui.getIterations();
 		baseHP = gui.getBaseHP();
 		
+		//sets hq
 		headquarters = new Headquarters(commander);
 		
 		//filling 4% of 2d map with random units		
-		for(int i = 0; i < 200; i++) {
+		for(int i = 0; i < 100; i++) {
 			IUnit newUnit = generateNewUnit(i, Map.getInstance().getRandomPosition());
 			Map.getInstance().placeUnitOnMap(newUnit);
 		}

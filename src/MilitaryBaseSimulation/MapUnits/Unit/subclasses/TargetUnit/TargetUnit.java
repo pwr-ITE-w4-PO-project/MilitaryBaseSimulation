@@ -1,4 +1,5 @@
 package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit;
+
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 import MilitaryBaseSimulation.MapUnits.Unit.Unit;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout.IScout;
@@ -6,6 +7,11 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IDe
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentifiable;
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces.IIdentified;
 
+/**
+ * 
+ * @author Mateusz Torski
+ *
+ */
 public abstract class TargetUnit extends Unit implements IDestroyable, IIdentified, IIdentifiable{
 	private boolean isCorrectlyIdentified;
 	private boolean isIdentified;
@@ -30,7 +36,7 @@ public abstract class TargetUnit extends Unit implements IDestroyable, IIdentifi
 		return TargetUnit.count;
 	}
 	/**
-	 * Occurs when unit is shot by gunner.
+	 * Destroys the unit and triggers headquarters to rate commander.
 	 */
 	public void getDestroyed() {
 		MilitaryBaseSimulation.getHeadquarters().manageDeathInfo(this);

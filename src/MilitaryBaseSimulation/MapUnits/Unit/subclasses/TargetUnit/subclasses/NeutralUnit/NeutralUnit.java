@@ -2,6 +2,12 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Ne
 
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.TargetUnit;
 import MilitaryBaseSimulation.MoveGenerators.AlliesMoveGenerator;
+
+/**
+ * 
+ * @author Mateusz Torski
+ *
+ */
 public class NeutralUnit extends TargetUnit{
 	/**
 	 * Constructor.
@@ -17,6 +23,9 @@ public class NeutralUnit extends TargetUnit{
 	static private int count;
 	
 	@Override
+	/**
+	 * Returns null, so the unit can move out of the map.
+	 */
 	protected final int[] handlePositionBeyondMap(int[] newPosition) {
 		return null;
 	}

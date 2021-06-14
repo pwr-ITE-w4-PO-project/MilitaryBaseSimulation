@@ -3,9 +3,14 @@ package MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.En
 import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.EnemyUnit;
 import MilitaryBaseSimulation.MilitaryBaseSimulation;
 
+/**
+ * 
+ * @author Przemys³aw Ma³ecki
+ *
+ */
 public class DisguisedEnemyUnit extends EnemyUnit{
 	private static int count;
-	private int disguiseResetProbability = 50;
+	private final int disguiseResetProbability = 50; //constant probability of 50%
 	/**
 	 * Constructor.
 	 * @param movement Range Range of motion.
@@ -43,6 +48,9 @@ public class DisguisedEnemyUnit extends EnemyUnit{
 	}
 	
 	@Override
+	/**
+	 * Moves unit on the map, and tries reset its disguise.
+	 */
 	public void move() {
 		tryResetDisguise();
 		super.move();

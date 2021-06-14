@@ -1,5 +1,10 @@
 package MilitaryBaseSimulation.MoveGenerators;
 
+/**
+ * 
+ * @author Przemys³aw Ma³ecki
+ *
+ */
 public interface IMoveGenerator {
 	/**
 	 * Returns randomly generated new position.
