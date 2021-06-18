@@ -1,8 +1,12 @@
 package MilitaryBaseSimulation.GUI;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author Mateusz Torski
+ *
+ */
 public interface IGUI {
 	public int getBaseHP();
 	public int getIterations();

@@ -39,9 +39,9 @@ public class GUI extends Frame implements IGUI{
 	private int numberOfScouts;
 
 	/**
-	 * 
-	 * @param mapToDraw
-	 * @param shouldBeVisible
+	 * Constructor.
+	 * @param mapToDraw Layout of the units.
+	 * @param shouldBeVisible Window visibility.
 	 */
 	public GUI (IMap mapToDraw, boolean shouldBeVisible) {
 		this.map = mapToDraw;
@@ -80,13 +80,14 @@ public class GUI extends Frame implements IGUI{
 		this.scoutButton = new Button("Next");
 		c.ipady = 0; 
 		
+		//window closing event
 		addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e) {
 				dispose();
 				}
 			}
 		); 
-	        
+	    //layout settings
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -116,7 +117,7 @@ public class GUI extends Frame implements IGUI{
         //gunners and scouts
 		this.scoutFields = new ArrayList<TextField[]>();
 		this.gunnerFields = new ArrayList<TextField>();
-		
+		//generating additional fields
 		this.scoutButtonOnClick = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				numberOfScouts= Integer.parseInt(scoutNumberField.getText());
@@ -177,7 +178,7 @@ public class GUI extends Frame implements IGUI{
 	                }  
 				}
 		    };  
-		    
+		    //starting simulation
 		    this.scoutButton.addActionListener(this.scoutButtonOnClick);
 		    this.setButtonOnClick = new ActionListener(){	
 		    	public void actionPerformed(ActionEvent e){  
@@ -254,7 +255,11 @@ public class GUI extends Frame implements IGUI{
 			setSize(1920, 1080);
 			setVisible(shouldBeVisible);
 		}
-
+		/**
+		 * Creates a column of labels for scout.
+		 * @param label Label to be created.
+		 * @param c The layout.
+		 */
 		private void createScoutColumn(Label label[], GridBagConstraints c) {
 			for(int i=0; i<label.length; i++) {
 		    	c.insets = new Insets(0,10,0,0);
@@ -263,7 +268,11 @@ public class GUI extends Frame implements IGUI{
 			}
 			c.gridx++;
 		}
-		
+		/**
+		 * Creates a column of labels.
+		 * @param label Label to be created.
+		 * @param c The layout.
+		 */	
 		private void createLabelColumn(Label label[], GridBagConstraints c) {
 			for(int i=0; i<label.length; i++) {
 		    	c.insets = new Insets(0,10,0,0);
@@ -420,6 +429,8 @@ public class GUI extends Frame implements IGUI{
 			return String.valueOf(text);
 		}
 		   
+		
+		//map rendering
 		@Override
 		public void paint(Graphics g) {
 			int dimensions[] = this.map.getUpperBoundaries();
@@ -449,8 +460,27 @@ public class GUI extends Frame implements IGUI{
 							g.setColor(new Color(70, 70, 70));
 						}
 				   		g.fillRect(i*10+800+240/numberOfScouts, j*10+360, 20, 20);
+				   		
+				   		
+
+
 					}
 				}	
+		   		//unit color information
+		   		g.setColor(Color.BLACK);
+		   		g.drawString("Scout -", 1350+240/numberOfScouts, 500);
+		   		g.drawString("Neutral unit -", 1350+240/numberOfScouts, 550);
+		   		g.drawString("Enemy unit -", 1350+240/numberOfScouts, 600);
+		   		g.drawString("Disguised enemy unit -", 1350+240/numberOfScouts, 650);
+					g.setColor(new Color(90, 226, 106));
+		   		g.fillRect(1410+240/numberOfScouts, 485, 20, 20);
+					g.setColor(new Color(97, 195, 225));
+		   		g.fillRect(1450+240/numberOfScouts, 535, 20, 20);
+					g.setColor(new Color(211, 69, 100));
+		   		g.fillRect(1440+240/numberOfScouts, 585, 20, 20);
+					g.setColor(new Color(207, 250, 103));
+		   		g.fillRect(1510+240/numberOfScouts, 635, 20, 20);
 			}
+
 		}		   
 }
