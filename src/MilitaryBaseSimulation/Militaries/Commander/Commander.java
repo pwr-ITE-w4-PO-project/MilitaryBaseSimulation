@@ -34,7 +34,7 @@ public class Commander implements ICommander {
 	 * @param scout Scout which sent report.
 	 * @param level Value which will be added to scouts trustLevel.
 	 */
-	public void changeTrustLevel(IScout scout, int level) {
+	private void changeTrustLevel(IScout scout, int level) {
 		scout.modifyTrustLevel(level);
 	}
 	

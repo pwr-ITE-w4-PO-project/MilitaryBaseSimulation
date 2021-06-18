@@ -15,7 +15,7 @@ import MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.Neu
  */
 public class Headquarters implements IHeadquarters{
 	private IRatable commander;
-	private Random rand = new Random();
+	private Random random = new Random();
 	
 	/**
 	 * Constructor
@@ -41,10 +41,10 @@ public class Headquarters implements IHeadquarters{
 		if(this.commander != null) {
 			if(destroyedUnit instanceof NeutralUnit)
 			{
-				rateCommander(-2*(rand.nextInt(5)+1));
+				rateCommander(-2*(random.nextInt(5)+1));
 				commander.manage(ReportInfo.NEGATIVE, destroyedUnit);
 			}else{
-				rateCommander(2*(rand.nextInt(5)+1));
+				rateCommander(2*(random.nextInt(5)+1));
 				commander.manage(ReportInfo.POSITIVE, destroyedUnit);
 			}
 		}
@@ -57,7 +57,7 @@ public class Headquarters implements IHeadquarters{
 	public void manageBaseAttack(IIdentified unit)
 	{
 		if(this.commander != null) {
-			rateCommander(-2*(rand.nextInt(10)+1));
+			rateCommander(-2*(random.nextInt(10)+1));
 			commander.manage(ReportInfo.NEGATIVE, unit);
 		}
 		

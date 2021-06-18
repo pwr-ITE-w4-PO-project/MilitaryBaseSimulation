@@ -85,7 +85,7 @@ public class Scout extends Unit implements IScout{
 	 * Checks nearest area based on vision range. Detects other units, 
 	 * identifies them and sends reports to commander.
 	 */
-	public void search(){
+	private void search(){
 		IUnit[][] map = Map.getInstance().getMap();
 		IIdentifiable unit;
 		
