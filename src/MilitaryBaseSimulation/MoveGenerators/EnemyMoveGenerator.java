@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 
+ * @author Przemys³aw Ma³ecki
+ *
+ */
 public class EnemyMoveGenerator implements IMoveGenerator{
 	 /** Returns randomly generated new position.
 	 * This position is randomly chosen from surrounding accessible positions nearest to base. 

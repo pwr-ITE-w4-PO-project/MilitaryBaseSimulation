@@ -1,0 +1,17 @@
+module:MilitaryBaseSimulation
+MilitaryBaseSimulation
+MilitaryBaseSimulation.Enums
+MilitaryBaseSimulation.GUI
+MilitaryBaseSimulation.Map
+MilitaryBaseSimulation.MapUnits.Unit
+MilitaryBaseSimulation.MapUnits.Unit.subclasses.Scout
+MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit
+MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.interfaces
+MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit
+MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.EnemyUnit.subclasses.DisguisedEnemyUnit
+MilitaryBaseSimulation.MapUnits.Unit.subclasses.TargetUnit.subclasses.NeutralUnit
+MilitaryBaseSimulation.Militaries.Commander
+MilitaryBaseSimulation.Militaries.Commander.interfaces
+MilitaryBaseSimulation.Militaries.Gunner
+MilitaryBaseSimulation.Militaries.Headquarters
+MilitaryBaseSimulation.MoveGenerators
